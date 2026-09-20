@@ -1,0 +1,95 @@
+name: demo-lab79
+
+networks:
+  public-front:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.60.0/27
+          gateway: 192.168.60.1
+  back:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.60.32/27
+          gateway: 192.168.60.33
+
+services:
+  # ── CAPA DE RED: el router que une las dos subredes ──────────────
+  router:
+    image: alpine:3.19
+    container_name: demo-router
+    command: sh -c "sleep infinity"
+    cap_add: [ NET_ADMIN ]
+    sysctls:
+      net.ipv4.ip_forward: "1"
+    restart: unless-stopped
+    networks:
+      public-front:
+        ipv4_address: 192.168.60.2
+      back:
+        ipv4_address: 192.168.60.34
+
+  # ── CAPA DE APLICACIÓN: frontend web (HTTP y HTTPS) ──────────────
+  web:
+    image: nginx:alpine
+    container_name: demo-web
+    cap_add: [ NET_ADMIN ]
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+    ports:
+      - "8081:80"
+    networks:
+      public-front:
+        ipv4_address: 192.168.60.10
+
+  web-https:
+    image: nginx:alpine
+    container_name: demo-web-https
+    volumes:
+      - ./server.crt:/etc/nginx/ssl/server.crt:ro
+      - ./privkey.pem:/etc/nginx/ssl/privkey.pem:ro
+      - ./nginx-ssl.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./html:/usr/share/nginx/html:ro
+    ports:
+      - "8443:443"
+    networks:
+      public-front:
+        ipv4_address: 192.168.60.13
+
+  # ── CAPA DE APLICACIÓN + TRANSPORTE: API interna ─────────────────
+  api:
+    build: ./api
+    container_name: demo-api
+    cap_add: [ NET_ADMIN ]
+    expose:
+      - "5000"
+    networks:
+      public-front:
+        ipv4_address: 192.168.60.11
+      back:
+        ipv4_address: 192.168.60.35
+
+  # ── AISLADA en la red interna: base de datos ─────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: demo-db
+    environment:
+      POSTGRES_PASSWORD: demo123
+    expose:
+      - "5432"
+    networks:
+      back:
+        ipv4_address: 192.168.60.36
+
+  # ── DNS propio: app -> web, api.back -> api (red interna) ─────────
+  dns:
+    image: jpillora/dnsmasq
+    container_name: demo-dns
+    command: --address=/.lab/192.168.60.10 --address=/.back/192.168.60.35 --server=8.8.8.8 --log-queries
+    ports:
+      - "8053:53/udp"
+      - "8053:53/tcp"
+    networks:
+      public-front:
+        ipv4_address: 192.168.60.12

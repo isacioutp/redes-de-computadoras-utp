@@ -1,0 +1,8 @@
+# Artefactos generados por run-demo.sh (se crean en clase, no se versionan)
+Laboratorio-7-9-Redes-Transporte-Aplicaciones/demo/privkey.pem
+Laboratorio-7-9-Redes-Transporte-Aplicaciones/demo/server.crt
+Laboratorio-7-9-Redes-Transporte-Aplicaciones/demo/html/
+
+# Python
+__pycache__/
+*.pyc
