@@ -4,8 +4,55 @@ Tema: modelo OSI / TCP-IP · Semanas 4-5 · Unidad II
 Combinado con el Lab 4 (análisis de trama); se resuelve en una clase.
 
 > **Idea en 1 línea**: en una sola petición HTTP ves **todas las capas** del OSI
-> caminando en vivo, comparas TCP vs UDP vs ICMP, y cada falla te dice **qué
-> capa la detectó**. Todo con Docker.
+> en vivo, comparas TCP vs UDP vs ICMP, y cada falla te dice **qué capa la
+> detectó**. De paso, exploras Docker por primera vez: imagen, contenedor y red.
+
+## 0. Docker desde cero (si es tu primera vez)
+
+### ¿Qué es Docker?
+
+- **Imagen**: una *receta* congelada (`nginx:alpine`, `python:3.11-slim`). No
+  "corre", es un archivo de solo lectura con todo lo necesario (Linux mínimo +
+  programas).
+- **Contenedor**: un proceso que corre a partir de una imagen, **como un mini-PC
+  con su propia tarjeta de red, su propia IP y su propio disco**. No es una
+  máquina virtual: comparte el kernel y el hardware de tu computadora.
+
+Piénsalo como: **imagen = plantilla / ISO**, **contenedor = PC encendido**.
+
+### Por qué Docker es perfecto para ver el OSI
+
+Cada contenedor tiene su propio mundo de capas:
+
+| Lo que tiene | Capa OSI |
+|--------------|----------|
+| su dirección **MAC** | 2 · Enlace |
+| su **eth0** (tarjeta de red virtual) y su **IP** | 3 · Red |
+| su **puerta de enlace** dentro de la red | 3 · Red |
+| su **DNS** (docker responde nombres como `web`) | 7 · Aplicación |
+
+Tú decides qué contenedores "hablan" entre sí **creando redes**: la red es un
+segmento aislado (capa 2-3), por eso al ver las capas, Docker es tu juguete.
+
+### Los 7 comandos de este lab (son los de siempre)
+
+| Comando | Qué hace |
+|---------|----------|
+| `docker network create <red>` | crea una red aislada entre contenedores |
+| `docker run -d --name <n> --network <red> <imagen>` | levanta un contenedor conectado a esa red |
+| `-p 8080:80` (flag de `run`) | publica el puerto 80 del contenedor en el 8080 de tu PC |
+| `docker exec <n> <comando>` | ejecuta un comando **dentro** del contenedor |
+| `docker ps` | lista los contenedores encendidos |
+| `docker inspect <n>` | datos técnicos del contenedor (IP, red…) |
+| `docker rm -f <n>` · `docker network rm <red>` | limpieza |
+
+### Comprueba que Docker funcione
+
+```bash
+docker version        # o: docker info
+# en Linux, si no tienes permisos: sudo usermod -aG docker $USER (cerrar sesión),
+# o ejecuta los comandos con sudo delante.
+```
 
 ## 1. Teoría mínima
 
@@ -23,7 +70,7 @@ que solo habla con la de arriba y la de abajo. Como dev te sirve para:
 OSI (7 capas)            TCP/IP (4 capas)      Tu código
 ─────────────────────    ──────────────────    ──────────────────
 7 Aplicación        ┐
-6 Presentación      ┤ →  4 Aplicación          Flask, HTTP, DNS, SMTP
+6 Presentación      ┤ →  4 Aplicación          HTTP, DNS, SMTP, Flask
 5 Sesión            ┘
 ─────────────────────    ──────────────────    ──────────────────
 4 Transporte              3 Transporte         TCP / UDP (sockets)
@@ -44,39 +91,54 @@ OSI (7 capas)            TCP/IP (4 capas)      Tu código
 | Red | paquete |
 | Enlace | trama |
 
-## 2. Escenario (todo en Docker)
+## 2. Escenario (tu primer Docker real)
 
-Servidor web (Flask) en la red `lab5-red` + cliente con herramientas:
+Vas a levantar **2 contenedores** en una red propia: un servidor web
+(`web`) y un cliente de exploración (`client`).
 
 ```bash
+# 1) Crea una red aislada: los contenedores de la red se ven entre sí por
+#    nombre; los de afuera, no.
 docker network create lab5-red
 
-# Servidor web: capa 7 (HTTP) sobre capa 4 (TCP), capa 3 (IP) y 2 (MAC)
-docker run -d --name web --network lab5-red -p 8080:5000 \
-  python:3.11-slim sh -c \
-  "pip install flask -q && python -c \"from flask import Flask; app=Flask(__name__); \
-   app.add_url_rule('/', 'h', lambda: 'Hola desde la capa 7'); app.run(host='0.0.0.0',port=5000)\""
+# 2) Servidor web nginx:
+#    -d              → fondo (no te bloquea la terminal)
+#    --name web      → nombre del contenedor
+#    --network lab5-red → conectado a tu red
+#    -p 8080:80      → puerto 80 del contenedor se ve en tu PC como 8080
+docker run -d --name web --network lab5-red -p 8080:80 nginx:alpine
 
-# Cliente con curl (capa 7), tcpdump (capa 2-4), nslookup (capa 7)
+# 3) Cliente: un Linux mínimo para explorar la red desde adentro.
+#    sleep 3600 → se queda encendido una hora mientras exploras.
 docker run -d --name client --network lab5-red alpine sleep 3600
+
+# 4) El cliente nace sin herramientas; se las instalas con apk (Alpine):
+#    curl (capa 7) · tcpdump (capas 2-4) · nslookup/bind-tools (capa 7 DNS)
 docker exec client apk add --no-cache curl tcpdump bind-tools
 
-docker exec client ping -c 1 web                                  # capa 3 → ICMP
+# 5) Prueba rápida: el cliente 'ping' al web POR NOMBRE.
+#    docker resuelve 'web' por DNS (capa 7) → lo traduce a IP (capa 3)
+#    → ICMP de ida y vuelta.
+docker exec client ping -c 1 web
+
+# 6) ¿Qué IP le tocó a web? La anotas, la usarás en las secciones 4 y 5.
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' web
 ```
 
-> `web` tarda unos segundos en arrancar (instala Flask la primera vez). Si la
-> captura no muestra nada, espera y vuelve a disparar el `curl`.
+> nginx arranca al instante (mucho más rápido que una imagen con Python).
+> También puedes abrir tu navegador en http://localhost:8080: ese `8080` es el
+> puerto `-p` del contenedor publicado en tu computadora.
 
 ## 3. Una petición HTTP = TODAS las capas
 
-**Terminal A** (captura en el servidor):
+**Terminal A** (captura en el servidor; `apk` instala con el instalador de
+Alpine, `eth0` es la tarjeta de red del contenedor):
 ```bash
-docker exec web sh -c "apt-get update -q && apt-get install -y -q tcpdump && tcpdump -i eth0 -nn -XX port 5000"
+docker exec web sh -c "apk add --no-cache tcpdump && tcpdump -i eth0 -nn -XX port 80"
 ```
 **Terminal B** (dispara la petición):
 ```bash
-docker exec client curl http://web:5000/
+docker exec client curl http://web/
 ```
 
 Con `-XX` se ven los bytes crudos. Ubica cada campo en tu captura (guárdala
@@ -89,7 +151,7 @@ para el entregable):
 | 12-13 | EtherType `0x0800` (IPv4) | 2 · Enlace | Trama |
 | 14-17 | Versión + IHL | 3 · Red | Paquete |
 | 18+ | IP origen / destino | 3 · Red | Paquete |
-| … | puerto origen / destino (TCP) | 4 · Transporte | Segmento |
+| … | puerto origen / destino (TCP, destino `80`) | 4 · Transporte | Segmento |
 | … | `GET / HTTP/1.1` | 7 · Aplicación | Mensaje |
 
 El viaje del dato (encapsulamiento):
@@ -109,7 +171,7 @@ Detén la captura en `Flags [S]` (SYN), `[S.]` (SYN-ACK) y `[.]` (ACK): TCP
 
 ### UDP (sin conexión) — tu propio DNS
 ```bash
-# Servidor DNS propio que traduce test.local → IP de web
+# Servidor DNS propio que traduce test.local → IP de web (la de la sección 2)
 docker run -d --name dns --network lab5-red \
   jpillora/dnsmasq --address=/test.local/<IP_DE_WEB>
 # IP de dns →  docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dns
@@ -160,7 +222,7 @@ docker exec client curl -v http://web:9999/
 # Terminal B:  docker exec client ping -c 1 <IP_DE_WEB_CON_OCTETO_CAMBIADO>   → 100% loss
 
 # Capa 7 — recurso que no existe en la app
-docker exec client curl http://web:5000/ruta-inventada
+docker exec client curl http://web/ruta-inventada
 
 # Capa 7 — nombre DNS que no existe (fuera de tu zona test.local)
 docker exec client nslookup noexiste.inventado <IP_DE_DNS>
@@ -191,8 +253,9 @@ comando lo confirmaste y qué mensaje viste.
 | 6 · Presentación | formato, cifrado, compresión | `Content-Type`, `Accept`, `Content-Encoding`, TLS |
 
 ```bash
-# Formato negociado (capa 6) y cifrado (capa 6)
-docker exec client curl -H "Accept: application/json" http://web:5000/ -v
+# Formato negociado (capa 6) — fíjate en los headers (Accept / Content-Type)
+docker exec client curl -H "Accept: application/json" http://web/ -v
+# Cifrado (capa 6) — TLS handshake contra un sitio HTTPS
 docker exec client curl -kv https://google.com 2>&1 | grep -i "SSL\|TLS" | head
 ```
 
@@ -212,11 +275,12 @@ Wireshark muestra el PDU de cada capa (`[TCP segment]`, `[IP packet]`,
 2. Las 4 capas TCP/IP y su correspondencia con OSI.
 3. ¿Qué es un PDU y por qué cada capa tiene uno diferente?
 4. En HTTPS, ¿dónde se insertan las capas 5 y 6? ¿Qué aportan sobre HTTP?
-5. Un contenedor comparte el kernel del host: ¿qué capas son del host y cuáles
+5. ¿Qué diferencia hay entre una **imagen** y un **contenedor** en Docker?
+6. Un contenedor comparte el kernel del host: ¿qué capas son del host y cuáles
    del contenedor?
-6. Tu app falla con `Connection refused`: ¿qué capa consultas primero y con qué
+7. Tu app falla con `Connection refused`: ¿qué capa consultas primero y con qué
    comando?
-7. ¿Por qué el modelo en capas facilita la vida de un desarrollador?
+8. ¿Por qué el modelo en capas facilita la vida de un desarrollador?
 
 ## Entregable
 
@@ -230,7 +294,7 @@ Wireshark muestra el PDU de cada capa (`[TCP segment]`, `[IP packet]`,
 
 | Criterio | Puntos |
 |----------|--------|
-| Escenario Docker montado (web + client + dns) | 15 |
+| Escenario Docker explorado (web + client + dns) | 15 |
 | Tabla de capas sobre la captura HTTP | 25 |
 | Capturas TCP vs UDP vs ICMP + tabla comparativa | 20 |
 | Fallas → capa que la detecta (P3) | 20 |
