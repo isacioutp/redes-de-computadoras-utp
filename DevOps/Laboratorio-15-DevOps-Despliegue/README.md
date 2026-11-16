@@ -262,8 +262,9 @@ atrás fue elegir `v1`, no reconstruirla.
 
 ## Paso 11 · Tu repositorio y tu pipeline
 
-Los pasos anteriores los escribiste a mano, uno por uno. Este paso los mete en un
-repositorio y en un script que puedas repetir y que sepa volver atrás sin ti.
+Los pasos anteriores los escribiste a mano, uno por uno. Este paso los junta en
+un repositorio y en un script que se pueda repetir, y que vuelva atrás solo
+cuando el despliegue falla.
 
 ### 11.1 · Crea el repositorio
 
@@ -318,13 +319,14 @@ git add deploy.sh .gitignore
 git commit -m "Pipeline de despliegue"
 ```
 
-Lo que el caso no tenía y el script sí:
+Lo que el script tiene y el caso no tenía:
 
 - `set -euo pipefail`: si un comando falla, el pipeline se detiene ahí.
 - El tag sale del commit (`git rev-parse --short HEAD`), y se puede pasar a mano
   como argumento.
-- La puerta es el `curl` al puerto publicado.
-- El rollback está escrito una vez, no en la cabeza de quien está de guardia.
+- El `curl` al puerto publicado decide si el despliegue pasó.
+- El rollback está escrito en el script, así que no depende de quién esté de
+  guardia.
 
 ### 11.3 · Despliega con el script
 
@@ -355,7 +357,7 @@ curl localhost:8080/
 # PagosYA api 1a2b3c4
 ```
 
-El pipeline deja el servicio como estaba; eso es lo que el viernes no existía.
+El servicio queda en la versión anterior.
 
 ### 11.5 · Levántalo desde un clon
 
@@ -371,17 +373,16 @@ git revert --no-edit HEAD      # deshace el commit que rompió el puerto
 ./deploy.sh
 ```
 
-Si funciona desde el clon, el despliegue vive en el repo. Si no, algo quedó fuera:
-un archivo sin commitear, una ruta absoluta o un `.gitignore` de más.
+Si funciona desde el clon, el despliegue está completo en el repo. Si no, algo
+quedó fuera: un archivo sin commitear, una ruta absoluta o un `.gitignore` de más.
 
 ---
 
 ## Reto · Tu pipeline en GitHub Actions
 
 El `deploy.sh` corre porque tú lo lanzas. El reto es que lo lance GitHub cuando
-subes un commit. Esta parte sí pide un repositorio en GitHub, y no viene
-resuelta: aquí está el esqueleto del `.yml` y las preguntas que tienes que
-contestar leyendo la documentación de Actions.
+subes un commit, y para eso hace falta un repositorio en GitHub. El `.yml` va
+incompleto a propósito: las respuestas están en la documentación de Actions.
 
 Crea `.github/workflows/deploy.yml` en tu repo:
 
