@@ -35,7 +35,7 @@ def build(out):
         "**Sigue siendo un curso de redes.** El pipeline es el escenario; el tema es el tráfico.",
         "Cada etapa es un flujo con **origen, destino, puerto y cifrado**.",
         "Cada falla del caso es una **decisión de red** mal tomada: un puerto, una ruta, una versión.",
-        "El **Laboratorio 15** corre entero en tu máquina con Docker: sin Git remoto y sin internet.",
+        "El **Laboratorio 15** corre entero en tu Docker local: sin Git remoto ni servidores.",
         "**No se evalúa** memorizar comandos: se evalúa saber qué se abrió y por qué."], ORANGE, 12.5)
     notes(s, "⏱ 2-4 min · Agenda.\n\n"
              "Enuncia los cuatro bloques y el peso: el caso ocupa tanto como la definición\n"
@@ -211,7 +211,7 @@ def build(out):
              "Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.")
 
     n += 1
-    s = content(prs, "El laboratorio, en tu máquina", "Todo local con Docker: sin Git remoto y sin internet", PART, n + 1)
+    s = content(prs, "El laboratorio, en tu máquina", "Todo con tu Docker local: sin Git remoto ni servidores", PART, n + 1)
     code(s, 0.45, 1.35, 5.9, 1.9, [
         ("$ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops", ORANGE),
         ("$ cd ~/pagosya-devops", ORANGE),
@@ -228,12 +228,14 @@ def build(out):
         "El **ciclo DevOps completo** (planear, operar, medir, aprender) y las **métricas DORA**.",
         "Son el flujo 1 del mapa: existen en producción, no en esta práctica."], NAVY, 12.5)
     callout(s, 0.45, 5.2, 12.4, 1.3, "Por qué es reproducible", [
-        "Todo pasa en **loopback** y en la **red bridge** del compose: no hace falta internet ni un servidor.",
-        "El `init: true` del `compose.yml` es lo que hace que el rollback tarde **menos de 1 s**."],
+        "Todo pasa en **loopback** y en la **red bridge** del compose: alcanza tu Docker local.",
+        "La primera vez descarga las imágenes base; el `init: true` hace que el rollback tarde **menos de 1 s**."],
         ORANGE, 12.5)
     notes(s, "⏱ 39-41 min · El laboratorio.\n\n"
              "Esta lámina es el puente entre la teoría y la práctica: muestra la carpeta,\n"
              "el registry y separa lo que se ejecuta de lo que solo se explica.\n"
+             "Si es la primera vez, Docker descarga python:3.11-slim y registry:2: avísalo\n"
+             "para que nadie crea que el laboratorio se colgó.\n"
              "Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien\n"
              "pregunta por CI/CD, remítelo al flujo 1 del mapa y sigue.\n"
              "El detalle de init:true se justifica al cronometrar el rollback: sin él,\n"
@@ -370,7 +372,7 @@ def build(out):
              "Lee las tres cajas como las tres frases que deben poder repetir.\n"
              "El entregable se explica en una línea: la bitácora es el manual.\n"
              "Cierra con la práctica y el primer comando; recuerda que la carpeta del\n"
-             "laboratorio ya trae los archivos y no necesita internet.")
+             "laboratorio ya trae los archivos y corre con tu Docker local.")
 
     prs.save(out)
     return out

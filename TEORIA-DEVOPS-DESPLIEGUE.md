@@ -70,7 +70,7 @@ es el tráfico del despliegue, no una moda de la industria.
 - **Sigue siendo un curso de redes.** El pipeline es el escenario; el tema es el tráfico.
 - Cada etapa es un flujo con **origen, destino, puerto y cifrado**.
 - Cada falla del caso es una **decisión de red** mal tomada: un puerto, una ruta, una versión.
-- El **Laboratorio 15** corre entero en tu máquina con Docker: sin Git remoto y sin internet.
+- El **Laboratorio 15** corre entero en tu Docker local: sin Git remoto ni servidores.
 - **No se evalúa** memorizar comandos: se evalúa saber qué se abrió y por qué.
 
 <details><summary>Notas del orador</summary>
@@ -369,7 +369,7 @@ Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.
 
 ## 12. El laboratorio, en tu máquina
 
-> Todo local con Docker: sin Git remoto y sin internet
+> Todo con tu Docker local: sin Git remoto ni servidores
 
 ```text
 $ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops
@@ -390,8 +390,8 @@ $ TAG=v1
 - Son el flujo 1 del mapa: existen en producción, no en esta práctica.
 
 **Por qué es reproducible**
-- Todo pasa en **loopback** y en la **red bridge** del compose: no hace falta internet ni un servidor.
-- El `init: true` del `compose.yml` es lo que hace que el rollback tarde **menos de 1 s**.
+- Todo pasa en **loopback** y en la **red bridge** del compose: alcanza tu Docker local.
+- La primera vez descarga las imágenes base; el `init: true` hace que el rollback tarde **menos de 1 s**.
 
 <details><summary>Notas del orador</summary>
 
@@ -399,6 +399,8 @@ $ TAG=v1
 
 Esta lámina es el puente entre la teoría y la práctica: muestra la carpeta,
 el registry y separa lo que se ejecuta de lo que solo se explica.
+Si es la primera vez, Docker descarga python:3.11-slim y registry:2: avísalo
+para que nadie crea que el laboratorio se colgó.
 Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien
 pregunta por CI/CD, remítelo al flujo 1 del mapa y sigue.
 El detalle de init:true se justifica al cronometrar el rollback: sin él,
@@ -603,7 +605,7 @@ Cierra el enlace con 3.2: el smoke es monitoreo aplicado a un despliegue.
 Lee las tres cajas como las tres frases que deben poder repetir.
 El entregable se explica en una línea: la bitácora es el manual.
 Cierra con la práctica y el primer comando; recuerda que la carpeta del
-laboratorio ya trae los archivos y no necesita internet.
+laboratorio ya trae los archivos y corre con tu Docker local.
 
 </details>
 

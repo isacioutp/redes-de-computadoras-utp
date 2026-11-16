@@ -323,7 +323,8 @@ git commit ──▶ build ──▶ test ──▶ push ──▶ deploy ──
 > vez de teclearlos; aquí se muestran para explicar cada línea.
 >
 > **Local vs. contexto:** la copia del laboratorio corre **sin Git** (el tag se
-> pone a mano: `TAG=v1`, luego `v2`) y **sin internet**. El guion de abajo usa
+> pone a mano: `TAG=v1`, luego `v2`) y **sin Git remoto**: solo con tu Docker
+> local. El guion de abajo usa
 > `git rev-parse` porque el caso es de producción; si se dicta la versión
 > Docker-only, reemplazar cada `TAG=$(git rev-parse --short HEAD)` por `TAG=v1`
 > (y `v2` al romper). El Git remoto y el ciclo DevOps completo se explican como

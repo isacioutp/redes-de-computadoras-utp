@@ -3,8 +3,9 @@
 Semana 14+ · Unidad III · **1 sesión**
 
 Vas a desplegar una API en tu máquina, romperla a propósito y volver a la
-versión anterior en segundos. Todo es **local**: no necesitas Git, ni GitHub,
-ni internet. Lo que se estudia es la **red** que hace posible el despliegue.
+versión anterior en segundos. Todo corre con **tu Docker local**: no necesitas
+Git, ni GitHub, ni montar servidores. Lo que se estudia es la **red** que hace
+posible el despliegue.
 
 > La teoría de la sesión está en
 > [`../Teoria-DevOps-Despliegue.pptx`](../Teoria-DevOps-Despliegue.pptx) (o en
@@ -28,6 +29,10 @@ laboratorio no hay servidor Git ni base de datos.
 - Docker Engine con el plugin **Compose v2** (`docker compose version`).
 - `curl`.
 - Linux, macOS o WSL. En Windows nativo los comandos cambian.
+
+> La primera vez, Docker descarga las dos imágenes base (`python:3.11-slim` y
+> `registry:2`), así que necesitas conexión para eso. Después el laboratorio no
+> sale de tu máquina: la app, el registry y el tráfico son locales.
 
 ## 📁 Lo que trae la carpeta
 
@@ -253,5 +258,6 @@ docker rm -f registry
 | Registry `registry:2` en `localhost:5000` | CI/CD del equipo |
 | Smoke, `.last-good` y rollback | Ciclo DevOps completo y métricas DORA |
 
-El laboratorio no necesita internet ni un servidor: todo pasa en **loopback** y
+El laboratorio no necesita servidores: corre con **tu Docker local**. La
+primera vez descarga las dos imágenes base; después todo pasa en **loopback** y
 en la **red bridge** del compose.
