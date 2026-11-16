@@ -1,0 +1,67 @@
+name: deploy
+
+# Ejemplo resuelto del reto. GitHub solo ejecuta los workflows que están en
+# .github/workflows de la raíz del repo, así que para verlo correr:
+#   mkdir -p .github/workflows
+#   cp DevOps/Laboratorio-15-DevOps-Despliegue/.github/workflows/deploy.yml .github/workflows/
+#
+# Hace lo mismo que deploy.sh, pero en el runner: construye la imagen con el tag
+# del commit, la publica en ghcr.io, levanta el stack con compose y exige que el
+# smoke test devuelva el tag nuevo. Si no, el job queda en rojo.
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  LAB: DevOps/Laboratorio-15-DevOps-Despliegue
+  IMAGE: localhost:5000/pagosya-api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag del commit
+        id: tag
+        run: echo "tag=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Iniciar sesión en el registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Construir la imagen
+        run: docker build --build-arg APP_VERSION="${{ steps.tag.outputs.tag }}" -t "$IMAGE:${{ steps.tag.outputs.tag }}" "$LAB/app"
+
+      - name: Publicar la imagen
+        run: |
+          docker tag "$IMAGE:${{ steps.tag.outputs.tag }}" "ghcr.io/${{ github.repository }}/pagosya-api:${{ steps.tag.outputs.tag }}"
+          docker push "ghcr.io/${{ github.repository }}/pagosya-api:${{ steps.tag.outputs.tag }}"
+
+      - name: Desplegar
+        working-directory: ${{ env.LAB }}
+        run: TAG="${{ steps.tag.outputs.tag }}" docker compose up -d
+
+      - name: Smoke test
+        working-directory: ${{ env.LAB }}
+        run: |
+          TAG="${{ steps.tag.outputs.tag }}"
+          for i in $(seq 1 30); do
+            if curl -fsS localhost:8080/ | grep -qx "PagosYA api $TAG"; then
+              echo "OK $TAG"
+              exit 0
+            fi
+            sleep 0.5
+          done
+          echo "smoke falló con $TAG"
+          docker compose logs --tail 20
+          exit 1
