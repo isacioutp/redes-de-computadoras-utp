@@ -461,10 +461,3 @@ docker rm -f registry
 
 > Se evalúa la explicación de red, no la memorización: quien pega los comandos
 > pero no sabe qué puerto abrió, no aprueba.
-
-**Ejemplo resuelto.** Al lado de esta guía está
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), la versión que
-corre en Actions: construye con el tag del commit, publica en `ghcr.io` (en el
-runner no hay registry en `localhost:5000`) y exige que el smoke devuelva el tag
-nuevo. GitHub solo ejecuta los workflows de `.github/workflows` en la raíz del
-repo, así que para verlo correr hay que copiarlo ahí.
