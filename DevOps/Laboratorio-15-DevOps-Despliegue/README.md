@@ -32,7 +32,7 @@ un servidor con Docker y Compose, y ningún pipeline. Desplegar consistía en qu
 | 18:30 | Restauran el respaldo de la base de datos de las 2:00 a. m.: se pierden **8 horas de pagos**. |
 | 20:10 | El servicio queda estable. **Tiempo total caído: 3 h 50 min.** |
 
-No falló el código del PR. Faltaban **tres piezas**:
+No falló el código del PR. Faltaban tres piezas:
 
 1. Una **imagen versionada** (hoy todo es `latest`).
 2. Un **tag explícito** en el `compose.yml`, para desplegar un artefacto concreto.
@@ -48,7 +48,7 @@ No falló el código del PR. Faltaban **tres piezas**:
 | 4 | Servicio | cliente → app publicada | 8080 → 8000 (**NAT**) | `RST` / sin respuesta |
 | 5 | Interno | app → base de datos | 5432/TCP · DNS `db` | arranca y falla al conectar |
 
-En la práctica se recorren los flujos **2, 3 y 4**: el registry, el artefacto y
+En la práctica se recorren los flujos 2, 3 y 4: el registry, el artefacto y
 el puerto publicado son donde el caso se rompió.
 
 ## 3. El sistema que se va a desplegar
@@ -61,7 +61,7 @@ La carpeta trae la API de PagosYA y su despliegue:
 | `app/Dockerfile` | Mete la versión en `/app/VERSION` con `ARG APP_VERSION` |
 | `compose.yml` | Publica `8080` del host → `8000` del contenedor, usa `TAG` e `init: true` |
 
-No hay scripts: **cada comando lo escribes tú**.
+La práctica se escribe comando por comando, sin scripts.
 
 ## ✅ Lo que necesitas
 
@@ -79,8 +79,8 @@ No hay scripts: **cada comando lo escribes tú**.
 
 ## Paso 0 · Prepara la carpeta y el registry
 
-En el caso las imágenes vivían sueltas en el servidor. Aquí hay un registry de
-verdad, y el primero es tuyo:
+En el caso las imágenes vivían sueltas en el servidor. Aquí levantas un registry
+propio:
 
 ```bash
 # Desde la raíz del repo del curso
@@ -89,7 +89,7 @@ cd ~/pagosya-devops
 docker run -d --name registry -p 127.0.0.1:5000:5000 registry:2
 ```
 
-**Debes ver** un ID de contenedor y, al comprobarlo:
+Debes ver un ID de contenedor y, al comprobarlo:
 
 ```bash
 docker ps --filter name=registry
@@ -120,7 +120,7 @@ docker build --build-arg APP_VERSION="$TAG" \
   -t localhost:5000/pagosya-api:$TAG app/
 ```
 
-**Debes ver** al final líneas como:
+Debes ver al final líneas como:
 
 ```
 #9 naming to localhost:5000/pagosya-api:v1 done
@@ -148,7 +148,7 @@ curl -s localhost:5000/v2/_catalog
 # {"repositories":["pagosya-api"]}
 ```
 
-**Debes ver** el digest de la imagen y el catálogo con `pagosya-api`.
+Debes ver el digest de la imagen y el catálogo con `pagosya-api`.
 
 ## Paso 5 · Despliega ese tag explícito
 
@@ -287,5 +287,5 @@ docker rm -f registry
    piezas que faltaban. Cierra comparando el caso con tu práctica: 3 h 50 min
    frente a tu rollback medido, y **qué flujo de red** falló en cada uno.
 
-> Se evalúa la **explicación de red**, no la memorización: quien pega los
-> comandos pero no sabe qué puerto abrió, no aprobó.
+> Se evalúa la explicación de red, no la memorización: quien pega los comandos
+> pero no sabe qué puerto abrió, no aprueba.
