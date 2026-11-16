@@ -89,7 +89,7 @@ Todo el material de la sesión vive en `DevOps/`:
 | Recurso | Contenido |
 |---------|-----------|
 | `DevOps/Teoria-DevOps-Despliegue.pptx` · `DevOps/TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el laboratorio, el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (17) |
-| `DevOps/Laboratorio-15-DevOps-Despliegue/` | **Práctica del caso**: la API, el `Dockerfile`, el `compose.yml` y la guía paso a paso con los 10 comandos, más el cierre autónomo: repo propio, `deploy.sh` y despliegue desde un clon |
+| `DevOps/Laboratorio-15-DevOps-Despliegue/` | **Práctica del caso**: la API, el `Dockerfile`, el `compose.yml` y la guía paso a paso con los 10 comandos, más el cierre autónomo (repo propio, `deploy.sh`, despliegue desde un clon) y el reto de llevar ese pipeline a GitHub Actions |
 
 > Los archivos `Teoria/TEORIA-U3-*.md` son el **volcado textual** de cada presentación
 > (contenido + notas del orador); se regeneran con

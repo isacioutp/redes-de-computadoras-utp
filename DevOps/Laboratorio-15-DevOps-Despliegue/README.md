@@ -376,6 +376,53 @@ un archivo sin commitear, una ruta absoluta o un `.gitignore` de más.
 
 ---
 
+## Reto · Tu pipeline en GitHub Actions
+
+El `deploy.sh` corre porque tú lo lanzas. El reto es que lo lance GitHub cuando
+subes un commit. Esta parte sí pide un repositorio en GitHub, y no viene
+resuelta: aquí está el esqueleto del `.yml` y las preguntas que tienes que
+contestar leyendo la documentación de Actions.
+
+Crea `.github/workflows/deploy.yml` en tu repo:
+
+```yaml
+name: deploy
+
+on:
+  # TODO: qué evento dispara el pipeline y en qué rama
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # TODO: iniciar sesión en el registry (¿qué acción?, ¿qué secretos?)
+      # TODO: construir la imagen con el tag del commit
+      # TODO: arrancar el contenedor y correr el smoke test
+      # TODO: publicar la imagen solo si el smoke pasó
+```
+
+Lo que tienes que averiguar por tu cuenta:
+
+- Qué evento usar para que un push a `main` dispare el job, y cómo evitar que dos
+  despliegues corran a la vez.
+- Dónde se guardan el usuario y el token del registry, y cómo se leen desde el
+  `.yml` sin escribirlos en el archivo.
+- Cómo obtener el hash del commit dentro del workflow y recortarlo a 7 caracteres.
+- Cómo levantar el contenedor dentro del runner y esperar a que responda en
+  `localhost:8080`.
+- Cómo hacer que el job quede en rojo cuando el smoke falla, para que el push
+  quede marcado.
+
+Dónde buscar: la pestaña *Actions* de tu repo, la documentación de
+`actions/checkout`, la de *secrets* y la de los eventos `push`. Si te trabas, el
+error del job dice el paso y la línea.
+
+Entregable: el `.yml` en el repo, el enlace a una ejecución en verde y otra en
+rojo, y una línea por cada `TODO` explicando qué pusiste y por qué.
+
+---
+
 ## 🧹 Limpieza
 
 ```bash
@@ -408,6 +455,8 @@ docker rm -f registry
    (`git log --oneline`).
 6. **Salida del pipeline** en verde y en rojo: el tag desplegado, el smoke
    fallando, el rollback automático y el código de salida.
+7. **Reto de Actions**: el `.yml`, una ejecución en verde y otra en rojo, y la
+   explicación de cada `TODO`.
 
 > Se evalúa la explicación de red, no la memorización: quien pega los comandos
 > pero no sabe qué puerto abrió, no aprueba.
