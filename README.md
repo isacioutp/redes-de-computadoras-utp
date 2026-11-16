@@ -64,7 +64,7 @@ Final.
 | `Teoria-U3-Parte2-SSH-Bastion.pptx` · `TEORIA-U3-Parte2-SSH-Bastion.md` | **3.3** Claves SSH · **3.4** Bastión (13) |
 | `Teoria-U3-Parte3-Orquestacion.pptx` · `TEORIA-U3-Parte3-Orquestacion.md` | **3.5** Orquestación Compose/Swarm (12) |
 | `Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` · `TEORIA-U3-Parte4-Almacenamiento-Compartido.md` | **Extensión 3.5** Almacenamiento compartido para HA: NAS/SAN, quórum, volúmenes NFS/CSI (15) |
-| `Teoria-DevOps-Despliegue.pptx` · `TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (16) |
+| `Teoria-DevOps-Despliegue.pptx` · `TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el laboratorio local (Docker, sin Git remoto), el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (17) |
 | `DEMO-CEPH.md` | **Demo en vivo de la Parte 4** (guion docente, ~25 min): clúster **MicroCeph de 2 VM sobre Tailscale** — CephFS compartido entre nodos, caída de nodo y pérdida de quórum, tercer voto, y export **NFS** que convierte el volumen `pgdata` del Lab 14 en storage distribuido |
 | `GUIA-CLASE-UNIDAD-III.md` | Reparto de las 3 partes y notas de uso (diapositivas, tiempos, recortes) |
 | `CLASE-U3-LAN-Monitoreo.md` | **Guion docente** de 3.1/3.2 (minuto a minuto + Lab 10) |

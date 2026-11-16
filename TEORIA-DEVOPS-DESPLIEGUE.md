@@ -1,6 +1,6 @@
 # Teoría — Unidad III · Sesión de cierre: DevOps sobre la red
 
-> Contenido completo de [`Teoria-DevOps-Despliegue.pptx`](Teoria-DevOps-Despliegue.pptx) (16 diapositivas, 16:9).
+> Contenido completo de [`Teoria-DevOps-Despliegue.pptx`](Teoria-DevOps-Despliegue.pptx) (17 diapositivas, 16:9).
 > Volcado textual de la presentación: mismo contenido y mismo orden de
 > lectura, sin depender de PowerPoint.
 >
@@ -23,11 +23,12 @@
 - **9.** Lo que la bitácora revela
 - **10.** Del commit a producción
 - **11.** Las 7 etapas
-- **12.** El mapa de tráfico del despliegue
-- **13.** La red detrás del despliegue
-- **14.** El rollback: dos comandos
-- **15.** Medir: las 4 claves DORA
-- **16.** Qué se lleva de la sesión
+- **12.** El laboratorio, en tu máquina
+- **13.** El mapa de tráfico del despliegue
+- **14.** La red detrás del despliegue
+- **15.** El rollback: dos comandos
+- **16.** Medir: las 4 claves DORA
+- **17.** Qué se lleva de la sesión
 
 ---
 
@@ -39,7 +40,7 @@ DevOps sobre la red: el despliegue del viernes
 
 - Qué es DevOps: una definición que no nombra herramientas
 - El caso: un despliegue manual que costó 3 h 50 min de servicio
-- El pipeline y su tráfico: puertos, NAT, DNS y rollback en dos comandos
+- El laboratorio local: pipeline, puertos, NAT y rollback en dos comandos
 
 <details><summary>Notas del orador</summary>
 
@@ -69,6 +70,7 @@ es el tráfico del despliegue, no una moda de la industria.
 - **Sigue siendo un curso de redes.** El pipeline es el escenario; el tema es el tráfico.
 - Cada etapa es un flujo con **origen, destino, puerto y cifrado**.
 - Cada falla del caso es una **decisión de red** mal tomada: un puerto, una ruta, una versión.
+- El **Laboratorio 15** corre entero en tu máquina con Docker: sin Git remoto y sin internet.
 - **No se evalúa** memorizar comandos: se evalúa saber qué se abrió y por qué.
 
 <details><summary>Notas del orador</summary>
@@ -137,7 +139,8 @@ DORA
 
 **Lo que DevOps NO es**
 - No es Kubernetes, ni una herramienta de moda, ni «el equipo de DevOps».
-- En esta clase se hace **a mano y con Docker**, que ya saben: `git`, `build`, `push`, `compose`, `curl`.
+- En esta clase se hace **a mano y con Docker**, que ya saben: `build`, `push`, `compose`, `curl`.
+- El ciclo completo y el **Git remoto** son **contexto**: el laboratorio solo ejecuta el tramo local.
 
 <details><summary>Notas del orador</summary>
 
@@ -149,6 +152,8 @@ La definición hay que leerla despacio; la frase que más discusión genera es
 la última: 'si depende de una persona, no es DevOps'.
 Las 3 vías en versión de clase, sin nombres de libros.
 Cierra con el NO: desmonta la idea de que DevOps es un puesto de trabajo.
+Deja claro qué se ejecuta y qué no: el laboratorio es Docker local; el ciclo
+completo y el Git remoto se explican como contexto, no se montan.
 
 </details>
 
@@ -334,7 +339,7 @@ Siete etapas, diez comandos y cinco flujos de red
 
 | # | Etapa | Qué garantiza | Evidencia |
 |---|---|---|---|
-| 1 | Commit | El cambio está identificado | `git rev-parse --short HEAD` |
+| 1 | Commit | El cambio está identificado | `TAG=v1` · en producción, `git rev-parse` |
 | 2 | Build | La imagen sale del repo, no de una laptop | `docker build -t ...:$TAG` |
 | 3 | Test | El artefacto es el que dice ser | `docker run ... cat /app/VERSION` |
 | 4 | Registry | El artefacto es inmutable y reutilizable | `docker push` · `v2/_catalog` |
@@ -344,6 +349,7 @@ Siete etapas, diez comandos y cinco flujos de red
 
 **El pipeline no es magia**
 - Son estos comandos, pegados en orden. Lo que agrega es que corren **igual** a las 3 de la mañana, sin depender de quién esté despierto.
+- El flujo remoto de Git queda como **contexto**: aquí el tag lo eliges tú.
 
 <details><summary>Notas del orador</summary>
 
@@ -353,13 +359,56 @@ Recorre la columna 'Evidencia': cada etapa se puede comprobar sin creerle a
 nadie. Ese es el punto de la clase.
 La 3 es la que suele faltar en los proyectos: 'probé en mi máquina' no es test
 del artefacto.
+Aclara que la etapa 1 se hace con un tag elegido (v1, v2) para que el
+laboratorio no dependa de Git; en producción el tag sale del commit.
 Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.
 
 </details>
 
 ---
 
-## 12. El mapa de tráfico del despliegue
+## 12. El laboratorio, en tu máquina
+
+> Todo local con Docker: sin Git remoto y sin internet
+
+```text
+$ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops
+$ cd ~/pagosya-devops
+$ docker run -d --name registry -p 127.0.0.1:5000:5000 registry:2
+$ TAG=v1
+```
+
+**Local (se ejecuta)**
+- `docker build`, `push`, `compose up -d`.
+- Registry `registry:2` en `localhost:5000`.
+- Smoke y rollback con `.last-good`.
+- El tag lo eliges tú: `v1`, `v2`.
+
+**Contexto (se explica, no se ejecuta)**
+- **Git remoto / GitHub** (22 o 443/TCP) · **CI/CD** del equipo.
+- El **ciclo DevOps completo** (planear, operar, medir, aprender) y las **métricas DORA**.
+- Son el flujo 1 del mapa: existen en producción, no en esta práctica.
+
+**Por qué es reproducible**
+- Todo pasa en **loopback** y en la **red bridge** del compose: no hace falta internet ni un servidor.
+- El `init: true` del `compose.yml` es lo que hace que el rollback tarde **menos de 1 s**.
+
+<details><summary>Notas del orador</summary>
+
+⏱ 39-41 min · El laboratorio.
+
+Esta lámina es el puente entre la teoría y la práctica: muestra la carpeta,
+el registry y separa lo que se ejecuta de lo que solo se explica.
+Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien
+pregunta por CI/CD, remítelo al flujo 1 del mapa y sigue.
+El detalle de init:true se justifica al cronometrar el rollback: sin él,
+docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.
+
+</details>
+
+---
+
+## 13. El mapa de tráfico del despliegue
 
 > Cinco flujos: si uno se bloquea, el pipeline se cae en esa etapa
 
@@ -373,23 +422,24 @@ Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.
 
 **Los errores también son de red**
 - `connection refused` = nadie escucha · `timeout` = algo descarta · `502` = el proxy no tiene upstream sano.
-- **En esta demo se ejercitan los flujos 2, 3 y 4; el 1 y el 5 ya los vieron en el Lab 14.**
+- **El flujo 1 (Git remoto) es contexto; aquí se ejercitan el 2, 3 y 4. El 5 (app → db) ya lo vieron en el Lab 14.**
 
 <details><summary>Notas del orador</summary>
 
-⏱ 39-44 min · El mapa de tráfico.
+⏱ 41-46 min · El mapa de tráfico.
 
 Esta es la lámina que justifica la sesión en el pénsum. Lee la fila 4 dos
 veces: es el mismo NAT de la Unidad II, con otra tabla.
 Pregunta: '¿quién inicia cada conexión?'. Ningún servicio empuja: alguien abre
 la conexión. Por eso un firewall que bloquea la salida rompe el deploy igual
 que uno que bloquea la entrada.
+La fila 1 se nombra como contexto: en el laboratorio no hay servidor Git.
 
 </details>
 
 ---
 
-## 13. La red detrás del despliegue
+## 14. La red detrás del despliegue
 
 > Donde el pipeline deja de ser DevOps y vuelve a ser el curso
 
@@ -421,7 +471,7 @@ LISTEN 0.0.0.0:8080
 
 <details><summary>Notas del orador</summary>
 
-⏱ 44-48 min · La red.
+⏱ 46-50 min · La red.
 
 La caja de la pregunta es la evaluación: si el estudiante no sabe quién
 inicia la conexión, no entendió el flujo.
@@ -433,7 +483,7 @@ No te detengas en TLS: se nombra y se sigue.
 
 ---
 
-## 14. El rollback: dos comandos
+## 15. El rollback: dos comandos
 
 > La versión anterior ya existe en el registry: no se reconstruye
 
@@ -443,7 +493,7 @@ $ cat .last-good
 $ TAG=$(cat .last-good)
 $ TAG=$TAG docker compose up -d
 Container pagosya-devops-api-1 Started
-# dos segundos después
+# menos de 1 s después
 $ curl localhost:8080/
 PagosYA api 0311133
 ```
@@ -464,7 +514,7 @@ $ curl -s localhost:5000/v2/pagosya-api/tags/list
 
 <details><summary>Notas del orador</summary>
 
-⏱ 48-51 min · El rollback.
+⏱ 50-53 min · El rollback.
 
 Si hay proyector y Docker, ejecuta los comandos: el 'Started' en segundos es
 más elocuente que cualquier lámina.
@@ -472,17 +522,19 @@ El detalle del archivo es intencional: un rollback no debe depender de la
 disponibilidad del sistema que está fallando.
 La lista de tags cierra el argumento: la versión mala sigue ahí, pero no
 está sirviendo.
+El 'menos de 1 s' depende de init:true; sin él son ~12 s por el SIGTERM
+ignorado por el PID 1. Es una línea del compose, no magia.
 
 </details>
 
 ---
 
-## 15. Medir: las 4 claves DORA
+## 16. Medir: las 4 claves DORA
 
-> Lo que no se mide no se mejora — y el pipeline deja la medida gratis
+> Lo que no se mide no se mejora — el laboratorio deja medir el MTTR
 
 **Frecuencia**
-cada commit
+cada despliegue
 
 **Lead time**
 minutos
@@ -491,7 +543,7 @@ minutos
 la decide el smoke
 
 **MTTR**
-≈ 2 s
+< 1 s
 
 **Qué mide cada una**
 - **Frecuencia:** cada cuánto se pone algo en producción.
@@ -504,11 +556,12 @@ la decide el smoke
 - El **lead time** es, en buena parte, **tiempo de red**: subir y bajar la imagen.
 - El **smoke test** es una medición de 3.2 aplicada a un despliegue.
 - El **MTTR** bajo es tener el artefacto anterior a un `pull`.
+- En el laboratorio solo se **cronometra el MTTR**; las otras tres son contexto.
 - Las cuatro se mejoran acortando el camino, no comprando herramientas.
 
 <details><summary>Notas del orador</summary>
 
-⏱ 51-54 min · DORA.
+⏱ 53-56 min · DORA.
 
 No nombres el libro si no hace falta: las cuatro se explican solas.
 La comparación 'antes/después' es la que se lleva al Proyecto: no se pide
@@ -519,13 +572,13 @@ Cierra el enlace con 3.2: el smoke es monitoreo aplicado a un despliegue.
 
 ---
 
-## 16. Qué se lleva de la sesión
+## 17. Qué se lleva de la sesión
 
 > Tres ideas, un entregable y una práctica
 
 **El despliegue es una operación**
 - Si depende de una persona o de una laptop, no es repetible.
-- Un tag por commit le pone nombre a lo que corre.
+- El tag `v1`/`v2` le pone nombre a lo que corre.
 - Y ese nombre viaja: **build once**.
 
 **La puerta es la respuesta**
@@ -539,17 +592,18 @@ Cierra el enlace con 3.2: el smoke es monitoreo aplicado a un despliegue.
 - Dos comandos; cero reconstrucción.
 
 **Entregable y siguiente paso**
-- **Bitácora de los 10 comandos + mapa de los 5 flujos + postmortem de una página.**
+- **Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.
 - Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.
-- Siguiente: la práctica — estos comandos, en su terminal, hasta romperlo y volver.
+- Siguiente: `Laboratorio-15-DevOps-Despliegue/` — todo local con Docker, sin Git remoto.
 
 <details><summary>Notas del orador</summary>
 
-⏱ 54-55 min · Cierre.
+⏱ 56-57 min · Cierre.
 
 Lee las tres cajas como las tres frases que deben poder repetir.
 El entregable se explica en una línea: la bitácora es el manual.
-No cierres con '¿preguntas?': cierra con la práctica y el primer comando.
+Cierra con la práctica y el primer comando; recuerda que la carpeta del
+laboratorio ya trae los archivos y no necesita internet.
 
 </details>
 

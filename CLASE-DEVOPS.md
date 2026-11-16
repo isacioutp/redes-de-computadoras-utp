@@ -321,6 +321,13 @@ git commit ──▶ build ──▶ test ──▶ push ──▶ deploy ──
 > [`Laboratorio-15-DevOps-Despliegue/`](Laboratorio-15-DevOps-Despliegue/README.md).
 > Se puede copiar (`cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops`) en
 > vez de teclearlos; aquí se muestran para explicar cada línea.
+>
+> **Local vs. contexto:** la copia del laboratorio corre **sin Git** (el tag se
+> pone a mano: `TAG=v1`, luego `v2`) y **sin internet**. El guion de abajo usa
+> `git rev-parse` porque el caso es de producción; si se dicta la versión
+> Docker-only, reemplazar cada `TAG=$(git rev-parse --short HEAD)` por `TAG=v1`
+> (y `v2` al romper). El Git remoto y el ciclo DevOps completo se explican como
+> **contexto**, no se ejecutan.
 
 ### Paso 0 — El repo y el registry (10 min)
 

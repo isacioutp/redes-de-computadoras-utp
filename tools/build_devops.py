@@ -15,7 +15,7 @@ def build(out):
               "DevOps sobre la red: el despliegue del viernes",
               ["Qué es DevOps: una definición que no nombra herramientas",
                "El caso: un despliegue manual que costó 3 h 50 min de servicio",
-               "El pipeline y su tráfico: puertos, NAT, DNS y rollback en dos comandos"],
+               "El laboratorio local: pipeline, puertos, NAT y rollback en dos comandos"],
               "Sesión de cierre", "55 min de teoría")
     notes(s, "⏱ 0-2 min · Portada.\n\n"
              "Abrir con la promesa: 'hoy no hay herramienta nueva; hoy el sistema que ya\n"
@@ -35,6 +35,7 @@ def build(out):
         "**Sigue siendo un curso de redes.** El pipeline es el escenario; el tema es el tráfico.",
         "Cada etapa es un flujo con **origen, destino, puerto y cifrado**.",
         "Cada falla del caso es una **decisión de red** mal tomada: un puerto, una ruta, una versión.",
+        "El **Laboratorio 15** corre entero en tu máquina con Docker: sin Git remoto y sin internet.",
         "**No se evalúa** memorizar comandos: se evalúa saber qué se abrió y por qué."], ORANGE, 12.5)
     notes(s, "⏱ 2-4 min · Agenda.\n\n"
              "Enuncia los cuatro bloques y el peso: el caso ocupa tanto como la definición\n"
@@ -64,16 +65,19 @@ def build(out):
         "**Retroalimentación:** cada etapa avisa en segundos.",
         "**Aprendizaje:** el fallo se documenta y se automatiza la lección.",
         "Nada de esto se compra: se acuerda."], TEAL, 12.5)
-    callout(s, 0.45, 4.7, 12.4, 1.55, "Lo que DevOps NO es", [
+    callout(s, 0.45, 4.7, 12.4, 1.9, "Lo que DevOps NO es", [
         "No es Kubernetes, ni una herramienta de moda, ni «el equipo de DevOps».",
-        "En esta clase se hace **a mano y con Docker**, que ya saben: `git`, `build`, `push`, `compose`, `curl`."], RED, 12.5)
+        "En esta clase se hace **a mano y con Docker**, que ya saben: `build`, `push`, `compose`, `curl`.",
+        "El ciclo completo y el **Git remoto** son **contexto**: el laboratorio solo ejecuta el tramo local."], RED, 12.5)
     notes(s, "⏱ 5-13 min · Qué es DevOps.\n\n"
              "Empieza por el ciclo de arriba, pero sin software: 'planear, construir, probar,\n"
              "desplegar, operar, medir' es lo que hace un restaurante todas las noches.\n"
              "La definición hay que leerla despacio; la frase que más discusión genera es\n"
              "la última: 'si depende de una persona, no es DevOps'.\n"
              "Las 3 vías en versión de clase, sin nombres de libros.\n"
-             "Cierra con el NO: desmonta la idea de que DevOps es un puesto de trabajo.")
+             "Cierra con el NO: desmonta la idea de que DevOps es un puesto de trabajo.\n"
+             "Deja claro qué se ejecuta y qué no: el laboratorio es Docker local; el ciclo\n"
+             "completo y el Git remoto se explican como contexto, no se montan.")
 
     n += 1
     s = content(prs, "La prueba de fuego", "¿Puedes desplegar un martes a las 4 de la tarde y salir tranquilo?", PART, n + 1)
@@ -185,7 +189,7 @@ def build(out):
     n += 1
     s = content(prs, "Las 7 etapas", "Cada etapa deja una evidencia que se puede comprobar", PART, n + 1)
     table(s, [["#", "Etapa", "Qué garantiza", "Evidencia"],
-              ["1", "Commit", "El cambio está identificado", "`git rev-parse --short HEAD`"],
+              ["1", "Commit", "El cambio está identificado", "`TAG=v1` · en producción, `git rev-parse`"],
               ["2", "Build", "La imagen sale del repo, no de una laptop", "`docker build -t ...:$TAG`"],
               ["3", "Test", "El artefacto es el que dice ser", "`docker run ... cat /app/VERSION`"],
               ["4", "Registry", "El artefacto es inmutable y reutilizable", "`docker push` · `v2/_catalog`"],
@@ -194,14 +198,46 @@ def build(out):
               ["7", "Registro", "Hay una versión anterior conocida", "`echo $TAG > .last-good`"]],
            0.45, 1.35, 12.4, col_w=[0.6, 2.0, 5.7, 4.1], size=11.5, row_h=0.4)
     callout(s, 0.45, 4.75, 12.4, 1.5, "El pipeline no es magia", [
-        "Son estos comandos, pegados en orden. Lo que agrega es que corren **igual** a las 3 de la mañana, sin depender de quién esté despierto."],
+        "Son estos comandos, pegados en orden. Lo que agrega es que corren **igual** a las 3 de la mañana, sin depender de quién esté despierto.",
+        "El flujo remoto de Git queda como **contexto**: aquí el tag lo eliges tú."],
         ORANGE, 12.5)
     notes(s, "⏱ 34-39 min · Las 7 etapas.\n\n"
              "Recorre la columna 'Evidencia': cada etapa se puede comprobar sin creerle a\n"
              "nadie. Ese es el punto de la clase.\n"
              "La 3 es la que suele faltar en los proyectos: 'probé en mi máquina' no es test\n"
              "del artefacto.\n"
+             "Aclara que la etapa 1 se hace con un tag elegido (v1, v2) para que el\n"
+             "laboratorio no dependa de Git; en producción el tag sale del commit.\n"
              "Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.")
+
+    n += 1
+    s = content(prs, "El laboratorio, en tu máquina", "Todo local con Docker: sin Git remoto y sin internet", PART, n + 1)
+    code(s, 0.45, 1.35, 5.9, 1.9, [
+        ("$ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops", ORANGE),
+        ("$ cd ~/pagosya-devops", ORANGE),
+        ("$ docker run -d --name registry -p 127.0.0.1:5000:5000 registry:2", ORANGE),
+        ("", WHITE),
+        ("$ TAG=v1", ORANGE)], size=9.5)
+    callout(s, 6.55, 1.35, 6.3, 1.9, "Local (se ejecuta)", [
+        "`docker build`, `push`, `compose up -d`.",
+        "Registry `registry:2` en `localhost:5000`.",
+        "Smoke y rollback con `.last-good`.",
+        "El tag lo eliges tú: `v1`, `v2`."], TEAL, 12)
+    callout(s, 0.45, 3.45, 12.4, 1.6, "Contexto (se explica, no se ejecuta)", [
+        "**Git remoto / GitHub** (22 o 443/TCP) · **CI/CD** del equipo.",
+        "El **ciclo DevOps completo** (planear, operar, medir, aprender) y las **métricas DORA**.",
+        "Son el flujo 1 del mapa: existen en producción, no en esta práctica."], NAVY, 12.5)
+    callout(s, 0.45, 5.2, 12.4, 1.3, "Por qué es reproducible", [
+        "Todo pasa en **loopback** y en la **red bridge** del compose: no hace falta internet ni un servidor.",
+        "El `init: true` del `compose.yml` es lo que hace que el rollback tarde **menos de 1 s**."],
+        ORANGE, 12.5)
+    notes(s, "⏱ 39-41 min · El laboratorio.\n\n"
+             "Esta lámina es el puente entre la teoría y la práctica: muestra la carpeta,\n"
+             "el registry y separa lo que se ejecuta de lo que solo se explica.\n"
+             "Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien\n"
+             "pregunta por CI/CD, remítelo al flujo 1 del mapa y sigue.\n"
+             "El detalle de init:true se justifica al cronometrar el rollback: sin él,\n"
+             "docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.")
 
     n += 1
     s = content(prs, "El mapa de tráfico del despliegue", "Cinco flujos: si uno se bloquea, el pipeline se cae en esa etapa", PART, n + 1)
@@ -215,14 +251,15 @@ def build(out):
     callout(s, 0.45, 4.5, 12.4, 1.9, "Los errores también son de red", [
         "`connection refused` = nadie escucha · `timeout` = algo descarta · `502` = el proxy no tiene upstream sano.",
         [("▸ ", {"color": NAVY, "bold": True, "size": 12.5}),
-         ("En esta demo se ejercitan los flujos 2, 3 y 4; el 1 y el 5 ya los vieron en el Lab 14.",
+         ("El flujo 1 (Git remoto) es contexto; aquí se ejercitan el 2, 3 y 4. El 5 (app → db) ya lo vieron en el Lab 14.",
           {"size": 12.5, "bold": True})]], NAVY, 12.5)
-    notes(s, "⏱ 39-44 min · El mapa de tráfico.\n\n"
+    notes(s, "⏱ 41-46 min · El mapa de tráfico.\n\n"
              "Esta es la lámina que justifica la sesión en el pénsum. Lee la fila 4 dos\n"
              "veces: es el mismo NAT de la Unidad II, con otra tabla.\n"
              "Pregunta: '¿quién inicia cada conexión?'. Ningún servicio empuja: alguien abre\n"
              "la conexión. Por eso un firewall que bloquea la salida rompe el deploy igual\n"
-             "que uno que bloquea la entrada.")
+             "que uno que bloquea la entrada.\n"
+             "La fila 1 se nombra como contexto: en el laboratorio no hay servidor Git.")
 
     n += 1
     s = content(prs, "La red detrás del despliegue", "Donde el pipeline deja de ser DevOps y vuelve a ser el curso", PART, n + 1)
@@ -247,7 +284,7 @@ def build(out):
     callout(s, 6.78, 5.1, 6.1, 0.95, "Regla y hecho", [
         "`docker port` muestra la **regla**; `ss` muestra el **hecho**. Si no coinciden, el despliegue miente."],
         RED, 12)
-    notes(s, "⏱ 44-48 min · La red.\n\n"
+    notes(s, "⏱ 46-50 min · La red.\n\n"
              "La caja de la pregunta es la evaluación: si el estudiante no sabe quién\n"
              "inicia la conexión, no entendió el flujo.\n"
              "Menciona el `-p 127.0.0.1:5000:5000`: el registry de clase queda solo local;\n"
@@ -264,7 +301,7 @@ def build(out):
         ("$ TAG=$TAG docker compose up -d", ORANGE),
         " Container pagosya-devops-api-1 Started",
         ("", WHITE),
-        ("# dos segundos después", GREEN),
+        ("# menos de 1 s después", GREEN),
         ("$ curl localhost:8080/", ORANGE),
         "PagosYA api 0311133"], size=11)
     code(s, 7.15, 1.35, 5.7, 1.55, [
@@ -278,18 +315,20 @@ def build(out):
         [("▸ ", {"color": NAVY, "bold": True, "size": 13}),
          ("Por eso tarda segundos y no 3 h 50 min: el artefacto ya está a un `pull` de distancia.", {"size": 13, "bold": True})],
         "`rollback.sh` no consulta al sistema roto: lee un archivo. Si el sistema caído dictara cómo volver, el rollback caería con él."], NAVY, 12.5)
-    notes(s, "⏱ 48-51 min · El rollback.\n\n"
+    notes(s, "⏱ 50-53 min · El rollback.\n\n"
              "Si hay proyector y Docker, ejecuta los comandos: el 'Started' en segundos es\n"
              "más elocuente que cualquier lámina.\n"
              "El detalle del archivo es intencional: un rollback no debe depender de la\n"
              "disponibilidad del sistema que está fallando.\n"
              "La lista de tags cierra el argumento: la versión mala sigue ahí, pero no\n"
-             "está sirviendo.")
+             "está sirviendo.\n"
+             "El 'menos de 1 s' depende de init:true; sin él son ~12 s por el SIGTERM\n"
+             "ignorado por el PID 1. Es una línea del compose, no magia.")
 
     n += 1
-    s = content(prs, "Medir: las 4 claves DORA", "Lo que no se mide no se mejora — y el pipeline deja la medida gratis", PART, n + 1)
-    kpi(s, [("Frecuencia", "cada commit"), ("Lead time", "minutos"),
-            ("Tasa de fallo", "la decide el smoke"), ("MTTR", "≈ 2 s")],
+    s = content(prs, "Medir: las 4 claves DORA", "Lo que no se mide no se mejora — el laboratorio deja medir el MTTR", PART, n + 1)
+    kpi(s, [("Frecuencia", "cada despliegue"), ("Lead time", "minutos"),
+            ("Tasa de fallo", "la decide el smoke"), ("MTTR", "< 1 s")],
         0.45, 1.35, 12.4)
     callout(s, 0.45, 2.65, 6.1, 3.4, "Qué mide cada una", [
         "**Frecuencia:** cada cuánto se pone algo en producción.",
@@ -301,8 +340,9 @@ def build(out):
         "El **lead time** es, en buena parte, **tiempo de red**: subir y bajar la imagen.",
         "El **smoke test** es una medición de 3.2 aplicada a un despliegue.",
         "El **MTTR** bajo es tener el artefacto anterior a un `pull`.",
+        "En el laboratorio solo se **cronometra el MTTR**; las otras tres son contexto.",
         "Las cuatro se mejoran acortando el camino, no comprando herramientas."], TEAL, 12.5)
-    notes(s, "⏱ 51-54 min · DORA.\n\n"
+    notes(s, "⏱ 53-56 min · DORA.\n\n"
              "No nombres el libro si no hace falta: las cuatro se explican solas.\n"
              "La comparación 'antes/después' es la que se lleva al Proyecto: no se pide\n"
              "número exacto, se pide tendencia y por qué.\n"
@@ -312,7 +352,7 @@ def build(out):
     s = content(prs, "Qué se lleva de la sesión", "Tres ideas, un entregable y una práctica", PART, n + 1)
     callout(s, 0.45, 1.35, 3.95, 3.1, "El despliegue es una operación", [
         "Si depende de una persona o de una laptop, no es repetible.",
-        "Un tag por commit le pone nombre a lo que corre.",
+        "El tag `v1`/`v2` le pone nombre a lo que corre.",
         "Y ese nombre viaja: **build once**."], ORANGE, 12)
     callout(s, 4.65, 1.35, 3.95, 3.1, "La puerta es la respuesta", [
         "`docker ps` dice que el proceso existe.",
@@ -323,13 +363,14 @@ def build(out):
         "`.last-good` dice cuál es.",
         "Dos comandos; cero reconstrucción."], NAVY, 12)
     callout(s, 0.45, 4.65, 12.4, 1.75, "Entregable y siguiente paso", [
-        "**Bitácora de los 10 comandos + mapa de los 5 flujos + postmortem de una página.**",
+        "**Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.",
         "Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.",
-        "Siguiente: la práctica — estos comandos, en su terminal, hasta romperlo y volver."], ORANGE, 12.5)
-    notes(s, "⏱ 54-55 min · Cierre.\n\n"
+        "Siguiente: `Laboratorio-15-DevOps-Despliegue/` — todo local con Docker, sin Git remoto."], ORANGE, 12.5)
+    notes(s, "⏱ 56-57 min · Cierre.\n\n"
              "Lee las tres cajas como las tres frases que deben poder repetir.\n"
              "El entregable se explica en una línea: la bitácora es el manual.\n"
-             "No cierres con '¿preguntas?': cierra con la práctica y el primer comando.")
+             "Cierra con la práctica y el primer comando; recuerda que la carpeta del\n"
+             "laboratorio ya trae los archivos y no necesita internet.")
 
     prs.save(out)
     return out

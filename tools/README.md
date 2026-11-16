@@ -17,7 +17,7 @@ documentación (versiones en texto). Todo se hace sin abrir PowerPoint.
 | `build_parte2.py` | Genera `Teoria-U3-Parte2-SSH-Bastion.pptx` (**13**). | `python3 tools/build_parte2.py` |
 | `build_parte3.py` | Genera `Teoria-U3-Parte3-Orquestacion.pptx` (**12**). | `python3 tools/build_parte3.py` |
 | `build_parte4.py` | Genera `Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` (**15**). | `python3 tools/build_parte4.py` |
-| `build_devops.py` | Genera `Teoria-DevOps-Despliegue.pptx` (**16**): sesión de cierre — qué es DevOps, el caso del viernes, el pipeline y su tráfico, rollback y DORA. | `python3 tools/build_devops.py` |
+| `build_devops.py` | Genera `Teoria-DevOps-Despliegue.pptx` (**17**): sesión de cierre — qué es DevOps, el caso del viernes, el laboratorio local, el pipeline y su tráfico, rollback y DORA. | `python3 tools/build_devops.py` |
 | `check_layout.py` | **Validador de layout**: estima si el texto o las tablas se desbordan y detecta cajas fuera del lienzo. | `python3 tools/check_layout.py Teoria-U3-Parte*.pptx` |
 | `dump_ppt_md.py` | **Volcado a Markdown**: título + índice + cada diapositiva (tablas, código, negritas) + notas del orador en bloques plegables. | `python3 tools/dump_ppt_md.py <pptx> "<título>"` |
 
