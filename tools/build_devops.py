@@ -211,34 +211,33 @@ def build(out):
              "Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.")
 
     n += 1
-    s = content(prs, "El caso, en tu máquina", "El mismo fallo del viernes, reproducido con tu Docker local", PART, n + 1)
+    s = content(prs, "El laboratorio del caso", "Reproduce el despliegue del viernes, lo rompe y vuelve atrás", PART, n + 1)
     code(s, 0.45, 1.35, 5.9, 1.9, [
-        ("$ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops", ORANGE),
+        ("$ cp -r DevOps/Laboratorio-15-DevOps-Despliegue ~/pagosya-devops", ORANGE),
         ("$ cd ~/pagosya-devops", ORANGE),
         ("$ docker run -d --name registry -p 127.0.0.1:5000:5000 registry:2", ORANGE),
         ("", WHITE),
         ("$ TAG=v1", ORANGE)], size=9.5)
-    callout(s, 6.55, 1.35, 6.3, 1.9, "Del caso · contexto (no se ejecuta)", [
-        "Git remoto y PR a `main` (22/443) · CI/CD y guardia.",
-        "Servidor de producción con `nginx`: el `502` sin upstream sano.",
-        "Ciclo DevOps completo y métricas DORA.",
-        "Se leen y se usan en el postmortem."], NAVY, 12)
-    callout(s, 0.45, 3.45, 12.4, 1.6, "Lo que reproduces aquí (local)", [
+    callout(s, 6.55, 1.35, 6.3, 1.9, "El caso", [
+        "PR a `main` a las 15:30, con `nginx` delante de la API.",
+        "Build en la laptop de Ana: en el servidor se cae.",
+        "A las 17:00 nadie sabe qué imagen corría.",
+        "20:10: 3 h 50 min caídos y 8 h de pagos perdidas."], NAVY, 12)
+    callout(s, 0.45, 3.45, 12.4, 1.6, "El laboratorio", [
         "`docker build`, `push`, `compose up -d` · registry en `localhost:5000`.",
         "Smoke, `.last-good` y rollback: de **3 h 50 min** a **menos de 2 s**.",
-        "El tag lo eliges tú (`v1`, `v2`); en el caso lo ponía el commit."], TEAL, 12.5)
-    callout(s, 0.45, 5.2, 12.4, 1.3, "Por qué es reproducible", [
-        "Todo pasa en **loopback** y en la **red bridge** del compose: alcanza tu Docker local.",
-        "La primera vez descarga las imágenes base; el `init: true` hace que el rollback tarde **menos de 1 s**."],
+        "El tag es `v1` y luego `v2`; en el caso lo ponía el commit."], TEAL, 12.5)
+    callout(s, 0.45, 5.2, 12.4, 1.3, "Por qué el rollback es inmediato", [
+        "Todo pasa en **loopback** y en la **red bridge** del compose.",
+        "El `init: true` evita los 10 s de `docker stop`: el rollback tarda **menos de 1 s**."],
         ORANGE, 12.5)
-    notes(s, "⏱ 39-41 min · El caso, en tu máquina.\n\n"
-             "Esta lámina separa el caso de lo que se puede tocar: el caso trae equipo,\n"
-             "servidor Git, nginx, guardia y métricas; la práctica trae el artefacto, el\n"
-             "registry, el puerto y el rollback.\n"
+    notes(s, "⏱ 39-41 min · El laboratorio.\n\n"
+             "Esta lámina cuenta el caso y el laboratorio que lo reproduce: el PR, el\n"
+             "build en la laptop, el 502 y las 3 h 50 min frente a los dos comandos.\n"
              "Si es la primera vez, Docker descarga python:3.11-slim y registry:2: avísalo\n"
              "para que nadie crea que el laboratorio se colgó.\n"
-             "Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien\n"
-             "pregunta por CI/CD, remítelo al flujo 1 del mapa y sigue.\n"
+             "Insiste en que el tag lo elige el estudiante (v1 y luego v2) para que el\n"
+             "laboratorio no dependa de un servidor Git.\n"
              "El detalle de init:true se justifica al cronometrar el rollback: sin él,\n"
              "docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.")
 
@@ -368,7 +367,7 @@ def build(out):
     callout(s, 0.45, 4.65, 12.4, 1.75, "Entregable y siguiente paso", [
         "**Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.",
         "Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.",
-        "Siguiente: `Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local."], ORANGE, 12.5)
+        "Siguiente: `DevOps/Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local."], ORANGE, 12.5)
     notes(s, "⏱ 56-57 min · Cierre.\n\n"
              "Lee las tres cajas como las tres frases que deben poder repetir.\n"
              "El entregable se explica en una línea: la bitácora es el manual.\n"
@@ -380,5 +379,5 @@ def build(out):
 
 
 if __name__ == "__main__":
-    p = build(sys.argv[1] if len(sys.argv) > 1 else "Teoria-DevOps-Despliegue.pptx")
+    p = build(sys.argv[1] if len(sys.argv) > 1 else "DevOps/Teoria-DevOps-Despliegue.pptx")
     print("OK ->", p)

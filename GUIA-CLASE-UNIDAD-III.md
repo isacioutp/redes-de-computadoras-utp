@@ -24,14 +24,14 @@ Además, para los temas 3.1/3.2 hay una **guía de estudio del estudiante**
 docentes** traen el *minuto a minuto* y las prácticas; las **versiones en texto**
 son el volcado de las diapositivas con sus notas del orador.
 
-> **Sesión de cierre (opcional, después de la Parte 4):** `CLASE-DEVOPS.md` —
+> **Sesión de cierre (opcional, después de la Parte 4):** `DevOps/CLASE-DEVOPS.md` —
 > DevOps en una sesión de 165 min con **caso de estudio** («el despliegue del
 > viernes»). El enfoque sigue siendo **redes**: los flujos del despliegue
 > (puertos, NAT, subredes, cifrado), el smoke test y el rollback en dos comandos.
-> Su teoría va en `Teoria-DevOps-Despliegue.pptx` (**55 min**, 17 diapositivas ·
-> texto en `TEORIA-DEVOPS-DESPLIEGUE.md`) y su práctica en
-> `Laboratorio-15-DevOps-Despliegue/` (archivos listos + guía de 10 comandos,
-> planteada como **caso**: lo no reproducible va como contexto).
+> Su teoría va en `DevOps/Teoria-DevOps-Despliegue.pptx` (**55 min**, 17
+> diapositivas · texto en `DevOps/TEORIA-DEVOPS-DESPLIEGUE.md`) y su práctica en
+> `DevOps/Laboratorio-15-DevOps-Despliegue/` (archivos listos + guía de 10
+> comandos, planteada como caso de estudio).
 
 ---
 

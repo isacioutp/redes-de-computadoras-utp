@@ -165,6 +165,7 @@ def documento(path, titulo=None):
     el título de la primera diapositiva o el nombre del archivo).
     """
     cuerpo, indice, n, portada_sub = dump(path)
+    base = path.rsplit("/", 1)[-1]
     explicito = titulo is not None
     if not titulo:
         titulo = portada_sub or (indice[0][1] if indice and indice[0][0] == 1
@@ -176,7 +177,7 @@ def documento(path, titulo=None):
         "# Teoría — %s" % titulo,
         "",
         "> Contenido completo de [`%s`](%s) (%d diapositivas, 16:9)."
-        % (path, path, n),
+        % (base, base, n),
         "> Volcado textual de la presentación: mismo contenido y mismo orden de",
         "> lectura, sin depender de PowerPoint.",
         ">",

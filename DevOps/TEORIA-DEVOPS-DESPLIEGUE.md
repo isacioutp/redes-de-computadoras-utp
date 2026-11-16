@@ -5,7 +5,7 @@
 > lectura, sin depender de PowerPoint.
 >
 > Se regenera con:
-> `python3 tools/dump_ppt_md.py Teoria-DevOps-Despliegue.pptx "Unidad III · Sesión de cierre: DevOps sobre la red"`
+> `python3 tools/dump_ppt_md.py DevOps/Teoria-DevOps-Despliegue.pptx "Unidad III · Sesión de cierre: DevOps sobre la red"`
 >
 > Cada diapositiva conserva sus **notas del orador** al final, en bloques
 > plegables: en GitHub y en la mayoría de editores se despliegan con un clic.
@@ -23,7 +23,7 @@
 - **9.** Lo que la bitácora revela
 - **10.** Del commit a producción
 - **11.** Las 7 etapas
-- **12.** El caso, en tu máquina
+- **12.** El laboratorio del caso
 - **13.** El mapa de tráfico del despliegue
 - **14.** La red detrás del despliegue
 - **15.** El rollback: dos comandos
@@ -367,43 +367,42 @@ Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.
 
 ---
 
-## 12. El caso, en tu máquina
+## 12. El laboratorio del caso
 
-> El mismo fallo del viernes, reproducido con tu Docker local
+> Reproduce el despliegue del viernes, lo rompe y vuelve atrás
 
 ```text
-$ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops
+$ cp -r DevOps/Laboratorio-15-DevOps-Despliegue ~/pagosya-devops
 $ cd ~/pagosya-devops
 $ docker run -d --name registry -p 127.0.0.1:5000:5000 registry:2
 $ TAG=v1
 ```
 
-**Del caso · contexto (no se ejecuta)**
-- Git remoto y PR a `main` (22/443) · CI/CD y guardia.
-- Servidor de producción con `nginx`: el `502` sin upstream sano.
-- Ciclo DevOps completo y métricas DORA.
-- Se leen y se usan en el postmortem.
+**El caso**
+- PR a `main` a las 15:30, con `nginx` delante de la API.
+- Build en la laptop de Ana: en el servidor se cae.
+- A las 17:00 nadie sabe qué imagen corría.
+- 20:10: 3 h 50 min caídos y 8 h de pagos perdidas.
 
-**Lo que reproduces aquí (local)**
+**El laboratorio**
 - `docker build`, `push`, `compose up -d` · registry en `localhost:5000`.
 - Smoke, `.last-good` y rollback: de **3 h 50 min** a **menos de 2 s**.
-- El tag lo eliges tú (`v1`, `v2`); en el caso lo ponía el commit.
+- El tag es `v1` y luego `v2`; en el caso lo ponía el commit.
 
-**Por qué es reproducible**
-- Todo pasa en **loopback** y en la **red bridge** del compose: alcanza tu Docker local.
-- La primera vez descarga las imágenes base; el `init: true` hace que el rollback tarde **menos de 1 s**.
+**Por qué el rollback es inmediato**
+- Todo pasa en **loopback** y en la **red bridge** del compose.
+- El `init: true` evita los 10 s de `docker stop`: el rollback tarda **menos de 1 s**.
 
 <details><summary>Notas del orador</summary>
 
-⏱ 39-41 min · El caso, en tu máquina.
+⏱ 39-41 min · El laboratorio.
 
-Esta lámina separa el caso de lo que se puede tocar: el caso trae equipo,
-servidor Git, nginx, guardia y métricas; la práctica trae el artefacto, el
-registry, el puerto y el rollback.
+Esta lámina cuenta el caso y el laboratorio que lo reproduce: el PR, el
+build en la laptop, el 502 y las 3 h 50 min frente a los dos comandos.
 Si es la primera vez, Docker descarga python:3.11-slim y registry:2: avísalo
 para que nadie crea que el laboratorio se colgó.
-Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien
-pregunta por CI/CD, remítelo al flujo 1 del mapa y sigue.
+Insiste en que el tag lo elige el estudiante (v1 y luego v2) para que el
+laboratorio no dependa de un servidor Git.
 El detalle de init:true se justifica al cronometrar el rollback: sin él,
 docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.
 
@@ -597,7 +596,7 @@ Cierra el enlace con 3.2: el smoke es monitoreo aplicado a un despliegue.
 **Entregable y siguiente paso**
 - **Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.
 - Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.
-- Siguiente: `Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local.
+- Siguiente: `DevOps/Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local.
 
 <details><summary>Notas del orador</summary>
 

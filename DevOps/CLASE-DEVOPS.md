@@ -6,10 +6,12 @@
 > faltaba: **el camino del código hasta producción**.
 >
 > **Materiales que acompaña:** `Teoria-DevOps-Despliegue.pptx` (la teoría de esta
-> sesión, 55 min · versión en texto `TEORIA-DEVOPS-DESPLIEGUE.md`),
-> `Teoria-U3-Parte3-Orquestacion.pptx` (3.5),
+> sesión, 55 min · versión en texto `TEORIA-DEVOPS-DESPLIEGUE.md`), todos en esta
+> carpeta `DevOps/`; `Teoria-U3-Parte3-Orquestacion.pptx` (3.5),
 > `Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` (extensión 3.5) y el
 > `Laboratorio-14-Red-Completa-Compose-PT` (stack con Compose y secretos).
+>
+> El deck se regenera con `python3 tools/build_devops.py`.
 >
 > **Objetivo en una frase:** que el estudiante **haga a mano, paso por paso, el
 > despliegue completo** y pueda **volver atrás en segundos** — entendiendo cada
@@ -319,7 +321,8 @@ git commit ──▶ build ──▶ test ──▶ push ──▶ deploy ──
 >
 > **Atajo:** los tres archivos ya están en
 > [`Laboratorio-15-DevOps-Despliegue/`](Laboratorio-15-DevOps-Despliegue/README.md).
-> Se puede copiar (`cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops`) en
+> Se puede copiar (`cp -r DevOps/Laboratorio-15-DevOps-Despliegue ~/pagosya-devops`,
+> desde la raíz del repo) en
 > vez de teclearlos; aquí se muestran para explicar cada línea.
 >
 > **El laboratorio es el caso:** reproduce el tramo local del despliegue del
