@@ -65,6 +65,7 @@ La práctica se escribe comando por comando, sin scripts.
 
 - Docker Engine con el plugin **Compose v2** (`docker compose version`).
 - `curl`.
+- `git` (para el paso 11).
 - Linux, macOS o WSL. En Windows nativo los comandos cambian.
 
 No hace falta haber hecho los laboratorios anteriores: la carpeta trae la API y
@@ -259,6 +260,122 @@ atrás fue elegir `v1`, no reconstruirla.
 
 ---
 
+## Paso 11 · Tu repositorio y tu pipeline
+
+Los pasos anteriores los escribiste a mano, uno por uno. Este paso los mete en un
+repositorio y en un script que puedas repetir y que sepa volver atrás sin ti.
+
+### 11.1 · Crea el repositorio
+
+```bash
+cd ~/pagosya-devops
+git init
+printf '.last-good\n' > .gitignore
+git add .
+git commit -m "API de PagosYA y su compose"
+git log --oneline
+```
+
+`git init` basta: no necesitas GitHub. El repositorio guarda el código; el
+registry sigue guardando las imágenes.
+
+### 11.2 · Escribe el pipeline
+
+Crea `deploy.sh` en la raíz del repo. Hace lo mismo que los pasos 1 al 9, en
+orden, y decide solo:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+TAG="${1:-$(git rev-parse --short HEAD)}"
+IMAGE="localhost:5000/pagosya-api:$TAG"
+
+docker build --build-arg APP_VERSION="$TAG" -t "$IMAGE" app/
+docker push "$IMAGE"
+TAG="$TAG" docker compose up -d
+
+for i in $(seq 1 30); do
+  if curl -fsS localhost:8080/ >/dev/null 2>&1; then
+    echo "$TAG" > .last-good
+    echo "OK $TAG"
+    exit 0
+  fi
+  sleep 0.5
+done
+
+echo "smoke falló con $TAG" >&2
+if [ -f .last-good ]; then
+  TAG="$(cat .last-good)" docker compose up -d
+  echo "vuelto a $(cat .last-good)" >&2
+fi
+exit 1
+```
+
+```bash
+chmod +x deploy.sh
+git add deploy.sh .gitignore
+git commit -m "Pipeline de despliegue"
+```
+
+Lo que el caso no tenía y el script sí:
+
+- `set -euo pipefail`: si un comando falla, el pipeline se detiene ahí.
+- El tag sale del commit (`git rev-parse --short HEAD`), y se puede pasar a mano
+  como argumento.
+- La puerta es el `curl` al puerto publicado.
+- El rollback está escrito una vez, no en la cabeza de quien está de guardia.
+
+### 11.3 · Despliega con el script
+
+```bash
+./deploy.sh
+# OK 1a2b3c4
+cat .last-good
+# 1a2b3c4
+```
+
+El tag ahora es el commit: cualquiera que mire el repo sabe qué código corre.
+
+### 11.4 · Rompe y deja que el pipeline vuelva solo
+
+```bash
+sed -i 's/8000/9000/' app/app.py
+# En macOS: sed -i '' 's/8000/9000/' app/app.py
+git add -A && git commit -m "cambio el puerto interno"
+./deploy.sh
+echo "código de salida: $?"
+```
+
+Debes ver el smoke fallando, el mensaje de vuelta al tag anterior y el código de
+salida `1`. Después:
+
+```bash
+curl localhost:8080/
+# PagosYA api 1a2b3c4
+```
+
+El pipeline deja el servicio como estaba; eso es lo que el viernes no existía.
+
+### 11.5 · Levántalo desde un clon
+
+Para comprobar que el repo es suficiente y no depende de tu carpeta, baja el
+stack, arregla el puerto en el clon y despliega desde otro directorio:
+
+```bash
+cd ~/pagosya-devops
+docker compose down
+git clone ~/pagosya-devops /tmp/pagosya-clon
+cd /tmp/pagosya-clon
+git revert --no-edit HEAD      # deshace el commit que rompió el puerto
+./deploy.sh
+```
+
+Si funciona desde el clon, el despliegue vive en el repo. Si no, algo quedó fuera:
+un archivo sin commitear, una ruta absoluta o un `.gitignore` de más.
+
+---
+
 ## 🧹 Limpieza
 
 ```bash
@@ -287,6 +404,10 @@ docker rm -f registry
 4. **Postmortem del caso** (una página): línea de tiempo, los 5 porqués y las tres
    piezas que faltaban. Cierra comparando el caso con tu práctica: 3 h 50 min
    frente a tu rollback medido, y **qué flujo de red** falló en cada uno.
+5. **Repositorio Git** con `deploy.sh` y el historial de los dos despliegues
+   (`git log --oneline`).
+6. **Salida del pipeline** en verde y en rojo: el tag desplegado, el smoke
+   fallando, el rollback automático y el código de salida.
 
 > Se evalúa la explicación de red, no la memorización: quien pega los comandos
 > pero no sabe qué puerto abrió, no aprueba.

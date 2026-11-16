@@ -17,3 +17,6 @@ Laboratorio-6-9-Casos-Ecosistema/64bit.7z
 /installer.sh
 # Guiones docentes de DevOps (no se publican con el material del estudiante)
 DevOps/DOCENTE/
+
+# Estado del despliegue que se genera al correr el Laboratorio 15
+DevOps/Laboratorio-15-DevOps-Despliegue/.last-good

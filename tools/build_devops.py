@@ -226,7 +226,8 @@ def build(out):
     callout(s, 0.45, 3.45, 12.4, 1.6, "El laboratorio", [
         "`docker build`, `push`, `compose up -d` · registry en `localhost:5000`.",
         "Smoke, `.last-good` y rollback: de **3 h 50 min** a **menos de 2 s**.",
-        "El tag es `v1` y luego `v2`; en el caso lo ponía el commit."], TEAL, 12.5)
+        "El tag es `v1` y luego `v2`; en el caso lo ponía el commit.",
+        "Cierre: tu repo, tu `deploy.sh` y el despliegue desde un clon limpio."], TEAL, 12)
     callout(s, 0.45, 5.2, 12.4, 1.3, "Por qué el rollback es inmediato", [
         "Todo pasa en **loopback** y en la **red bridge** del compose.",
         "El `init: true` evita los 10 s de `docker stop`: el rollback tarda **menos de 1 s**."],
@@ -239,7 +240,8 @@ def build(out):
              "Insiste en que el tag lo elige el estudiante (v1 y luego v2) para que el\n"
              "laboratorio no dependa de un servidor Git.\n"
              "El detalle de init:true se justifica al cronometrar el rollback: sin él,\n"
-             "docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.")
+             "docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.\n"
+             "El paso 11 cierra la sesión: repo propio, deploy.sh y despliegue desde un clon.")
 
     n += 1
     s = content(prs, "El mapa de tráfico del despliegue", "Cinco flujos: si uno se bloquea, el pipeline se cae en esa etapa", PART, n + 1)
@@ -365,7 +367,7 @@ def build(out):
         "`.last-good` dice cuál es.",
         "Dos comandos; cero reconstrucción."], NAVY, 12)
     callout(s, 0.45, 4.65, 12.4, 1.75, "Entregable y siguiente paso", [
-        "**Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.",
+        "**Bitácora del Laboratorio 15** (los 10 comandos), mapa de los 5 flujos, postmortem de una página y tu `deploy.sh` en un repo propio.",
         "Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.",
         "Siguiente: `DevOps/Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local."], ORANGE, 12.5)
     notes(s, "⏱ 56-57 min · Cierre.\n\n"

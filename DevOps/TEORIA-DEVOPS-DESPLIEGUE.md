@@ -388,6 +388,7 @@ $ TAG=v1
 - `docker build`, `push`, `compose up -d` · registry en `localhost:5000`.
 - Smoke, `.last-good` y rollback: de **3 h 50 min** a **menos de 2 s**.
 - El tag es `v1` y luego `v2`; en el caso lo ponía el commit.
+- Cierre: tu repo, tu `deploy.sh` y el despliegue desde un clon limpio.
 
 **Por qué el rollback es inmediato**
 - Todo pasa en **loopback** y en la **red bridge** del compose.
@@ -405,6 +406,7 @@ Insiste en que el tag lo elige el estudiante (v1 y luego v2) para que el
 laboratorio no dependa de un servidor Git.
 El detalle de init:true se justifica al cronometrar el rollback: sin él,
 docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.
+El paso 11 cierra la sesión: repo propio, deploy.sh y despliegue desde un clon.
 
 </details>
 
@@ -594,7 +596,7 @@ Cierra el enlace con 3.2: el smoke es monitoreo aplicado a un despliegue.
 - Dos comandos; cero reconstrucción.
 
 **Entregable y siguiente paso**
-- **Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.
+- **Bitácora del Laboratorio 15** (los 10 comandos), mapa de los 5 flujos, postmortem de una página y tu `deploy.sh` en un repo propio.
 - Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.
 - Siguiente: `DevOps/Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local.
 
