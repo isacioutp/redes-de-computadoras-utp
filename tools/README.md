@@ -13,12 +13,12 @@ documentación (versiones en texto). Todo se hace sin abrir PowerPoint.
 | Script | Qué hace | Cómo se usa |
 |--------|----------|-------------|
 | `ppt_kit.py` | **Kit de diseño**: tokens de color, portada, separador, encabezado, tabla, bloque de código, callouts, flujos y notas. No se ejecuta solo; lo importan los `build_*`. | (librería) |
-| `build_parte1.py` | Genera `Teoria-U3-Parte1-LAN-Monitoreo.pptx` (**18** diapositivas). | `python3 tools/build_parte1.py` |
-| `build_parte2.py` | Genera `Teoria-U3-Parte2-SSH-Bastion.pptx` (**13**). | `python3 tools/build_parte2.py` |
-| `build_parte3.py` | Genera `Teoria-U3-Parte3-Orquestacion.pptx` (**12**). | `python3 tools/build_parte3.py` |
-| `build_parte4.py` | Genera `Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` (**15**). | `python3 tools/build_parte4.py` |
+| `build_parte1.py` | Genera `Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx` (**18** diapositivas). | `python3 tools/build_parte1.py` |
+| `build_parte2.py` | Genera `Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx` (**13**). | `python3 tools/build_parte2.py` |
+| `build_parte3.py` | Genera `Teoria/Teoria-U3-Parte3-Orquestacion.pptx` (**12**). | `python3 tools/build_parte3.py` |
+| `build_parte4.py` | Genera `Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` (**15**). | `python3 tools/build_parte4.py` |
 | `build_devops.py` | Genera `DevOps/Teoria-DevOps-Despliegue.pptx` (**17**): sesión de cierre — qué es DevOps, el caso del viernes, el laboratorio, el pipeline y su tráfico, rollback y DORA. | `python3 tools/build_devops.py` |
-| `check_layout.py` | **Validador de layout**: estima si el texto o las tablas se desbordan y detecta cajas fuera del lienzo. | `python3 tools/check_layout.py Teoria-U3-Parte*.pptx` |
+| `check_layout.py` | **Validador de layout**: estima si el texto o las tablas se desbordan y detecta cajas fuera del lienzo. | `python3 tools/check_layout.py Teoria/Teoria-U3-Parte*.pptx` |
 | `dump_ppt_md.py` | **Volcado a Markdown**: título + índice + cada diapositiva (tablas, código, negritas) + notas del orador en bloques plegables. | `python3 tools/dump_ppt_md.py <pptx> "<título>"` |
 
 ## Flujo de trabajo
@@ -38,21 +38,21 @@ python3 tools/build_devops.py
 
 # 3 · Validar el layout (sin abrir PowerPoint)
 python3 tools/check_layout.py \
-  Teoria-U3-Parte1-LAN-Monitoreo.pptx \
-  Teoria-U3-Parte2-SSH-Bastion.pptx \
-  Teoria-U3-Parte3-Orquestacion.pptx \
-  Teoria-U3-Parte4-Almacenamiento-Compartido.pptx \
+  Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx \
+  Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx \
+  Teoria/Teoria-U3-Parte3-Orquestacion.pptx \
+  Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx \
   DevOps/Teoria-DevOps-Despliegue.pptx
 
 # 4 · Regenerar las versiones en texto (TEORIA-U3-*.md)
-python3 tools/dump_ppt_md.py Teoria-U3-Parte1-LAN-Monitoreo.pptx \
-  "Unidad III · Parte 1: LAN y monitoreo" > TEORIA-U3-Parte1-LAN-Monitoreo.md
-python3 tools/dump_ppt_md.py Teoria-U3-Parte2-SSH-Bastion.pptx \
-  "Unidad III · Parte 2: Claves SSH y servidores bastión" > TEORIA-U3-Parte2-SSH-Bastion.md
-python3 tools/dump_ppt_md.py Teoria-U3-Parte3-Orquestacion.pptx \
-  "Unidad III · Parte 3: Orquestación de servicios con Docker" > TEORIA-U3-Parte3-Orquestacion.md
-python3 tools/dump_ppt_md.py Teoria-U3-Parte4-Almacenamiento-Compartido.pptx \
-  "Unidad III · Parte 4: Almacenamiento compartido para alta disponibilidad" > TEORIA-U3-Parte4-Almacenamiento-Compartido.md
+python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx \
+  "Unidad III · Parte 1: LAN y monitoreo" > Teoria/TEORIA-U3-Parte1-LAN-Monitoreo.md
+python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx \
+  "Unidad III · Parte 2: Claves SSH y servidores bastión" > Teoria/TEORIA-U3-Parte2-SSH-Bastion.md
+python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte3-Orquestacion.pptx \
+  "Unidad III · Parte 3: Orquestación de servicios con Docker" > Teoria/TEORIA-U3-Parte3-Orquestacion.md
+python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx \
+  "Unidad III · Parte 4: Almacenamiento compartido para alta disponibilidad" > Teoria/TEORIA-U3-Parte4-Almacenamiento-Compartido.md
 python3 tools/dump_ppt_md.py DevOps/Teoria-DevOps-Despliegue.pptx \
   "Unidad III · Sesión de cierre: DevOps sobre la red" > DevOps/TEORIA-DEVOPS-DESPLIEGUE.md
 ```

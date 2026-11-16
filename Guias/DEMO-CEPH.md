@@ -2,7 +2,7 @@
 
 Guion docente para **2 VM (ceph-1 y ceph-2)** ya conectadas por **Tailscale**
 (overlay de WireGuard). Cada demo prueba una lámina de
-`Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` — de la teoría al clúster real.
+`../Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` — de la teoría al clúster real.
 
 > **Idea ancla:** el storage distribuido es software sobre Ethernet. Aquí lo
 > montamos con dos comandos por VM, y la "red de storage" es literalmente una

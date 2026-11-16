@@ -6,18 +6,18 @@ diapositiva, así que basta con abrirla en modo presentación y avanzar con el r
 
 | Parte | Archivo | Temas | Diapositivas | Min |
 |-------|---------|-------|--------------|-----|
-| 1 | `Teoria-U3-Parte1-LAN-Monitoreo.pptx` | 3.1 LAN · 3.2 Monitoreo | 18 | 55 |
-| 2 | `Teoria-U3-Parte2-SSH-Bastion.pptx` | 3.3 Claves SSH · 3.4 Bastión | 13 | 55 |
-| 3 | `Teoria-U3-Parte3-Orquestacion.pptx` | 3.5 Orquestación (Compose/Swarm) | 12 | 55 |
+| 1 | `../Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx` | 3.1 LAN · 3.2 Monitoreo | 18 | 55 |
+| 2 | `../Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx` | 3.3 Claves SSH · 3.4 Bastión | 13 | 55 |
+| 3 | `../Teoria/Teoria-U3-Parte3-Orquestacion.pptx` | 3.5 Orquestación (Compose/Swarm) | 12 | 55 |
 | | | **Total** | **43** | **165** |
 
 ### Documentos que acompañan cada parte
 
 | Parte | Guion docente | Versión en texto |
 |-------|---------------|------------------|
-| 1 | `CLASE-U3-LAN-Monitoreo.md` | `TEORIA-U3-Parte1-LAN-Monitoreo.md` |
-| 2 | `CLASE-U3-Parte2-SSH-Bastion.md` | `TEORIA-U3-Parte2-SSH-Bastion.md` |
-| 3 | `CLASE-U3-Parte3-Orquestacion.md` | `TEORIA-U3-Parte3-Orquestacion.md` |
+| 1 | `CLASE-U3-LAN-Monitoreo.md` | `../Teoria/TEORIA-U3-Parte1-LAN-Monitoreo.md` |
+| 2 | `CLASE-U3-Parte2-SSH-Bastion.md` | `../Teoria/TEORIA-U3-Parte2-SSH-Bastion.md` |
+| 3 | `CLASE-U3-Parte3-Orquestacion.md` | `../Teoria/TEORIA-U3-Parte3-Orquestacion.md` |
 
 Además, para los temas 3.1/3.2 hay una **guía de estudio del estudiante**
 (`GUIA-ESTUDIO-U3-LAN-Monitoreo.md`: repaso + banco de preguntas). Los **guiones
@@ -28,12 +28,12 @@ son el volcado de las diapositivas con sus notas del orador.
 > 165 min con **caso de estudio** («el despliegue del viernes»). El enfoque sigue
 > siendo **redes**: los flujos del despliegue (puertos, NAT, subredes, cifrado), el
 > smoke test y el rollback en dos comandos. Su teoría va en
-> `DevOps/Teoria-DevOps-Despliegue.pptx` (**55 min**, 17 diapositivas · texto en
-> `DevOps/TEORIA-DEVOPS-DESPLIEGUE.md`) y su práctica en
-> `DevOps/Laboratorio-15-DevOps-Despliegue/` (archivos listos + guía de 10
+> `../DevOps/Teoria-DevOps-Despliegue.pptx` (**55 min**, 17 diapositivas · texto en
+> `../DevOps/TEORIA-DEVOPS-DESPLIEGUE.md`) y su práctica en
+> `../DevOps/Laboratorio-15-DevOps-Despliegue/` (archivos listos + guía de 10
 > comandos, planteada como caso de estudio).
 >
-> El guion minuto a minuto de esa sesión está en `DevOps/DOCENTE/CLASE-DEVOPS.md`,
+> El guion minuto a minuto de esa sesión está en `../DevOps/DOCENTE/CLASE-DEVOPS.md`,
 > que no se versiona.
 
 ---

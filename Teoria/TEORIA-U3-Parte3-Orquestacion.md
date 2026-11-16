@@ -5,7 +5,7 @@
 > lectura, sin depender de PowerPoint.
 >
 > Se regenera con:
-> `python3 tools/dump_ppt_md.py Teoria-U3-Parte3-Orquestacion.pptx "Unidad III · Parte 3: Orquestación de servicios con Docker"`
+> `python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte3-Orquestacion.pptx "Unidad III · Parte 3: Orquestación de servicios con Docker"`
 >
 > Cada diapositiva conserva sus **notas del orador** al final, en bloques
 > plegables: en GitHub y en la mayoría de editores se despliegan con un clic.

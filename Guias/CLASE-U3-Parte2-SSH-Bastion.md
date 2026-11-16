@@ -2,12 +2,12 @@
 
 > **Punto del módulo:** segunda parte de la **Unidad III**. Cubre los temas
 > **3.3 (creación y administración de claves SSH)** y **3.4 (servidores bastión:
-> single-homed, dual-homed, multihomed)** — semana 11 del `CRONOGRAMA.md`.
+> single-homed, dual-homed, multihomed)** — semana 11 del `../Administrativo/CRONOGRAMA.md`.
 >
-> **Materiales que acompaña:** presentación `Teoria-U3-Parte2-SSH-Bastion.pptx`
-> (generada por `tools/build_parte2.py`; versión en texto en
-> `TEORIA-U3-Parte2-SSH-Bastion.md`), laboratorio
-> `Laboratorio-11-SSH-Servidores-Bastion` (`SESION-A.md` y `SESION-B.md`) y
+> **Materiales que acompaña:** presentación `../Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx`
+> (generada por `../tools/build_parte2.py`; versión en texto en
+> `../Teoria/TEORIA-U3-Parte2-SSH-Bastion.md`), laboratorio
+> `../Laboratorio-11-SSH-Servidores-Bastion` (`SESION-A.md` y `SESION-B.md`) y
 > `GUIA-CLASE-UNIDAD-III.md`.
 >
 > **Objetivo en una frase:** que el estudiante pase de «entro con usuario y
@@ -95,7 +95,7 @@ docker network prune -f
 
 | Bloque | Min | Qué se hace |
 |--------|-----|-------------|
-| Teoría 3.3 + 3.4 | 55 | Presentación `Teoria-U3-Parte2-SSH-Bastion.pptx` (diapositivas 1-13) |
+| Teoría 3.3 + 3.4 | 55 | Presentación `../Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx` (diapositivas 1-13) |
 | Sesión A | ≈120-165 | Lab 11A: llaves SSH + túnel a la DB |
 | Sesión B | ≈120-165 | Lab 11B: bastión dual-homed + bastión web |
 
@@ -392,10 +392,10 @@ docker network rm lab11-red red-publica red-privada 2>/dev/null
 
 **Referencias**
 
-- `Teoria-U3-Parte2-SSH-Bastion.pptx` — presentación de la clase (Parte 2).
-- `TEORIA-U3-Parte2-SSH-Bastion.md` — versión en texto (con notas del orador).
+- `../Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx` — presentación de la clase (Parte 2).
+- `../Teoria/TEORIA-U3-Parte2-SSH-Bastion.md` — versión en texto (con notas del orador).
 - `GUIA-CLASE-UNIDAD-III.md` — reparto de las 3 partes y notas de uso.
-- `Laboratorio-11-SSH-Servidores-Bastion/` — prácticas (`SESION-A.md`, `SESION-B.md`).
+- `../Laboratorio-11-SSH-Servidores-Bastion/` — prácticas (`SESION-A.md`, `SESION-B.md`).
 - `Proyecto-Semestral/ENUNCIADO.md` — Avance N.º 2 (SSH + bastión).
 - Kurose & Ross, *Computer Networking: A Top-Down Approach*; documentación de
   OpenSSH (`ssh-keygen`, `sshd_config`, `ProxyJump`).

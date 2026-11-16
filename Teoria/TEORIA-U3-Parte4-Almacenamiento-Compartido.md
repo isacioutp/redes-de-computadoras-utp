@@ -5,7 +5,7 @@
 > lectura, sin depender de PowerPoint.
 >
 > Se regenera con:
-> `python3 tools/dump_ppt_md.py Teoria-U3-Parte4-Almacenamiento-Compartido.pptx "Unidad III · Parte 4: Almacenamiento compartido para alta disponibilidad"`
+> `python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx "Unidad III · Parte 4: Almacenamiento compartido para alta disponibilidad"`
 >
 > Cada diapositiva conserva sus **notas del orador** al final, en bloques
 > plegables: en GitHub y en la mayoría de editores se despliegan con un clic.

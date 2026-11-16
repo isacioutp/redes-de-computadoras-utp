@@ -5,7 +5,7 @@ segmentación (VLAN y subredes), servicios (DHCP/DNS/NAT), el router de capa 3
 y las métricas/herramientas de monitoreo. El laboratorio (Docker) se menciona
 solo como práctica, no es el eje del contenido.
 
-Genera: Teoria-U3-Parte1-LAN-Monitoreo.pptx
+Genera: Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
@@ -455,5 +455,5 @@ def build(out):
 
 
 if __name__ == "__main__":
-    p = build(sys.argv[1] if len(sys.argv) > 1 else "Teoria-U3-Parte1-LAN-Monitoreo.pptx")
+    p = build(sys.argv[1] if len(sys.argv) > 1 else "Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx")
     print("OK ->", p)

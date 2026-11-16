@@ -5,6 +5,17 @@ Computadoras** (UTP · Facultad de Ingeniería de Sistemas Computacionales).
 
 ## Estructura del repositorio
 
+Los documentos están agrupados por tipo y los laboratorios quedan en la raíz:
+
+| Carpeta | Contenido |
+|---------|-----------|
+| `Teoria/` | Presentaciones de las unidades y su volcado en texto |
+| `Guias/` | Guiones docentes, guías de clase y de estudio, demo y ejercicio de subneteo |
+| `Administrativo/` | Analítico, planificación oficial, cronograma y guía del Proyecto 1 |
+| `DevOps/` | Sesión de cierre: teoría, volcado y laboratorio del caso |
+| `Laboratorio-*` · `Proyecto-Semestral/` · `Parcial-1-Caso-Practico/` | Laboratorios, proyecto final y parcial |
+| `tools/` | Scripts que generan las presentaciones y sus volcados |
+
 ### Unidad I — Comunicación de datos y tecnologías Ethernet
 
 | Carpeta | Laboratorio | Contenido | Herramienta | Estado |
@@ -33,11 +44,11 @@ Computadoras** (UTP · Facultad de Ingeniería de Sistemas Computacionales).
 | `laboratorio-enruntamiento-vlan` | N.º 13 — VLSM, DHCP y enrutamiento (**tarea autónoma, semana 10**) | **A:** topología 3 sedes + VLSM + DHCP + rutas estáticas · **B:** OSPF área 0 / RIPv2 + diagnóstico | Packet Tracer | ✅ |
 | `DevOps/Laboratorio-15-DevOps-Despliegue` | **N.º 15 — Caso: el despliegue del viernes (práctica de cierre, semana 14+)** | El caso de PagosYA reproducido **con Docker local**: tag explícito, build/push al registry, smoke test, `.last-good` y **rollback en dos comandos**. La red es el tema: **NAT 8080→8000**, loopback, `docker port` vs `ss`, y el `502` explicado como upstream sin listener | Docker · registry `:2` · `curl` | ✅ |
 
-> **Repaso de subneteo:** `EJERCICIO-SUBNETEO.md` — un solo ejercicio de VLSM
+> **Repaso de subneteo:** `Guias/EJERCICIO-SUBNETEO.md` — un solo ejercicio de VLSM
 > (subred, broadcast y rango por segmento), a lápiz y con la solución plegable.
 
 > **Modelo de trabajo (Labs 6-12):** el Lab 6 es **solo teoría** (capa física y
-> enlace, ver `Teoria-Labs-6-9-Capas-Red.pptx`). Los antiguos Labs 7-8-9 fueron
+> enlace, ver `Teoria/Teoria-Labs-6-9-Capas-Red.pptx`). Los antiguos Labs 7-8-9 fueron
 > reemplazados por el **laboratorio de 3 Casos conectados entre sí** — "ECOSISTEMA"
 > (`Laboratorio-6-9-Casos-Ecosistema`): ① TiendaYA (portal, HTTP/HTTPS/DNS) →
 > ② PagosYA (API, TCP/UDP, router entre 2 subredes) → ③ DatosYA (VLSM, DB
@@ -60,16 +71,16 @@ Final.
 
 | Recurso | Contenido |
 |---------|-----------|
-| `Teoria-U3-Parte1-LAN-Monitoreo.pptx` · `TEORIA-U3-Parte1-LAN-Monitoreo.md` | **3.1** LAN · **3.2** Monitoreo (18 diapositivas) |
-| `Teoria-U3-Parte2-SSH-Bastion.pptx` · `TEORIA-U3-Parte2-SSH-Bastion.md` | **3.3** Claves SSH · **3.4** Bastión (13) |
-| `Teoria-U3-Parte3-Orquestacion.pptx` · `TEORIA-U3-Parte3-Orquestacion.md` | **3.5** Orquestación Compose/Swarm (12) |
-| `Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` · `TEORIA-U3-Parte4-Almacenamiento-Compartido.md` | **Extensión 3.5** Almacenamiento compartido para HA: NAS/SAN, quórum, volúmenes NFS/CSI (15) |
-| `DEMO-CEPH.md` | **Demo en vivo de la Parte 4** (guion docente, ~25 min): clúster **MicroCeph de 2 VM sobre Tailscale** — CephFS compartido entre nodos, caída de nodo y pérdida de quórum, tercer voto, y export **NFS** que convierte el volumen `pgdata` del Lab 14 en storage distribuido |
-| `GUIA-CLASE-UNIDAD-III.md` | Reparto de las 3 partes y notas de uso (diapositivas, tiempos, recortes) |
-| `CLASE-U3-LAN-Monitoreo.md` | **Guion docente** de 3.1/3.2 (minuto a minuto + Lab 10) |
-| `CLASE-U3-Parte2-SSH-Bastion.md` | **Guion docente** de 3.3/3.4 (minuto a minuto + Lab 11) |
-| `CLASE-U3-Parte3-Orquestacion.md` | **Guion docente** de 3.5 (minuto a minuto + Lab 12) |
-| `GUIA-ESTUDIO-U3-LAN-Monitoreo.md` | **Guía del estudiante** de 3.1/3.2 (repaso + banco de preguntas con respuestas) |
+| `Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx` · `Teoria/TEORIA-U3-Parte1-LAN-Monitoreo.md` | **3.1** LAN · **3.2** Monitoreo (18 diapositivas) |
+| `Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx` · `Teoria/TEORIA-U3-Parte2-SSH-Bastion.md` | **3.3** Claves SSH · **3.4** Bastión (13) |
+| `Teoria/Teoria-U3-Parte3-Orquestacion.pptx` · `Teoria/TEORIA-U3-Parte3-Orquestacion.md` | **3.5** Orquestación Compose/Swarm (12) |
+| `Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` · `Teoria/TEORIA-U3-Parte4-Almacenamiento-Compartido.md` | **Extensión 3.5** Almacenamiento compartido para HA: NAS/SAN, quórum, volúmenes NFS/CSI (15) |
+| `Guias/DEMO-CEPH.md` | **Demo en vivo de la Parte 4** (guion docente, ~25 min): clúster **MicroCeph de 2 VM sobre Tailscale** — CephFS compartido entre nodos, caída de nodo y pérdida de quórum, tercer voto, y export **NFS** que convierte el volumen `pgdata` del Lab 14 en storage distribuido |
+| `Guias/GUIA-CLASE-UNIDAD-III.md` | Reparto de las 3 partes y notas de uso (diapositivas, tiempos, recortes) |
+| `Guias/CLASE-U3-LAN-Monitoreo.md` | **Guion docente** de 3.1/3.2 (minuto a minuto + Lab 10) |
+| `Guias/CLASE-U3-Parte2-SSH-Bastion.md` | **Guion docente** de 3.3/3.4 (minuto a minuto + Lab 11) |
+| `Guias/CLASE-U3-Parte3-Orquestacion.md` | **Guion docente** de 3.5 (minuto a minuto + Lab 12) |
+| `Guias/GUIA-ESTUDIO-U3-LAN-Monitoreo.md` | **Guía del estudiante** de 3.1/3.2 (repaso + banco de preguntas con respuestas) |
 
 ### Sesión de cierre — DevOps (`DevOps/`)
 
@@ -80,7 +91,7 @@ Todo el material de la sesión vive en `DevOps/`:
 | `DevOps/Teoria-DevOps-Despliegue.pptx` · `DevOps/TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el laboratorio, el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (17) |
 | `DevOps/Laboratorio-15-DevOps-Despliegue/` | **Práctica del caso**: la API, el `Dockerfile`, el `compose.yml` y la guía paso a paso con los 10 comandos |
 
-> Los archivos `TEORIA-U3-*.md` son el **volcado textual** de cada presentación
+> Los archivos `Teoria/TEORIA-U3-*.md` son el **volcado textual** de cada presentación
 > (contenido + notas del orador); se regeneran con
 > `python3 tools/dump_ppt_md.py <archivo.pptx> "<título>"` (ver `tools/README.md`).
 
@@ -88,7 +99,8 @@ Todo el material de la sesión vive en `DevOps/`:
 
 | Carpeta | Contenido |
 |---------|-----------|
-| `CRONOGRAMA.md` | **Calendario maestro del curso** (semana por semana + semanas sobrantes para presentaciones y caso con material adicional). Ver también README abajo. |
+| `Administrativo/CRONOGRAMA.md` | **Calendario maestro del curso** (semana por semana + semanas sobrantes para presentaciones y caso con material adicional). Ver también README abajo. |
+| `Administrativo/PROYECTO #1 - GUÍA Y RÚBRICA DE EVALUACIÓN.md` | Guía y rúbrica del Proyecto 1 |
 | `Proyecto-Semestral/ENUNCIADO.md` | Banco de temas, avances (10, 10 y 15 %), rúbricas y cronograma ajustado por los feriados de noviembre |
 
 ## Evaluación
@@ -100,7 +112,7 @@ Todo el material de la sesión vive en `DevOps/`:
 
 ## Mapa de la asignatura
 
-> El calendario semana por semana está consolidado en **`CRONOGRAMA.md`**
+> El calendario semana por semana está consolidado en **`Administrativo/CRONOGRAMA.md`**
 > (único archivo de referencia). Allí se documenta la compresión de los Labs
 > para cerrar las clases formales la última semana de octubre y liberar
 > noviembre de los feriados.

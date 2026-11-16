@@ -8,7 +8,7 @@ Semestres 2026-II · Semanas 6-8 · Unidad II · **32 estudiantes · 6-8 equipos
 
 > **Reemplaza a los antiguos Labs N.º 6 (práctico), 7, 8 y 9.** El Lab N.º 6
 > queda **solo como teoría** (`Laboratorio-6-Capa-Fisica-Enlace/README.md` + el
-> PPT `Teoria-Labs-6-9-Capas-Red.pptx`). En su lugar, **un solo laboratorio de
+> PPT `../Teoria/Teoria-Labs-6-9-Capas-Red.pptx`). En su lugar, **un solo laboratorio de
 > casos de estudio**: cada caso cubre **varias capas a la vez sin saturarse**, y
 > los tres se encadenan formando un ecosistema que **prueba lo que se vio de la
 > Unidad 1 (capas 1-4)** en clase.
@@ -127,6 +127,6 @@ docker network rm $(docker network ls -q --filter name=admin) 2>/dev/null || tru
 
 ## 8. Referencias
 
-- Teoría completa (PPT): `Teoria-Labs-6-9-Capas-Red.pptx`
+- Teoría completa (PPT): `../Teoria/Teoria-Labs-6-9-Capas-Red.pptx`
 - Teoría Lab 6 (capa física y enlace): `Laboratorio-6-Capa-Fisica-Enlace/README.md`
 - Guías prácticas históricas de los Labs 7-9: `_archivo-Laboratorios-antiguos/`

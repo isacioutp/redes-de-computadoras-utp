@@ -355,5 +355,5 @@ def build(out):
 
 
 if __name__ == "__main__":
-    p = build(sys.argv[1] if len(sys.argv) > 1 else "Teoria-U3-Parte4-Almacenamiento-Compartido.pptx")
+    p = build(sys.argv[1] if len(sys.argv) > 1 else "Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx")
     print("OK ->", p)

@@ -2,12 +2,12 @@
 
 > **Punto del módulo:** arranque de la **Unidad III**. Cubre los **temas 3.1
 > (implementación de una LAN)** y **3.2 (herramientas de monitoreo)** del
-> programa analítico — semana 10 del `CRONOGRAMA.md`.
+> programa analítico — semana 10 del `../Administrativo/CRONOGRAMA.md`.
 >
-> **Materiales que acompaña:** presentación `Teoria-U3-Parte1-LAN-Monitoreo.pptx`
-> (generada por `tools/build_parte1.py`; versión en texto en
-> `TEORIA-U3-Parte1-LAN-Monitoreo.md`), laboratorio
-> `Laboratorio-10-LAN-Monitoreo-Docker` (`SESION-A.md` y `SESION-B.md`),
+> **Materiales que acompaña:** presentación `../Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx`
+> (generada por `../tools/build_parte1.py`; versión en texto en
+> `../Teoria/TEORIA-U3-Parte1-LAN-Monitoreo.md`), laboratorio
+> `../Laboratorio-10-LAN-Monitoreo-Docker` (`SESION-A.md` y `SESION-B.md`),
 > `GUIA-CLASE-UNIDAD-III.md` y la guía del estudiante
 > `GUIA-ESTUDIO-U3-LAN-Monitoreo.md`.
 >
@@ -102,7 +102,7 @@ luego **dos prácticas**, o todo integrado. Ambas formas usan el mismo material.
 
 | Bloque | Min | Qué se hace |
 |--------|-----|-------------|
-| Teoría 3.1 + 3.2 | 55 | Presentación `Teoria-U3-Parte1-LAN-Monitoreo.pptx` (diapositivas 1-18) |
+| Teoría 3.1 + 3.2 | 55 | Presentación `../Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx` (diapositivas 1-18) |
 | Sesión A | ≈120-165 | Lab 10A: construir la LAN (Docker) |
 | Sesión B | ≈120-165 | Lab 10B: enrutar + monitorear |
 
@@ -366,11 +366,11 @@ que vimos por encima; son el paso natural después de esta clase.»*
 
 **Referencias**
 
-- `Teoria-U3-Parte1-LAN-Monitoreo.pptx` — presentación de la clase (Parte 1).
-- `TEORIA-U3-Parte1-LAN-Monitoreo.md` — versión en texto (con notas del orador).
+- `../Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx` — presentación de la clase (Parte 1).
+- `../Teoria/TEORIA-U3-Parte1-LAN-Monitoreo.md` — versión en texto (con notas del orador).
 - `GUIA-ESTUDIO-U3-LAN-Monitoreo.md` — guía de estudio del estudiante (repaso + banco de preguntas).
 - `GUIA-CLASE-UNIDAD-III.md` — reparto de las 3 partes y notas de uso.
-- `Laboratorio-10-LAN-Monitoreo-Docker/` — prácticas (`SESION-A.md`, `SESION-B.md`).
+- `../Laboratorio-10-LAN-Monitoreo-Docker/` — prácticas (`SESION-A.md`, `SESION-B.md`).
 - `Proyecto-Semestral/ENUNCIADO.md` — Avance N.º 2 (LAN + monitoreo).
 - Forouzan, B. *Transmisión de datos y redes de comunicación* · Kurose & Ross,
   *Computer Networking: A Top-Down Approach*.

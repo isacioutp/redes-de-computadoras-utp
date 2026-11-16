@@ -74,7 +74,7 @@ red real (subredes front/back/data) exista de verdad y no sea decorativa.
 > (última semana de octubre). Por eso el **Avance N.º 2 se adelanta a la
 > semana 11** y el **Proyecto Final a la semana 13**; las semanas siguientes
 > quedan como colchón de presentaciones/correcciones, sin trabajo nuevo
-> obligatorio. Ver `CRONOGRAMA.md`.
+> obligatorio. Ver `../Administrativo/CRONOGRAMA.md`.
 
 ### A. Avance N.º 1 — Diseño de red (semana 10) — 10 % *(Proyecto N.º 2 / Trabajo Grupal N.º 4)*
 
@@ -171,7 +171,7 @@ Entregar:
 
 ## 8. Cronograma detallado (semanas)
 
-> Ver la compresión de labs en `CRONOGRAMA.md`: los laboratorios terminan en
+> Ver la compresión de labs en `../Administrativo/CRONOGRAMA.md`: los laboratorios terminan en
 > la **semana 11** (26-30 de octubre). Las semanas 12-13 resuelven el
 > **Proyecto Final** y las semanas 14+ quedan como colchón de
 > presentaciones/correcciones, NO para entregas nuevas.

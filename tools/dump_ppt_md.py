@@ -4,7 +4,7 @@ Reconstruye el orden de lectura (agrupando cada título con su cuerpo), distingu
 tablas, bloques monoespaciados y negritas, e incluye las notas del orador.
 Útil para revisar o reutilizar el contenido sin abrir PowerPoint.
 
-    python3 tools/dump_ppt_md.py Teoria-U3-Parte1-LAN-Monitoreo.pptx > TEORIA-U3-Parte1-LAN-Monitoreo.md
+    python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx > Teoria/TEORIA-U3-Parte1-LAN-Monitoreo.md
 
 El documento generado arranca con una portada, un índice de diapositivas y el
 cuerpo completo. Cada diapositiva conserva sus notas del orador al final, en un
@@ -195,6 +195,6 @@ def documento(path, titulo=None):
 
 
 if __name__ == "__main__":
-    ruta = sys.argv[1] if len(sys.argv) > 1 else "Teoria-U3-Parte1-LAN-Monitoreo.pptx"
+    ruta = sys.argv[1] if len(sys.argv) > 1 else "Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx"
     titulo = sys.argv[2] if len(sys.argv) > 2 else None
     print(documento(ruta, titulo))

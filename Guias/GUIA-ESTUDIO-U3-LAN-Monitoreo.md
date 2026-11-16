@@ -6,8 +6,8 @@
 > examen: primero la **chuleta** (secciones 1-4), luego el **banco de preguntas**
 > (sección 5) y, al final, las **respuestas** (sección 7) para autocorregirte.
 >
-> Presentación de la clase: `Teoria-U3-Parte1-LAN-Monitoreo.pptx` · versión en
-> texto: `TEORIA-U3-Parte1-LAN-Monitoreo.md`.
+> Presentación de la clase: `../Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx` · versión en
+> texto: `../Teoria/TEORIA-U3-Parte1-LAN-Monitoreo.md`.
 
 ---
 

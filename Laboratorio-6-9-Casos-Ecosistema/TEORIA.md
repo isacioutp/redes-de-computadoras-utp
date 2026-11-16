@@ -2,7 +2,7 @@
 
 > Lectura recomendada antes del **Caso 1**. Cada caso de este laboratorio apoya
 > una parte de esta teoría en su red Docker. Presentación completa:
-> `Teoria-Labs-6-9-Capas-Red.pptx` (al pie, en el directorio raíz).
+> `../Teoria/Teoria-Labs-6-9-Capas-Red.pptx`.
 
 ---
 

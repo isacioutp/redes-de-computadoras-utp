@@ -7,7 +7,7 @@ Tema 2.5–2.6 · Semana 6 · Unidad II
 > los **Casos N.º 1-3** (carpeta `Laboratorio-6-9-Casos-Ecosistema`), donde se
 > capturan tramas y se observa el enlace dentro del flujo completo.
 >
-> Presentación con toda la teoría (Labs 6-9): `Teoria-Labs-6-9-Capas-Red.pptx`.
+> Presentación con toda la teoría (Labs 6-9): `../Teoria/Teoria-Labs-6-9-Capas-Red.pptx`.
 
 ## Objetivo
 
@@ -102,7 +102,7 @@ Organiza los bits en **tramas** y agrega **direcciones MAC**:
 
 ## Referencia
 
-- Presentación completa (teoría Labs 6-9): `Teoria-Labs-6-9-Capas-Red.pptx`.
+- Presentación completa (teoría Labs 6-9): `../Teoria/Teoria-Labs-6-9-Capas-Red.pptx`.
 - Los Casos N.º 1-3 aplican esta teoría dentro del flujo portal→API→datos:
   `Laboratorio-6-9-Casos-Ecosistema/`.
 - Guías prácticas históricas (material docente): `_archivo-Laboratorios-antiguos/`.

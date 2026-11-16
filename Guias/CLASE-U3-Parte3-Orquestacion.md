@@ -2,12 +2,12 @@
 
 > **Punto del módulo:** cierre de la **Unidad III**. Cubre el tema **3.5
 > (orquestación de servicios: Docker Compose y Docker Swarm)** y la **síntesis de
-> toda la unidad** — semana 11 del `CRONOGRAMA.md`.
+> toda la unidad** — semana 11 del `../Administrativo/CRONOGRAMA.md`.
 >
-> **Materiales que acompaña:** presentación `Teoria-U3-Parte3-Orquestacion.pptx`
-> (generada por `tools/build_parte3.py`; versión en texto en
-> `TEORIA-U3-Parte3-Orquestacion.md`), laboratorio
-> `Laboratorio-12-Orquestacion-Docker-Swarm` (`SESION-A.md` y `SESION-B.md`) y
+> **Materiales que acompaña:** presentación `../Teoria/Teoria-U3-Parte3-Orquestacion.pptx`
+> (generada por `../tools/build_parte3.py`; versión en texto en
+> `../Teoria/TEORIA-U3-Parte3-Orquestacion.md`), laboratorio
+> `../Laboratorio-12-Orquestacion-Docker-Swarm` (`SESION-A.md` y `SESION-B.md`) y
 > `GUIA-CLASE-UNIDAD-III.md`.
 >
 > **Objetivo en una frase:** que el estudiante pase de «corro un contenedor a
@@ -100,7 +100,7 @@ docker swarm leave --force 2>/dev/null
 
 | Bloque | Min | Qué se hace |
 |--------|-----|-------------|
-| Teoría 3.5 | 55 | Presentación `Teoria-U3-Parte3-Orquestacion.pptx` (diapositivas 1-12) |
+| Teoría 3.5 | 55 | Presentación `../Teoria/Teoria-U3-Parte3-Orquestacion.pptx` (diapositivas 1-12) |
 | Sesión A | ≈120-165 | Lab 12A: Compose + Swarm (réplicas y balanceo) |
 | Sesión B | ≈120-165 | Lab 12B: secretos + overlay + stack |
 
@@ -379,10 +379,10 @@ docker swarm leave --force
 
 **Referencias**
 
-- `Teoria-U3-Parte3-Orquestacion.pptx` — presentación de la clase (Parte 3).
-- `TEORIA-U3-Parte3-Orquestacion.md` — versión en texto (con notas del orador).
+- `../Teoria/Teoria-U3-Parte3-Orquestacion.pptx` — presentación de la clase (Parte 3).
+- `../Teoria/TEORIA-U3-Parte3-Orquestacion.md` — versión en texto (con notas del orador).
 - `GUIA-CLASE-UNIDAD-III.md` — reparto de las 3 partes, notas de uso y cierre.
-- `Laboratorio-12-Orquestacion-Docker-Swarm/` — prácticas (`SESION-A.md`, `SESION-B.md`).
+- `../Laboratorio-12-Orquestacion-Docker-Swarm/` — prácticas (`SESION-A.md`, `SESION-B.md`).
 - `Proyecto-Semestral/ENUNCIADO.md` — Proyecto Final (stack orquestado + secretos).
 - Documentación oficial de Docker: *Compose file reference*, *Swarm mode* y
   *Manage sensitive data with Docker secrets*.
