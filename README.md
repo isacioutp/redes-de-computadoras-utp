@@ -31,6 +31,7 @@ Computadoras** (UTP · Facultad de Ingeniería de Sistemas Computacionales).
 | `Laboratorio-12-Orquestacion-Docker-Swarm` | N.º 12 — Orquestación de servicios (Semana 11) | **12A:** Compose + Swarm · **12B:** secretos + stack | Docker Swarm | ✅ |
 | `Laboratorio-14-Red-Completa-Compose-PT` | **N.º 14 — Integrador U3: red real → red virtual (4 sesiones)** | Fusiona los Labs 10-12 en una sola narrativa **sin Swarm** (Swarm solo como "qué sigue"), **arrancando con Docker Compose** y con el **hilo siempre de redes** (subredes, segmentación, DNS, puertos/NAT, monitoreo, seguridad): ① primer stack con Compose + segmentación/DNS · ② monitoreo + **el host como bastión** (SSH por llave) · ③ **orquestación con Compose** (escalado, healthchecks, secretos) · ④ integración, respaldo y demo. Incluye **archivos Docker listos por sesión** (`sesion-1/`…`sesion-4/`) y una **pista opcional de Packet Tracer** (`PACKET-TRACER.md`), autónoma y **sin efecto en la nota** | Docker (Docker Compose) · *opcional:* Packet Tracer | ✅ |
 | `laboratorio-enruntamiento-vlan` | N.º 13 — VLSM, DHCP y enrutamiento (**tarea autónoma, semana 10**) | **A:** topología 3 sedes + VLSM + DHCP + rutas estáticas · **B:** OSPF área 0 / RIPv2 + diagnóstico | Packet Tracer | ✅ |
+| `Laboratorio-15-DevOps-Despliegue` | **N.º 15 — El despliegue y su red (práctica de cierre, semana 14+)** | Pipeline **a mano** con Docker: tag por commit, build/push al registry, smoke test, `.last-good` y **rollback en dos comandos**. La red es el tema: **NAT 8080→8000**, loopback, `docker port` vs `ss`, y el `502` explicado como upstream sin listener | Docker · registry `:2` · `curl` | ✅ |
 
 > **Repaso de subneteo:** `EJERCICIO-SUBNETEO.md` — un solo ejercicio de VLSM
 > (subred, broadcast y rango por segmento), a lápiz y con la solución plegable.
@@ -69,7 +70,7 @@ Final.
 | `CLASE-U3-LAN-Monitoreo.md` | **Guion docente** de 3.1/3.2 (minuto a minuto + Lab 10) |
 | `CLASE-U3-Parte2-SSH-Bastion.md` | **Guion docente** de 3.3/3.4 (minuto a minuto + Lab 11) |
 | `CLASE-U3-Parte3-Orquestacion.md` | **Guion docente** de 3.5 (minuto a minuto + Lab 12) |
-| `CLASE-DEVOPS.md` | **Sesión de cierre (165 min, recortable a 55)**: DevOps como **escenario de redes** — caso «el despliegue del viernes» de PagosYA. **Sin scripts: los 10 comandos, paso a paso con Docker** (commit → build → test → push → deploy → **smoke test** → `.last-good` → **rollback** en dos comandos), con el **mapa de los 5 flujos** (puerto, protocolo, NAT, cifrado), diagnóstico con `ss`/`docker port` y las 4 claves DORA |
+| `CLASE-DEVOPS.md` | **Sesión de cierre (165 min, recortable a 55)**: DevOps como **escenario de redes** — caso «el despliegue del viernes» de PagosYA. **Sin scripts: los 10 comandos, paso a paso con Docker** (commit → build → test → push → deploy → **smoke test** → `.last-good` → **rollback** en dos comandos), con el **mapa de los 5 flujos** (puerto, protocolo, NAT, cifrado), diagnóstico con `ss`/`docker port` y las 4 claves DORA. La práctica vive en `Laboratorio-15-DevOps-Despliegue/` |
 | `GUIA-ESTUDIO-U3-LAN-Monitoreo.md` | **Guía del estudiante** de 3.1/3.2 (repaso + banco de preguntas con respuestas) |
 
 > Los archivos `TEORIA-U3-*.md` son el **volcado textual** de cada presentación

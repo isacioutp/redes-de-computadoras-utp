@@ -316,6 +316,11 @@ git commit ──▶ build ──▶ test ──▶ push ──▶ deploy ──
 > **Cómo usarlo:** cada bloque se pega **tal cual** en la misma terminal. Cada
 > paso empieza recalculando `TAG`, así que nunca se queda «viejo» aunque se
 > equivoquen. Lo que se espera ver está en la línea `→`.
+>
+> **Atajo:** los tres archivos ya están en
+> [`Laboratorio-15-DevOps-Despliegue/`](Laboratorio-15-DevOps-Despliegue/README.md).
+> Se puede copiar (`cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops`) en
+> vez de teclearlos; aquí se muestran para explicar cada línea.
 
 ### Paso 0 — El repo y el registry (10 min)
 
@@ -365,7 +370,13 @@ services:
   api:
     image: localhost:5000/pagosya-api:${TAG:-dev}
     ports: ["8080:8000"]
+    init: true
 ```
+
+> `init: true` no es adorno: sin él, Python queda como **PID 1** y el kernel le
+> ignora el `SIGTERM` del PID 1, así que `docker stop` espera **10 s** y mata a
+> la fuerza. Con `init`, el rollback baja de ~12 s a **menos de 1 s** — el
+> «volver en segundos» se sostiene en una línea del `compose.yml`.
 
 ```bash
 git add -A && git commit -m "pagosya: pipeline inicial"

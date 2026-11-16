@@ -1,0 +1,4 @@
+# Se genera en clase: guarda el último tag desplegado y verde
+.last-good
+__pycache__/
+*.pyc

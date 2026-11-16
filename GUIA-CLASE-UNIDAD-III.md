@@ -29,7 +29,8 @@ son el volcado de las diapositivas con sus notas del orador.
 > viernes»). El enfoque sigue siendo **redes**: los flujos del despliegue
 > (puertos, NAT, subredes, cifrado), el smoke test y el rollback en dos comandos.
 > Su teoría va en `Teoria-DevOps-Despliegue.pptx` (**55 min**, 16 diapositivas ·
-> texto en `TEORIA-DEVOPS-DESPLIEGUE.md`).
+> texto en `TEORIA-DEVOPS-DESPLIEGUE.md`) y su práctica en
+> `Laboratorio-15-DevOps-Despliegue/` (archivos listos + guía de 10 comandos).
 
 ---
 
