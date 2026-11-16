@@ -10,8 +10,6 @@ Docker.
 > La teoría de la sesión está en
 > [`../Teoria-DevOps-Despliegue.pptx`](../Teoria-DevOps-Despliegue.pptx) (o en
 > texto: [`../TEORIA-DEVOPS-DESPLIEGUE.md`](../TEORIA-DEVOPS-DESPLIEGUE.md)).
-> El caso completo, con las preguntas de diagnóstico, está en
-> [`../CLASE-DEVOPS.md`](../CLASE-DEVOPS.md).
 
 ## 1. El caso
 

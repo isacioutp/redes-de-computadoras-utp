@@ -78,8 +78,7 @@ Todo el material de la sesión vive en `DevOps/`:
 | Recurso | Contenido |
 |---------|-----------|
 | `DevOps/Teoria-DevOps-Despliegue.pptx` · `DevOps/TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el laboratorio, el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (17) |
-| `DevOps/CLASE-DEVOPS.md` | **Sesión de cierre (165 min, recortable a 55)**: DevOps como **escenario de redes** — caso «el despliegue del viernes» de PagosYA. **Sin scripts: los 10 comandos, paso a paso con Docker** (tag → build → test → push → deploy → **smoke test** → `.last-good` → **rollback** en dos comandos), con el **mapa de los 5 flujos** (puerto, protocolo, NAT, cifrado), diagnóstico con `ss`/`docker port` y las 4 claves DORA |
-| `DevOps/Laboratorio-15-DevOps-Despliegue/` | **Práctica del caso**: la API, el `Dockerfile`, el `compose.yml` y la guía paso a paso |
+| `DevOps/Laboratorio-15-DevOps-Despliegue/` | **Práctica del caso**: la API, el `Dockerfile`, el `compose.yml` y la guía paso a paso con los 10 comandos |
 
 > Los archivos `TEORIA-U3-*.md` son el **volcado textual** de cada presentación
 > (contenido + notas del orador); se regeneran con
