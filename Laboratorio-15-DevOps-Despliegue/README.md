@@ -1,28 +1,86 @@
-# Laboratorio N.º 15 — El despliegue y su red: pipeline a mano con Docker
+# Laboratorio N.º 15 — Caso: el despliegue del viernes de PagosYA
 
 Semana 14+ · Unidad III · **1 sesión**
 
-Vas a desplegar una API en tu máquina, romperla a propósito y volver a la
-versión anterior en segundos. Todo corre con **tu Docker local**: no necesitas
-Git, ni GitHub, ni montar servidores. Lo que se estudia es la **red** que hace
-posible el despliegue.
+Este laboratorio es un **caso**. El caso completo es el despliegue que PagosYA
+hizo un viernes y que dejó el servicio caído **3 h 50 min**: incluye un equipo,
+un servidor en producción, un Git remoto y ocho meses de costumbre. Nada de eso
+se puede reproducir en un salón, así que se entrega como **contexto**.
+
+Lo que sí vas a reproducir es el **tramo de red donde el caso falló**: el
+artefacto, el registry, el puerto publicado y el rollback. Eso corre con **tu
+Docker local**, sin Git remoto ni servidores.
 
 > La teoría de la sesión está en
 > [`../Teoria-DevOps-Despliegue.pptx`](../Teoria-DevOps-Despliegue.pptx) (o en
 > texto: [`../TEORIA-DEVOPS-DESPLIEGUE.md`](../TEORIA-DEVOPS-DESPLIEGUE.md)).
+> El caso completo, con preguntas de diagnóstico, está en
+> [`../CLASE-DEVOPS.md`](../CLASE-DEVOPS.md).
 
-## 🧭 Los cinco flujos (el mapa)
+## 1. El caso
 
-| # | Flujo | Origen → destino | Puerto | Si se bloquea | ¿Lo haces aquí? |
-|---|-------|------------------|--------|----------------|-----------------|
-| 1 | Código | tu host → servidor Git | 22/443 | no hay commit | contexto |
-| 2 | Push | daemon → registry | 5000/TCP | el artefacto no sale | **sí** |
-| 3 | Pull | servidor → registry | 5000/TCP | no encuentra la imagen | **sí** |
-| 4 | Servicio | cliente → app publicada | 8080 → 8000 (**NAT**) | `RST` / sin respuesta | **sí** |
-| 5 | Interno | app → base de datos | 5432/TCP · DNS `db` | arranca y falla al conectar | contexto |
+**PagosYA** es la API de pagos del Caso 2. La empresa es pequeña: tres personas,
+un servidor con Docker y Compose, y ningún pipeline. Desplegar consistía en que
+**Ana** entrara por SSH, hiciera `git pull` y ejecutara
+`docker compose up -d --build`. Funcionó ocho meses.
 
-Los flujos 2, 3 y 4 los ejecutas tú. El 1 y el 5 se explican en clase: en este
-laboratorio no hay servidor Git ni base de datos.
+| Hora | Qué pasó |
+|------|----------|
+| 15:30 | Se aprueba el PR «descuentos de temporada» y se fusiona a `main`. |
+| 15:45 | Ana construye la imagen **en su laptop** y copia el `compose.yml` al servidor. |
+| 16:10 | En el servidor: `git pull` + `compose up -d --build`. La app nueva arranca y **se cae** a los segundos. |
+| 16:20 | Un cliente reporta **error 502** al pagar: el `nginx` de adelante no tiene a quién reenviar. |
+| 16:35 | El contenedor **reinicia en bucle**. En la laptop de Ana funcionaba. |
+| 17:00 | Deciden «volver atrás». Nadie sabe qué imagen corría: todo se publicó como `latest`. |
+| 17:40 | Reconstruir desde el commit anterior **no compila**: las dependencias no están fijadas. |
+| 18:30 | Restauran el respaldo de la base de datos de las 2:00 a. m.: se pierden **8 horas de pagos**. |
+| 20:10 | El servicio queda estable. **Tiempo total caído: 3 h 50 min.** |
+
+No falló el código del PR. Faltaban **tres piezas**:
+
+1. Una **imagen versionada** (hoy todo es `latest`).
+2. Un **tag explícito** en el `compose.yml`, para desplegar un artefacto concreto.
+3. Un **registro de la última versión buena**, para volver sin reconstruir.
+
+## 2. Lo que el caso entrega como contexto
+
+Estas partes **se leen y se discuten; no se ejecutan** aquí:
+
+| Del caso | Por qué no se reproduce | Dónde se explica |
+|----------|--------------------------|------------------|
+| Git remoto / PR a `main` (22/443/TCP) | Hace falta un servidor Git y un equipo | Flujo 1 del mapa |
+| Servidor de producción con `nginx` | Hace falta un host aparte | El `502` = upstream sin listener |
+| CI/CD del equipo | Depende de la plataforma del equipo | Etapas 2-5 automatizadas |
+| Ana, los clientes y el turno de guardia | Hace falta gente | El smoke como detector |
+| Base de datos y respaldo | Fuera del alcance de esta práctica | Flujo 5 (se vio en el Lab 14) |
+| Ciclo DevOps completo y métricas DORA | Se miden en semanas, no en una sesión | Frecuencia, lead time, tasa de fallo, MTTR |
+
+**El tag lo eliges tú** (`v1`, `v2`). En el caso lo ponía el commit
+(`git rev-parse --short HEAD`); aquí ese flujo remoto es exactamente el flujo 1,
+y es contexto.
+
+## 3. Lo que sí reproduces
+
+| En el caso | En tu Docker local |
+|------------|--------------------|
+| Ana construye en su laptop | `docker build` en tu máquina, con el mismo `Dockerfile` |
+| Todo se publica como `latest` | Tags inmutables: `v1`, `v2` |
+| Copia el `compose.yml` al servidor | `TAG=$TAG docker compose up -d` |
+| `nginx` 8080 → app 8000 | El mismo **DNAT** `8080:8000` |
+| El cliente reporta el `502` | `curl localhost:8080/` falla antes de dar el visto bueno |
+| Nadie sabe qué versión corría | `cat .last-good` |
+| Rollback en 3 h 50 min | Dos comandos, menos de 2 segundos |
+| Se pierden 8 horas de pagos | El rollback no toca datos: no hay base de datos |
+
+## 4. Los cinco flujos (el mapa)
+
+| # | Flujo | Origen → destino | Puerto | Si se bloquea | ¿Dónde? |
+|---|-------|------------------|--------|----------------|---------|
+| 1 | Código | tu host → servidor Git | 22/443 | no hay commit | caso (contexto) |
+| 2 | Push | daemon → registry | 5000/TCP | el artefacto no sale | **aquí** |
+| 3 | Pull | servidor → registry | 5000/TCP | no encuentra la imagen | **aquí** |
+| 4 | Servicio | cliente → app publicada | 8080 → 8000 (**NAT**) | `RST` / sin respuesta | **aquí** |
+| 5 | Interno | app → base de datos | 5432/TCP · DNS `db` | arranca y falla al conectar | caso (Lab 14) |
 
 ## ✅ Lo que necesitas
 
@@ -50,7 +108,8 @@ No hay scripts: **cada comando lo escribes tú**.
 
 ## Paso 0 · Prepara la carpeta y el registry
 
-Copia la carpeta fuera del repo del curso y arranca un registry local:
+En el caso el «registry» eran las imágenes sueltas del servidor. Aquí es un
+registry de verdad, en tu máquina:
 
 ```bash
 cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops
@@ -76,10 +135,13 @@ echo "$TAG"
 # v1
 ```
 
-> En un equipo real el tag sale del commit (`git rev-parse --short HEAD`). Aquí
-> lo eliges tú para que el laboratorio no dependa de Git.
+> En el caso el tag salía del commit (`git rev-parse --short HEAD`). Aquí lo
+> eliges tú para que el laboratorio no dependa de Git.
 
 ## Paso 2 · Construye la imagen
+
+En el caso la imagen se construía en la laptop de Ana. Aquí se construye desde
+la carpeta, para que salga del mismo sitio todas las veces:
 
 ```bash
 docker build --build-arg APP_VERSION="$TAG" \
@@ -135,7 +197,7 @@ docker port pagosya-devops-api-1
 
 > `8080 → 8000` es **DNAT**: el puerto del host se traduce al del contenedor.
 
-## Paso 6 · Smoke test (la puerta)
+## Paso 6 · Smoke test (la puerta que el caso no tuvo)
 
 ```bash
 curl localhost:8080/
@@ -144,8 +206,9 @@ curl localhost:8080/
 
 Si sale vacío, espera 2 segundos y repite: la app tarda en arrancar.
 
-> `docker ps` solo prueba que el proceso existe. Este `curl` prueba el
-> **camino**: host:8080 → DNAT → contenedor:8000 → proceso → HTTP.
+> En el caso lo detectó un **cliente** a los 10 minutos. Este `curl` prueba el
+> **camino**: host:8080 → DNAT → contenedor:8000 → proceso → HTTP, y decide si
+> el despliegue pasó.
 
 ## Paso 7 · Registra la última versión buena
 
@@ -155,7 +218,10 @@ cat .last-good
 # v1
 ```
 
-## Paso 8 · Rompe el despliegue
+> Esto es lo que nadie tenía a las 17:00 del viernes: una respuesta escrita a
+> «¿qué versión funcionaba?».
+
+## Paso 8 · Rompe el despliegue (como el viernes)
 
 Cambia el puerto interno de la app y despliega como `v2`:
 
@@ -203,7 +269,7 @@ curl localhost:8080/
 ```
 
 Tarda **menos de 2 segundos**: no se reconstruye nada, se elige una imagen que
-ya está en el registry.
+ya está en el registry. En el caso eso tomó 3 h 50 min y costó 8 horas de pagos.
 
 > El `init: true` del `compose.yml` es lo que hace que sea así de rápido: sin
 > él, Python queda como PID 1, ignora el `SIGTERM` y `docker stop` espera 10 s.
@@ -243,21 +309,12 @@ docker rm -f registry
 
 1. **Bitácora** de los 10 pasos con el tag real en cada uno.
 2. **Mapa de los 5 flujos**: origen → destino, puerto y qué se rompe si se bloquea.
+   Marca cuáles son del caso y cuáles ejecutaste.
 3. **Evidencia**: salida de `_catalog`, el tag en `curl`, `docker port`/`ss`, el
    smoke en rojo y el tiempo del rollback.
-4. **Explicación de red**: por qué falló el paso 8 y por qué el paso 9 fue inmediato.
+4. **Postmortem del caso** (una página): línea de tiempo, los 5 porqués y las tres
+   piezas que faltaban. Cierra comparando el caso con tu práctica: 3 h 50 min
+   frente a tu rollback medido, y **qué flujo de red** falló en cada uno.
 
 > Se evalúa la **explicación de red**, no la memorización: quien pega los
 > comandos pero no sabe qué puerto abrió, no aprobó.
-
-## 🌐 Contexto (no se ejecuta)
-
-| Se ejecuta en tu máquina | Solo se explica |
-|--------------------------|-----------------|
-| `docker build`, `push`, `compose up -d`, `curl` | Git remoto / GitHub (flujo 1, 22/443) |
-| Registry `registry:2` en `localhost:5000` | CI/CD del equipo |
-| Smoke, `.last-good` y rollback | Ciclo DevOps completo y métricas DORA |
-
-El laboratorio no necesita servidores: corre con **tu Docker local**. La
-primera vez descarga las dos imágenes base; después todo pasa en **loopback** y
-en la **red bridge** del compose.

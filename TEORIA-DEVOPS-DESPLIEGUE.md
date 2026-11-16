@@ -23,7 +23,7 @@
 - **9.** Lo que la bitácora revela
 - **10.** Del commit a producción
 - **11.** Las 7 etapas
-- **12.** El laboratorio, en tu máquina
+- **12.** El caso, en tu máquina
 - **13.** El mapa de tráfico del despliegue
 - **14.** La red detrás del despliegue
 - **15.** El rollback: dos comandos
@@ -40,7 +40,7 @@ DevOps sobre la red: el despliegue del viernes
 
 - Qué es DevOps: una definición que no nombra herramientas
 - El caso: un despliegue manual que costó 3 h 50 min de servicio
-- El laboratorio local: pipeline, puertos, NAT y rollback en dos comandos
+- El caso en tu Docker local: pipeline, puertos, NAT y rollback en dos comandos
 
 <details><summary>Notas del orador</summary>
 
@@ -70,7 +70,7 @@ es el tráfico del despliegue, no una moda de la industria.
 - **Sigue siendo un curso de redes.** El pipeline es el escenario; el tema es el tráfico.
 - Cada etapa es un flujo con **origen, destino, puerto y cifrado**.
 - Cada falla del caso es una **decisión de red** mal tomada: un puerto, una ruta, una versión.
-- El **Laboratorio 15** corre entero en tu Docker local: sin Git remoto ni servidores.
+- El **Laboratorio 15** reproduce el caso con tu Docker local: sin Git remoto ni servidores.
 - **No se evalúa** memorizar comandos: se evalúa saber qué se abrió y por qué.
 
 <details><summary>Notas del orador</summary>
@@ -367,9 +367,9 @@ Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.
 
 ---
 
-## 12. El laboratorio, en tu máquina
+## 12. El caso, en tu máquina
 
-> Todo con tu Docker local: sin Git remoto ni servidores
+> El mismo fallo del viernes, reproducido con tu Docker local
 
 ```text
 $ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops
@@ -378,16 +378,16 @@ $ docker run -d --name registry -p 127.0.0.1:5000:5000 registry:2
 $ TAG=v1
 ```
 
-**Local (se ejecuta)**
-- `docker build`, `push`, `compose up -d`.
-- Registry `registry:2` en `localhost:5000`.
-- Smoke y rollback con `.last-good`.
-- El tag lo eliges tú: `v1`, `v2`.
+**Del caso · contexto (no se ejecuta)**
+- Git remoto y PR a `main` (22/443) · CI/CD y guardia.
+- Servidor de producción con `nginx`: el `502` sin upstream sano.
+- Ciclo DevOps completo y métricas DORA.
+- Se leen y se usan en el postmortem.
 
-**Contexto (se explica, no se ejecuta)**
-- **Git remoto / GitHub** (22 o 443/TCP) · **CI/CD** del equipo.
-- El **ciclo DevOps completo** (planear, operar, medir, aprender) y las **métricas DORA**.
-- Son el flujo 1 del mapa: existen en producción, no en esta práctica.
+**Lo que reproduces aquí (local)**
+- `docker build`, `push`, `compose up -d` · registry en `localhost:5000`.
+- Smoke, `.last-good` y rollback: de **3 h 50 min** a **menos de 2 s**.
+- El tag lo eliges tú (`v1`, `v2`); en el caso lo ponía el commit.
 
 **Por qué es reproducible**
 - Todo pasa en **loopback** y en la **red bridge** del compose: alcanza tu Docker local.
@@ -395,10 +395,11 @@ $ TAG=v1
 
 <details><summary>Notas del orador</summary>
 
-⏱ 39-41 min · El laboratorio.
+⏱ 39-41 min · El caso, en tu máquina.
 
-Esta lámina es el puente entre la teoría y la práctica: muestra la carpeta,
-el registry y separa lo que se ejecuta de lo que solo se explica.
+Esta lámina separa el caso de lo que se puede tocar: el caso trae equipo,
+servidor Git, nginx, guardia y métricas; la práctica trae el artefacto, el
+registry, el puerto y el rollback.
 Si es la primera vez, Docker descarga python:3.11-slim y registry:2: avísalo
 para que nadie crea que el laboratorio se colgó.
 Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien
@@ -596,7 +597,7 @@ Cierra el enlace con 3.2: el smoke es monitoreo aplicado a un despliegue.
 **Entregable y siguiente paso**
 - **Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.
 - Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.
-- Siguiente: `Laboratorio-15-DevOps-Despliegue/` — todo local con Docker, sin Git remoto.
+- Siguiente: `Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local.
 
 <details><summary>Notas del orador</summary>
 

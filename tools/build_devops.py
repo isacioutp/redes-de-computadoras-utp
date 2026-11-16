@@ -15,7 +15,7 @@ def build(out):
               "DevOps sobre la red: el despliegue del viernes",
               ["Qué es DevOps: una definición que no nombra herramientas",
                "El caso: un despliegue manual que costó 3 h 50 min de servicio",
-               "El laboratorio local: pipeline, puertos, NAT y rollback en dos comandos"],
+               "El caso en tu Docker local: pipeline, puertos, NAT y rollback en dos comandos"],
               "Sesión de cierre", "55 min de teoría")
     notes(s, "⏱ 0-2 min · Portada.\n\n"
              "Abrir con la promesa: 'hoy no hay herramienta nueva; hoy el sistema que ya\n"
@@ -35,7 +35,7 @@ def build(out):
         "**Sigue siendo un curso de redes.** El pipeline es el escenario; el tema es el tráfico.",
         "Cada etapa es un flujo con **origen, destino, puerto y cifrado**.",
         "Cada falla del caso es una **decisión de red** mal tomada: un puerto, una ruta, una versión.",
-        "El **Laboratorio 15** corre entero en tu Docker local: sin Git remoto ni servidores.",
+        "El **Laboratorio 15** reproduce el caso con tu Docker local: sin Git remoto ni servidores.",
         "**No se evalúa** memorizar comandos: se evalúa saber qué se abrió y por qué."], ORANGE, 12.5)
     notes(s, "⏱ 2-4 min · Agenda.\n\n"
              "Enuncia los cuatro bloques y el peso: el caso ocupa tanto como la definición\n"
@@ -211,29 +211,30 @@ def build(out):
              "Si hay tiempo, muestra el comando 1 y el 7 en pantalla: son una línea cada uno.")
 
     n += 1
-    s = content(prs, "El laboratorio, en tu máquina", "Todo con tu Docker local: sin Git remoto ni servidores", PART, n + 1)
+    s = content(prs, "El caso, en tu máquina", "El mismo fallo del viernes, reproducido con tu Docker local", PART, n + 1)
     code(s, 0.45, 1.35, 5.9, 1.9, [
         ("$ cp -r Laboratorio-15-DevOps-Despliegue ~/pagosya-devops", ORANGE),
         ("$ cd ~/pagosya-devops", ORANGE),
         ("$ docker run -d --name registry -p 127.0.0.1:5000:5000 registry:2", ORANGE),
         ("", WHITE),
         ("$ TAG=v1", ORANGE)], size=9.5)
-    callout(s, 6.55, 1.35, 6.3, 1.9, "Local (se ejecuta)", [
-        "`docker build`, `push`, `compose up -d`.",
-        "Registry `registry:2` en `localhost:5000`.",
-        "Smoke y rollback con `.last-good`.",
-        "El tag lo eliges tú: `v1`, `v2`."], TEAL, 12)
-    callout(s, 0.45, 3.45, 12.4, 1.6, "Contexto (se explica, no se ejecuta)", [
-        "**Git remoto / GitHub** (22 o 443/TCP) · **CI/CD** del equipo.",
-        "El **ciclo DevOps completo** (planear, operar, medir, aprender) y las **métricas DORA**.",
-        "Son el flujo 1 del mapa: existen en producción, no en esta práctica."], NAVY, 12.5)
+    callout(s, 6.55, 1.35, 6.3, 1.9, "Del caso · contexto (no se ejecuta)", [
+        "Git remoto y PR a `main` (22/443) · CI/CD y guardia.",
+        "Servidor de producción con `nginx`: el `502` sin upstream sano.",
+        "Ciclo DevOps completo y métricas DORA.",
+        "Se leen y se usan en el postmortem."], NAVY, 12)
+    callout(s, 0.45, 3.45, 12.4, 1.6, "Lo que reproduces aquí (local)", [
+        "`docker build`, `push`, `compose up -d` · registry en `localhost:5000`.",
+        "Smoke, `.last-good` y rollback: de **3 h 50 min** a **menos de 2 s**.",
+        "El tag lo eliges tú (`v1`, `v2`); en el caso lo ponía el commit."], TEAL, 12.5)
     callout(s, 0.45, 5.2, 12.4, 1.3, "Por qué es reproducible", [
         "Todo pasa en **loopback** y en la **red bridge** del compose: alcanza tu Docker local.",
         "La primera vez descarga las imágenes base; el `init: true` hace que el rollback tarde **menos de 1 s**."],
         ORANGE, 12.5)
-    notes(s, "⏱ 39-41 min · El laboratorio.\n\n"
-             "Esta lámina es el puente entre la teoría y la práctica: muestra la carpeta,\n"
-             "el registry y separa lo que se ejecuta de lo que solo se explica.\n"
+    notes(s, "⏱ 39-41 min · El caso, en tu máquina.\n\n"
+             "Esta lámina separa el caso de lo que se puede tocar: el caso trae equipo,\n"
+             "servidor Git, nginx, guardia y métricas; la práctica trae el artefacto, el\n"
+             "registry, el puerto y el rollback.\n"
              "Si es la primera vez, Docker descarga python:3.11-slim y registry:2: avísalo\n"
              "para que nadie crea que el laboratorio se colgó.\n"
              "Insiste en que no hay Git remoto: el tag es v1 y luego v2. Si alguien\n"
@@ -367,7 +368,7 @@ def build(out):
     callout(s, 0.45, 4.65, 12.4, 1.75, "Entregable y siguiente paso", [
         "**Bitácora del Laboratorio 15** (los 10 comandos) + mapa de los 5 flujos + postmortem de una página.",
         "Es, literalmente, el **manual de despliegue** que pide la rúbrica del Proyecto Final.",
-        "Siguiente: `Laboratorio-15-DevOps-Despliegue/` — todo local con Docker, sin Git remoto."], ORANGE, 12.5)
+        "Siguiente: `Laboratorio-15-DevOps-Despliegue/` — el caso del viernes, reproducido con tu Docker local."], ORANGE, 12.5)
     notes(s, "⏱ 56-57 min · Cierre.\n\n"
              "Lee las tres cajas como las tres frases que deben poder repetir.\n"
              "El entregable se explica en una línea: la bitácora es el manual.\n"

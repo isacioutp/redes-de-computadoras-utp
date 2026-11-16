@@ -28,9 +28,10 @@ son el volcado de las diapositivas con sus notas del orador.
 > DevOps en una sesión de 165 min con **caso de estudio** («el despliegue del
 > viernes»). El enfoque sigue siendo **redes**: los flujos del despliegue
 > (puertos, NAT, subredes, cifrado), el smoke test y el rollback en dos comandos.
-> Su teoría va en `Teoria-DevOps-Despliegue.pptx` (**55 min**, 16 diapositivas ·
+> Su teoría va en `Teoria-DevOps-Despliegue.pptx` (**55 min**, 17 diapositivas ·
 > texto en `TEORIA-DEVOPS-DESPLIEGUE.md`) y su práctica en
-> `Laboratorio-15-DevOps-Despliegue/` (archivos listos + guía de 10 comandos).
+> `Laboratorio-15-DevOps-Despliegue/` (archivos listos + guía de 10 comandos,
+> planteada como **caso**: lo no reproducible va como contexto).
 
 ---
 
