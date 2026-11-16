@@ -210,7 +210,7 @@ secuencia. Si alguien reconoce su propio trabajo, mejor.
 
 ## 7. PagosYA: el sistema y la costumbre
 
-> La API de pagos del Caso 2, ahora con clientes de verdad
+> Una API de pagos, con clientes de verdad
 
 personas en el equipo
 
@@ -424,7 +424,7 @@ docker stop espera 10 s porque Python es PID 1 e ignora SIGTERM.
 
 **Los errores también son de red**
 - `connection refused` = nadie escucha · `timeout` = algo descarta · `502` = el proxy no tiene upstream sano.
-- **El flujo 1 (Git remoto) es contexto; aquí se ejercitan el 2, 3 y 4. El 5 (app → db) ya lo vieron en el Lab 14.**
+- **El flujo 1 (Git remoto) es contexto; aquí se ejercitan el 2, 3 y 4. El 5 (app → db) solo se explica: el laboratorio no levanta la base de datos.**
 
 <details><summary>Notas del orador</summary>
 

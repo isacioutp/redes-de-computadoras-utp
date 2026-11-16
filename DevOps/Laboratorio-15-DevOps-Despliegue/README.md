@@ -13,10 +13,10 @@ Docker.
 
 ## 1. El caso
 
-**PagosYA** es la API de pagos del Caso 2. La empresa es pequeña: tres personas,
-un servidor con Docker y Compose, y ningún pipeline. Desplegar consistía en que
-**Ana** entrara por SSH, hiciera `git pull` y ejecutara
-`docker compose up -d --build`. Funcionó ocho meses.
+**PagosYA** es una API de pagos pequeña: tres personas, un servidor con Docker y
+Compose, y ningún pipeline. Desplegar consistía en que **Ana** entrara por SSH,
+hiciera `git pull` y ejecutara `docker compose up -d --build`. Funcionó ocho
+meses.
 
 | Hora | Qué pasó |
 |------|----------|
@@ -66,6 +66,9 @@ La práctica se escribe comando por comando, sin scripts.
 - Docker Engine con el plugin **Compose v2** (`docker compose version`).
 - `curl`.
 - Linux, macOS o WSL. En Windows nativo los comandos cambian.
+
+No hace falta haber hecho los laboratorios anteriores: la carpeta trae la API y
+su despliegue completos.
 
 > La primera vez, Docker descarga las dos imágenes base (`python:3.11-slim` y
 > `registry:2`), así que necesitas conexión para eso. Después todo el

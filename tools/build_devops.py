@@ -109,7 +109,7 @@ def build(out):
              "secuencia. Si alguien reconoce su propio trabajo, mejor.")
 
     n += 1
-    s = content(prs, "PagosYA: el sistema y la costumbre", "La API de pagos del Caso 2, ahora con clientes de verdad", PART, n + 1)
+    s = content(prs, "PagosYA: el sistema y la costumbre", "Una API de pagos, con clientes de verdad", PART, n + 1)
     kpi(s, [("3", "personas en el equipo"), ("1", "servidor con Docker"),
             ("0", "pipelines"), ("8", "meses funcionando así")],
         0.45, 1.35, 12.4)
@@ -253,7 +253,7 @@ def build(out):
     callout(s, 0.45, 4.5, 12.4, 1.9, "Los errores también son de red", [
         "`connection refused` = nadie escucha · `timeout` = algo descarta · `502` = el proxy no tiene upstream sano.",
         [("▸ ", {"color": NAVY, "bold": True, "size": 12.5}),
-         ("El flujo 1 (Git remoto) es contexto; aquí se ejercitan el 2, 3 y 4. El 5 (app → db) ya lo vieron en el Lab 14.",
+         ("El flujo 1 (Git remoto) es contexto; aquí se ejercitan el 2, 3 y 4. El 5 (app → db) solo se explica: el laboratorio no levanta la base de datos.",
           {"size": 12.5, "bold": True})]], NAVY, 12.5)
     notes(s, "⏱ 41-46 min · El mapa de tráfico.\n\n"
              "Esta es la lámina que justifica la sesión en el pénsum. Lee la fila 4 dos\n"
