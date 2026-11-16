@@ -1,8 +1,17 @@
 # Artefactos generados por run-demo.sh (se crean en clase, no se versionan)
-Laboratorio-7-9-Redes-Transporte-Aplicaciones/demo/privkey.pem
-Laboratorio-7-9-Redes-Transporte-Aplicaciones/demo/server.crt
-Laboratorio-7-9-Redes-Transporte-Aplicaciones/demo/html/
+_archivo-Laboratorios-antiguos/Laboratorio-7-9-Casos-PagosYA/demo/privkey.pem
+_archivo-Laboratorios-antiguos/Laboratorio-7-9-Casos-PagosYA/demo/server.crt
+_archivo-Laboratorios-antiguos/Laboratorio-7-9-Casos-PagosYA/demo/html/
 
 # Python
 __pycache__/
 *.pyc
+
+# Paquete de instalación grande (supera el límite de 100 MB por archivo de GitHub)
+Laboratorio-6-9-Casos-Ecosistema/64bit.7z
+
+# Archivos de bloqueo de LibreOffice/Office
+.~*
+
+# Instalador ajeno al curso
+/installer.sh

@@ -88,7 +88,7 @@ Entregar:
 4. Lista de los puertos que se expondrán públicamente y cuáles quedarán
    internos.
 
-*Se apoya en los **Casos N.º 7-9** (tabla VLSM y diagrama de red de su ficha).*
+*Se apoya en el **Caso 3 del laboratorio de casos ECOSISTEMA** (tabla VLSM y diagrama de red completo, `Laboratorio-6-9-Casos-Ecosistema/`).*
 
 ### B. Avance N.º 2 — LAN, acceso seguro y monitoreo (semana 11) — 10 %
 
@@ -179,7 +179,7 @@ Entregar:
 | Semana | Actividad | Apoyo |
 |--------|-----------|-------|
 | 8 | Confirmar equipos + tema | Banco de temas |
-| 9-10 | **Avance N.º 1**: diseño de red | Casos N.º 7-9 (tabla VLSM de su ficha) |
+| 9-10 | **Avance N.º 1**: diseño de red | Caso 3 del ECOSISTEMA (tabla VLSM y diagrama final) |
 | 10-11 | Implementación LAN + SSH + bastión + monitoreo | Labs N.º 10-11 |
 | 11 | **Avance N.º 2**: LAN + bastión + monitoreo (adelantado) | Labs N.º 10-11 |
 | 11 | Orquestación del stack | Lab N.º 12 |

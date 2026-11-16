@@ -1,0 +1,83 @@
+# Sesión 4 — punto de partida: el stack YA orquestado (resultado de la Sesión 3).
+# Esta sesión lo reproduce desde cero, lo respalda, prueba el self-healing y lo
+# presenta. Uso:  docker compose up -d --wait
+services:
+  dns:
+    image: strm/dnsmasq
+    container_name: dns-corp
+    volumes: [ ./dnsmasq.conf:/etc/dnsmasq.conf:ro ]
+    networks:
+      front: { ipv4_address: 172.28.10.53 }
+    command: ["-k", "--log-facility=-", "-u", "root"]   # -u root evita el fallo "setting capabilities"
+    healthcheck:
+      test: ["CMD", "nslookup", "web.local", "127.0.0.1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  web:
+    image: nginx:alpine
+    container_name: web-srv
+    ports: ["8080:80"]
+    depends_on:
+      api:
+        condition: service_healthy     # no arranca hasta que la API esté sana
+    networks:
+      front: { ipv4_address: 172.28.10.10 }
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  api:
+    build: ./api
+    environment:
+      DB_HOST: db.local
+      DB_USER: appuser
+    networks: [front, back]            # el puente front<->back
+    expose: ["8000"]                   # visible SOLO dentro de la red
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u;u.urlopen('http://localhost:8000/ping')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    container_name: db-srv
+    environment:
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_pass   # lee del secreto
+    secrets: [db_pass]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    networks:
+      back: { ipv4_address: 172.28.20.20 }           # NUNCA publica puertos
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser"]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
+secrets:
+  db_pass:
+    file: ./db_pass.txt
+
+networks:
+  front:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.10.0/24
+  back:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.28.20.0/24
+
+volumes:
+  pgdata: {}

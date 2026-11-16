@@ -19,8 +19,8 @@ Computadoras** (UTP · Facultad de Ingeniería de Sistemas Computacionales).
 |---------|-------------|-----------|-------------|--------|
 | `Laboratorio-4-Analisis-Trama-Wireshark` | N.º 4 — Análisis de una trama (encapsulamiento) | Lectura de tramas, encapsulamiento, PDU/SDU | Wireshark | ✅ |
 | `Laboratorio-5-Modelo-OSI-Docker` | N.º 5 — Modelo OSI y arquitectura de protocolos | Capas OSI vs TCP/IP, recorrido de un mensaje por capas, fallas | Docker | ✅ |
-| `Laboratorio-6-Capa-Fisica-Enlace` | N.º 6 — Capa física y enlace (Semana 6) | **6A:** bits→trama Ethernet · **6B:** switch, aislamiento, internet | Docker | ✅ |
-| `Laboratorio-7-9-Redes-Transporte-Aplicaciones` | **Casos N.º 7-9 — "PagosYA" y 7 variantes (Semanas 7-9)** | 8 fichas de caso (red + transporte + aplicación) con una mini-app funcional: VLSM + router + ICMP, TCP/UDP + handshake, HTTP/HTTPS + DNS, DB aislada. Se presentan con demo funcional la siguiente clase. **Evaluación**: documento + demo + prueba funcional | Docker | ✅ |
+| `Laboratorio-6-Capa-Fisica-Enlace` | N.º 6 — Capa física y enlace (Semana 6) | **Solo teoría**: señal, trama Ethernet, MAC, switch, ARP. La práctica se aplica dentro de los casos | Lectura + quiz | ✅ |
+| `Laboratorio-6-9-Casos-Ecosistema` | **Casos N.º 1-3 — "ECOSISTEMA" (Semanas 6-8)** | Reemplaza los Labs 6 (práctico), 7, 8 y 9 por **3 casos conectados entre sí**: ① TiendaYA (portal: HTTP/HTTPS/DNS) → ② PagosYA (API: TCP/UDP, handshake, router) → ③ DatosYA (VLSM, DB aislada, monitoreo). Cada caso reutiliza el anterior y **se evalúa en vivo** (documento + demo + prueba funcional). El Lab 6 queda solo como teoría | Docker | ✅ |
 
 ### Unidad III — Implementación de LAN y orquestación de aplicaciones
 
@@ -29,18 +29,52 @@ Computadoras** (UTP · Facultad de Ingeniería de Sistemas Computacionales).
 | `Laboratorio-10-LAN-Monitoreo-Docker` | N.º 10 — LAN y monitoreo (Semana 10) | **10A:** construir la LAN · **10B:** enrutamiento + monitoreo | Docker | ✅ |
 | `Laboratorio-11-SSH-Servidores-Bastion` | N.º 11 — Claves SSH y servidores bastión (Semana 11) | **11A:** llaves + acceso · **11B:** bastión + producción | Docker | ✅ |
 | `Laboratorio-12-Orquestacion-Docker-Swarm` | N.º 12 — Orquestación de servicios (Semana 11) | **12A:** Compose + Swarm · **12B:** secretos + stack | Docker Swarm | ✅ |
+| `Laboratorio-14-Red-Completa-Compose-PT` | **N.º 14 — Integrador U3: red real → red virtual (4 sesiones)** | Fusiona los Labs 10-12 en una sola narrativa **sin Swarm** (Swarm solo como "qué sigue"), **arrancando con Docker Compose** y con el **hilo siempre de redes** (subredes, segmentación, DNS, puertos/NAT, monitoreo, seguridad): ① primer stack con Compose + segmentación/DNS · ② monitoreo + **el host como bastión** (SSH por llave) · ③ **orquestación con Compose** (escalado, healthchecks, secretos) · ④ integración, respaldo y demo. Incluye **archivos Docker listos por sesión** (`sesion-1/`…`sesion-4/`) y una **pista opcional de Packet Tracer** (`PACKET-TRACER.md`), autónoma y **sin efecto en la nota** | Docker (Docker Compose) · *opcional:* Packet Tracer | ✅ |
+| `laboratorio-enruntamiento-vlan` | N.º 13 — VLSM, DHCP y enrutamiento (**tarea autónoma, semana 10**) | **A:** topología 3 sedes + VLSM + DHCP + rutas estáticas · **B:** OSPF área 0 / RIPv2 + diagnóstico | Packet Tracer | ✅ |
 
-> **Modelo de trabajo (Labs 6-12):** cada lab está dividido en **sesiones**
-> (`SESION-X.md` dentro de la carpeta), una por clase de la semana. Cada sesión
-> tiene su objetivo, pasos, preguntas, entregable y rúbrica (50 + 50 = 100).
-> Nota: los Labs **7-9 se reemplazaron por 8 fichas de caso** ("PagosYA" y
-> variantes, carpeta `Laboratorio-7-9-…`) que cubren red+transporte+aplicación
-> con una mini-app funcional, y se **evalúan en 3 partes**: documento +
-> presentación/demo + prueba funcional en vivo (`CASO.md` + `EVALUACION.md`). El
-> docente introduce la clase con una **demo de 60 min** (`DEMO-DOCENTE.md` +
-> stack `demo/`) y sortea las fichas (`casos/`); los equipos presentan la
-> siguiente clase. Enfoque **aprender haciendo**: se construye, se observa, se
-> mide y se documenta en cada clase.
+> **Repaso de subneteo:** `EJERCICIO-SUBNETEO.md` — un solo ejercicio de VLSM
+> (subred, broadcast y rango por segmento), a lápiz y con la solución plegable.
+
+> **Modelo de trabajo (Labs 6-12):** el Lab 6 es **solo teoría** (capa física y
+> enlace, ver `Teoria-Labs-6-9-Capas-Red.pptx`). Los antiguos Labs 7-8-9 fueron
+> reemplazados por el **laboratorio de 3 Casos conectados entre sí** — "ECOSISTEMA"
+> (`Laboratorio-6-9-Casos-Ecosistema`): ① TiendaYA (portal, HTTP/HTTPS/DNS) →
+> ② PagosYA (API, TCP/UDP, router entre 2 subredes) → ③ DatosYA (VLSM, DB
+> aislada, monitoreo). Cada caso **reutiliza el anterior** y se evalúa **en
+> vivo** (documento + demo + prueba funcional). Los **Labs 10-12 se fusionan en
+> el Laboratorio N.º 14** (`Laboratorio-14-Red-Completa-Compose-PT`, 4 sesiones
+> `SESION-1..4.md`): red real → red virtual con **Docker Compose** (sin Swarm),
+> con **archivos Docker listos por sesión** (`sesion-1/` … `sesion-4/`) y una
+> **pista opcional de Packet Tracer** (`PACKET-TRACER.md`, autónoma y **sin
+> efecto en la nota**). Enfoque **aprender haciendo**: se construye, se observa,
+> se mide y se documenta en cada clase.
+
+### Unidad III — Presentaciones, guías y guiones
+
+La teoría de la unidad son **3 presentaciones** (55 min cada una; 2 h 45 min en
+total) con **notas del orador**, más la guía de clase y los guiones docentes, y
+una **Parte 4 de extensión** (almacenamiento compartido y HA) y una **sesión de
+cierre de DevOps sobre la red** para las semanas de integración y el Proyecto
+Final.
+
+| Recurso | Contenido |
+|---------|-----------|
+| `Teoria-U3-Parte1-LAN-Monitoreo.pptx` · `TEORIA-U3-Parte1-LAN-Monitoreo.md` | **3.1** LAN · **3.2** Monitoreo (18 diapositivas) |
+| `Teoria-U3-Parte2-SSH-Bastion.pptx` · `TEORIA-U3-Parte2-SSH-Bastion.md` | **3.3** Claves SSH · **3.4** Bastión (13) |
+| `Teoria-U3-Parte3-Orquestacion.pptx` · `TEORIA-U3-Parte3-Orquestacion.md` | **3.5** Orquestación Compose/Swarm (12) |
+| `Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` · `TEORIA-U3-Parte4-Almacenamiento-Compartido.md` | **Extensión 3.5** Almacenamiento compartido para HA: NAS/SAN, quórum, volúmenes NFS/CSI (15) |
+| `Teoria-DevOps-Despliegue.pptx` · `TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (16) |
+| `DEMO-CEPH.md` | **Demo en vivo de la Parte 4** (guion docente, ~25 min): clúster **MicroCeph de 2 VM sobre Tailscale** — CephFS compartido entre nodos, caída de nodo y pérdida de quórum, tercer voto, y export **NFS** que convierte el volumen `pgdata` del Lab 14 en storage distribuido |
+| `GUIA-CLASE-UNIDAD-III.md` | Reparto de las 3 partes y notas de uso (diapositivas, tiempos, recortes) |
+| `CLASE-U3-LAN-Monitoreo.md` | **Guion docente** de 3.1/3.2 (minuto a minuto + Lab 10) |
+| `CLASE-U3-Parte2-SSH-Bastion.md` | **Guion docente** de 3.3/3.4 (minuto a minuto + Lab 11) |
+| `CLASE-U3-Parte3-Orquestacion.md` | **Guion docente** de 3.5 (minuto a minuto + Lab 12) |
+| `CLASE-DEVOPS.md` | **Sesión de cierre (165 min, recortable a 55)**: DevOps como **escenario de redes** — caso «el despliegue del viernes» de PagosYA. **Sin scripts: los 10 comandos, paso a paso con Docker** (commit → build → test → push → deploy → **smoke test** → `.last-good` → **rollback** en dos comandos), con el **mapa de los 5 flujos** (puerto, protocolo, NAT, cifrado), diagnóstico con `ss`/`docker port` y las 4 claves DORA |
+| `GUIA-ESTUDIO-U3-LAN-Monitoreo.md` | **Guía del estudiante** de 3.1/3.2 (repaso + banco de preguntas con respuestas) |
+
+> Los archivos `TEORIA-U3-*.md` son el **volcado textual** de cada presentación
+> (contenido + notas del orador); se regeneran con
+> `python3 tools/dump_ppt_md.py <archivo.pptx> "<título>"` (ver `tools/README.md`).
 
 ## Proyecto Semestral
 

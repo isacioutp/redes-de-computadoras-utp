@@ -20,9 +20,9 @@ solución única, sino la metodología).
 
 Una LAN moderna (oficina/Data Center) necesita:
 
-- **Segmentación** en subredes (VLADNet / VLANs → en Docker: redes bridge).
-- **DHCP** para asignar IPs (visto en el Caso N.º 7-9).
-- **DNS** interno para resolver nombres (visto en el Caso N.º 7-9).
+- **Segmentación** en subredes (VLAN → en Docker: redes bridge).
+- **DHCP** para asignar IPs (visto en el laboratorio de casos ECOSISTEMA).
+- **DNS** interno para resolver nombres (visto en el laboratorio de casos ECOSISTEMA).
 - **Enrutamiento** entre subredes + salida a internet (NAT).
 - **Monitoreo**: conocer ancho de banda, latencia, errores y uso.
 

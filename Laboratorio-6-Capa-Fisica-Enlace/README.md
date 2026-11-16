@@ -1,99 +1,108 @@
-# Laboratorio N.° 6 — Capa Física y Capa de Enlace de Datos
+# Laboratorio N.° 6 — Capa Física y Capa de Enlace de Datos · TEORÍA
 
-Tema 2.5–2.6 · Semana 6 · Unidad II · 2 clases
+Tema 2.5–2.6 · Semana 6 · Unidad II
 
-## Objetivo general
+> **Este laboratorio es SOLO teórico.** La práctica de capa física y enlace no
+> se hace como laboratorio aparte: su aplicación práctica queda integrada en
+> los **Casos N.º 1-3** (carpeta `Laboratorio-6-9-Casos-Ecosistema`), donde se
+> capturan tramas y se observa el enlace dentro del flujo completo.
+>
+> Presentación con toda la teoría (Labs 6-9): `Teoria-Labs-6-9-Capas-Red.pptx`.
+
+## Objetivo
 
 Comprender cómo los datos se convierten en **señales físicas** (capa 1) y se
-organizan en **tramas con direcciones MAC** (capa 2), observando el trabajo del
-switch y el protocolo ARP dentro de una red local, usando Docker como entorno
-de laboratorio.
+organizan en **tramas con direcciones MAC** (capa 2), para poder leer una trama
+capturada con tcpdump y entender qué aísla un switch.
 
-## Contexto teórico
+---
 
-### Capa Física (capa 1 del modelo OSI)
+## 1. Capa Física (capa 1 del modelo OSI)
 
 - Transmite **bits** como señales físicas: voltaje (cable), luz (fibra), ondas
   de radio (Wi-Fi).
 - No entiende direcciones ni datos — solo transporta señal cruda.
-- Define: voltaje, frecuencia, velocidad de transmisión, tipo de conector.
+- Define: tipo de medio y conector, voltaje, frecuencia, velocidad (bps) y
+  modo dúplex (half/full).
 
-### Capa de Enlace de Datos (capa 2)
+| Medio | Velocidad típica | Latencia típica |
+|-------|------------------|-----------------|
+| Par trenzado (Cat6) | 1–10 Gbps | < 0.5 ms/salto |
+| Fibra óptica | 10–400 Gbps | ~1 ms / 100 km |
+| Wi-Fi 6 | 1–9 Gbps | 2–10 ms |
+| Satélite | 25–100 Mbps | 250–600 ms |
+
+- **Latencia (propagation delay)**: tiempo de viaje de la señal; depende de la
+  distancia, no de la velocidad del enlace (un satélite siempre será ~0.5 s).
+- **CSMA/CD** (Ethernet clásica): escuchar antes de transmitir y detectar
+  colisiones. Los switches modernos son **full-duplex**: no hay colisiones.
+
+## 2. Capa de Enlace de Datos (capa 2)
 
 Organiza los bits en **tramas** y agrega **direcciones MAC**:
 
 ```
 ┌─────────────┬─────────────┬──────────┬──────────┬─────────┬──────────┐
-│ MAC destino │ MAC origen  │ EtherType│ Datos    │ FCS / CRC │           │
-│ 6 bytes     │ 6 bytes     │ 2 bytes  │ 46-1500  │ 4 bytes  │           │
+│ MAC destino │ MAC origen  │ EtherType│ Datos    │ FCS/CRC │          │
+│ 6 bytes     │ 6 bytes     │ 2 bytes  │ 46-1500  │ 4 bytes │          │
 └─────────────┴─────────────┴──────────┴──────────┴─────────┴──────────┘
-                              ← Cabecera Ethernet →
+              ← Cabecera Ethernet (IEEE 802.3) →
 ```
+
+- **MAC destino**: a quién llega (o `ff:ff:ff:ff:ff:ff` = broadcast).
+- **MAC origen**: quién envía (única por NIC).
+- **EtherType**: protocolo del payload — `0x0800`=IPv4, `0x0806`=ARP, `0x86DD`=IPv6.
+- **FCS/CRC**: suma de comprobación; si falla, la trama se descarta.
 
 ### Dirección MAC (Media Access Control)
 
-- Identificador **físico y único** del NIC (tarjeta de red).
-- Formato: `AA:BB:CC:DD:EE:FF` → 12 dígitos hexadecimales (48 bits).
-- Los primeros 3 octetos identifican al **fabricante** (OUI).
-- Ejemplo: `02:42:c0:a8:01:02` (los `02:42` los asigna Docker).
+- Identificador **físico y único** del NIC; 12 dígitos hexadecimales (48 bits).
+- Primeros 3 octetos = **OUI** del fabricante. Ej. `02:42:c0:a8:01:02` (el
+  prefijo `02:42` lo asigna **Docker**).
+- **MAC vs IP**: la MAC dice *quién es físicamente* (solo vale en la LAN, cambia
+  en cada salto de enrutador); la IP dice *dónde está lógicamente* (vale de
+  punta a punta).
 
-### El Switch y la Tabla de Direcciones MAC
+### El Switch y su tabla MAC
 
-- El switch vive en la **capa 2**.
-- Lee la MAC destino y decide a qué puerto enviar la trama.
-- Mantiene una **tabla MAC↔puerto** (aprender = flooding inicial, luego filtrado).
-- Difunde (flood) una trama a todos los puertos cuando no conoce al destino.
+- Vive en la **capa 2**: reenvía por MAC destino.
+- **Aprende** MAC↔puerto observando el MAC origen.
+- Conoce el destino → **filtra** (solo a ese puerto). No lo conoce → **flooding**
+  (a todos). Broadcast → flooding siempre.
+- Hub = un solo dominio de colisión (reenvía todo); switch = un dominio de
+  colisión por puerto.
+- El **bridge de Docker** (`br-xxx` = `docker network`) se comporta como un
+  switch: cada red Docker es un **dominio de broadcast separado**.
 
 ### ARP — Address Resolution Protocol
 
-- Problema: la capa de red conoce la **IP** del destino, pero la capa 2 solo
-  reenvía por **MAC**.
-- ARP **traduce IP → MAC** dentro de la misma red.
-- Envía un **broadcast** preguntando "¿quién tiene la IP X?" y guarda la
-  respuesta en su caché ARP.
+- La capa 3 sabe la **IP** del destino, pero la capa 2 reenvía por **MAC**.
+- ARP **traduce IP → MAC** dentro de la misma red: envía un broadcast
+  `who-has 192.168.1.2?`, el dueño responde `is-at <MAC>`, y el par se guarda en
+  la **caché ARP**.
+- El primer ping siempre va precedido de ARP (evidencia en tcpdump).
 
-| Protocolo | Capa | Función |
-|-----------|------|---------|
-| Ethernet (IEEE 802.3) | Enlace | Formato de tramas, acceso al medio |
-| ARP | Enlace/Red | Traduce IP → MAC |
-| Switch | Enlace | Reenvío de tramas por MAC |
+## 3. Tabla-resumen Lab 6
 
-## Materiales y requisitos
+| Concepto | Capa | Función |
+|----------|------|---------|
+| Medios (cobre/fibra/radio) | 1 | Transportar señal |
+| Ethernet (IEEE 802.3) | 2 | Formato de tramas, acceso al medio |
+| Dirección MAC | 2 | Identificar físicamente la tarjeta |
+| Switch / bridge | 2 | Reenvío por MAC + aprendizaje |
+| ARP | 2/3 | Traducir IP → MAC |
 
-- Computadora con Docker instalado.
-- Conexión a internet (descargar imágenes).
-- Cliente Wireshark (para el entregable opcional de la Sesión B).
+## 4. Para cerrar (preguntas de verificación)
 
-```bash
-docker --version
-docker ps
-```
+1. ¿Qué campos tiene una trama Ethernet y para qué sirve el EtherType?
+2. ¿Cómo aprende el switch su tabla MAC y qué hace si no conoce al destino?
+3. ¿Qué traduce ARP, en qué capa vive y por qué se envía por broadcast?
+4. ¿Qué diferencia hay entre una MAC y una IP? ¿Cuál cambia al cruzar un router?
+5. ¿Qué separa una red Docker de otra y qué dispositivo se necesita para unirlas?
 
-## Cómo se trabaja esta semana
+## Referencia
 
-Dos clases en la misma semana. La **Sesión A** construye la infraestructura
-(red y contenedores `c1`, `c2`, `c3`) que la **Sesión B** reutiliza para
-probar aislamiento y salida a internet.
-
-| Sesión | Contenido | Entregable breve | Guía |
-|--------|-----------|------------------|------|
-| Sesión A — De los bits a la trama Ethernet | Parte 1 (MAC en contenedores), Parte 2 (Tramas Ethernet con tcpdump y `-XX`) y Parte 4 (Capa física: latencia y CSMA/CD). | Capturas de MAC y de tramas ARP/ICMP, análisis `-XX`, respuestas 1–8. | [Sesión A](SESION-A.md) |
-| Sesión B — El switch, el aislamiento y la salida a internet | Parte 3 (aislamiento y dominios), Parte 5 (host Docker como router/internet), refuerzo Wireshark y verificación. | Capturas de aislamiento e internet, análisis Wireshark, respuestas 1–7. | [Sesión B](SESION-B.md) |
-
-## Rúbrica global
-
-Cada sesión suma **50 puntos**; ambas juntas conforman la calificación total de
-la semana (**100 puntos**).
-
-| Criterio | Puntos |
-|----------|--------|
-| Sesión A — De los bits a la trama Ethernet | 50 |
-| Sesión B — El switch, el aislamiento y la salida a internet | 50 |
-| **Total** | **100** |
-
-## Limpieza
-
-```bash
-docker rm -f c1 c2 c3 c4 test-phys
-docker network rm lab6-red lab6-red2
-```
+- Presentación completa (teoría Labs 6-9): `Teoria-Labs-6-9-Capas-Red.pptx`.
+- Los Casos N.º 1-3 aplican esta teoría dentro del flujo portal→API→datos:
+  `Laboratorio-6-9-Casos-Ecosistema/`.
+- Guías prácticas históricas (material docente): `_archivo-Laboratorios-antiguos/`.

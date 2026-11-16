@@ -14,22 +14,31 @@ arriesgar entregas:
 
 1. **Todos los laboratorios terminan la semana 11 (26–30 de octubre)**, dejando
    noviembre libre para el Parcial 1, el Proyecto Final y las presentaciones.
-2. Los **Labs 4+5** y **11+12** se **combinan** (una sesión por clase; el
-   detalle está en la sección 3), y los **Labs 7+8+9 se reemplazan por 8
-   fichas de caso** (red + transporte + aplicación en una mini-app funcional).
+2. Los **Labs 4+5** se **combinan** (una sesión por clase), el **Lab 6 pasa a
+   ser solo teoría**, los **Labs 7+8+9 se reemplazan por 3 casos conectados
+   entre sí** ("ECOSISTEMA": ① portal → ② API → ③ datos) sobre una mini-app
+   funcional, y los **Labs 10-12 se fusionan en el Laboratorio N.º 14**
+   ("red real → red virtual": PT + **Docker Compose**, sin Swarm).
 3. La última entrega grande es el **Proyecto Final (semana 13)**.
 4. Las **semanas 14 en adelante son sobrantes**: presentar el semestral,
    socializar el caso práctico, portafolio y reposición de clases perdidas.
 
 ## 2. Calendario maestro por semana
 
-> **Modelo de trabajo (Labs 6-12):** cada laboratorio se divide en **sesiones**
-> (`SESION-X.md`), una por clase. Con **2 clases por semana**, cada clase
-> resuelve una sesión: entregable y rúbrica por sesión. Excepción: los **Labs
-> N.º 7-9** se reemplazan por **8 fichas de caso** ("PagosYA" y variantes) que
-> cubren red, transporte y aplicación con una mini-app funcional; se evalúan en
-> 3 partes: **documento + presentación/demo + prueba funcional**
-> (`CASO.md` + `EVALUACION.md`).
+> **Modelo de trabajo (Labs 6-12):** el **Lab 6 es solo teoría** (capa física y
+> enlace; presentación `Teoria-Labs-6-9-Capas-Red.pptx`). Los Labs 10-12 se
+> **fusionan en el Laboratorio N.º 14** ("red real → red virtual"), un lab
+> integrador de **4 sesiones** con **Docker Compose** (sin Swarm) y un **lab
+> paralelo de Packet Tracer** que hace visible lo que Docker abstrae; ver
+> `Laboratorio-14-Red-Completa-Compose-PT/`, con **archivos Docker por sesión**
+> (`sesion-1/` … `sesion-4/`). Además, una **pista opcional de Packet Tracer**
+> (autónoma, **sin efecto en la nota**) hace visible lo que Docker abstrae; ver
+> `Laboratorio-14-Red-Completa-Compose-PT/PACKET-TRACER.md`. Excepción: los
+> **Labs N.º 7-9** se
+> reemplazan por **3 casos conectados entre sí** ("ECOSISTEMA" — TiendaYA →
+> PagosYA → DatosYA) sobre una mini-app funcional; cada caso **reutiliza el
+> anterior** y se evalúa en 3 partes: **documento + presentación/demo + prueba
+> funcional** (`CASO-1/2/3.md` + `EVALUACION.md`).
 
 | Semana | Fechas | Unidad | Laboratorio / Tema (2 clases/semana) | Proyecto Semestral | Evaluación / uso |
 |--------|--------|--------|--------------------------------------|--------------------|------------------|
@@ -37,12 +46,12 @@ arriesgar entregas:
 | 2–3 | Ago 24–Sep 4 | I | Lab N.º 2 — medios, topologías y hardware | — | — |
 | 4 | Sep 7–11 | I | Lab N.º 3 — tecnologías Ethernet (IEEE 802) · **se publica el Lab N.º 5** como tarea autónoma | — | — |
 | 5 | Sep 14–18 | II | **Labs N.º 4-5 combinados** — análisis de trama · OSI/TCP-IP (Clase 1: Lab 4 · Clase 2: Lab 5) | — | — |
-| 6 | Sep 21–25 | II | Lab N.º 6 — **Clase 1:** 6A (bits→trama) · **Clase 2:** 6B (switch, internet) | — | — |
-| 7 | Sep 28–Oct 2 | II | **Casos N.º 7-9** — **Clase 1:** **DEMO intro (60 min)** y **sorteo de las 8 fichas** de caso · **Clase 2:** implementación con acompañamiento/consultas | — | — |
-| 8 | Oct 5–9 | II | **Casos N.º 7-9** — **Clase 1:** presentaciones (equipos 1-4) · **Clase 2:** presentaciones (equipos 5-8): documento + demo en vivo + prueba funcional | — | **Publicar Parcial 1** (caso "RedTienda", 7 días) |
+| 6 | Sep 21–25 | II | **Lab N.º 6 — solo teoría** (capa física/enlace) · Clase corta: **se publica el Caso 1 (ECOSISTEMA)** para el resto de la semana + fin de semana | — | — |
+| 7 | Sep 28–Oct 2 | II | **ECOSISTEMA — Casos N.º 1-3** · **Clase 1:** teoría Lab 6-9 + arranque **Caso 2** (PagosYA) · **Clase 2:** presentación Caso 2 (documento + demo + prueba) | — | — |
+| 8 | Oct 5–9 | II | **ECOSISTEMA** · **Clase 1:** **Caso 3** (DatosYA: VLSM + DB aislada + integración TiendaYA→PagosYA→DatosYA) · **Clase 2:** integración final + presentación Caso 3 | — | **Publicar Parcial 1** (caso "RedTienda", 7 días) |
 | 9 | Oct 12–16 | II | **Integración/consultas** (post-casos) · se resuelven presentaciones pendientes si no alcanzó | — | Parcial 1: vence esta semana |
-| 10 | Oct 19–23 | II-III | Lab N.º 10 — **Clase 1:** 10A (LAN) · **Clase 2:** 10B (monitoreo) | Entrega **Avance N.º 1** (10 %, insumo: tabla VLSM del Lab 7-9) | — |
-| 11 | Oct 26–30 | III | **Labs N.º 11-12 combinados** — **Clase 1:** 11A (llaves) + 11B (bastión, tarea) · **Clase 2:** 12A (Swarm) + 12B (secretos, tarea) | Entrega **Avance N.º 2** (10 %) | Devolver/socializar Parcial 1 |
+| 10 | Oct 19–23 | II-III | **Lab N.º 14** — red real → red virtual · **Clase 1:** Sesión 1 (primer Compose + segmentación/DNS) · **Clase 2:** Sesión 2 (monitoreo + acceso SSH) | Entrega **Avance N.º 1** (10 %, insumo: tabla VLSM del Caso 3) · **Se publica el Lab N.º 13 (VLSM/PT) como tarea autónoma** | — |
+| 11 | Oct 26–30 | III | **Lab N.º 14** (continúa) · **Clase 1:** Sesión 3 (**orquestación con Compose**) · **Clase 2:** Sesión 4 (integración + respaldo + demo) | Entrega **Avance N.º 2** (10 %) | Devolver/socializar Parcial 1 |
 | 12 | Nov 2–6 | III | Sin labs · integración (Labs 10-11 aplicados al semestral) | preparación Proyecto Final | — |
 | 13 | Nov 9–13 | III | Sin labs · integración (Lab 12) | Entrega **Proyecto Final** (15 %) | Presentaciones del semestral |
 | 14 | Nov 16–20 | — | Sin labs | — | Presentaciones del semestral · caso práctico |
@@ -51,18 +60,19 @@ arriesgar entregas:
 
 ## 3. Cómo se combinan los laboratorios
 
-Para cerrar en la semana 11 se fusionan dos pares de labs. La sesión que no se
-ve en clase se resuelve como **trabajo autónomo** (los pasos ya están guiados
-en cada `SESION-B.md`):
+Para cerrar en la semana 11, los Labs 10-12 se fusionan en el **Laboratorio
+N.º 14** (4 sesiones, una por clase) y el par 4+5 se combina en la semana 5. Lo
+que no alcanza en clase se resuelve como **trabajo autónomo** (los pasos ya están
+guiados en cada `SESION-N.md`):
 
 | Combinación | En clase | Trabajo autónomo |
 |-------------|----------|------------------|
 | **Labs 4 + 5** (semana 5) | Clase 1: Lab 4 (Wireshark) · Clase 2: Lab 5 (OSI) | Ambos labs se entregan completos el viernes de esa semana |
-| **Labs 7 + 8 + 9** (semanas 7-8) | Clase 1: DEMO intro + sorteo de las 8 fichas · Clase 2: implementación/consultas | Los **8 casos** (documento + mini-app funcional + demo) se presentan en las clases 2 de la semana 8 (equipos 1-4 y 5-8) |
-| **Labs 11 + 12** (semana 11) | Clase 1: 11A (llaves SSH) · Clase 2: 12A (Compose/Swarm) | 11B (bastión) y 12B (secretos/stack) se resuelven con los pasos de cada `SESION-B.md` |
+| **Labs 6-9 → ECOSISTEMA** (semanas 6-8) | Clase 6: teoría Lab 6 + Caso 1 (finde) · Clase 7: Caso 2 · Clase 8: Caso 3 | Cada caso se construye fuera de clase y se presenta en vivo (documento + demo + prueba funcional) |
+| **Labs 10-12 → Lab N.º 14** (semanas 10-11) | Clase 10.1: Sesión 1 (primer Compose + segmentación/DNS) · Clase 10.2: Sesión 2 (monitoreo + acceso SSH) · Clase 11.1: Sesión 3 (Compose: réplicas/secretos) · Clase 11.2: Sesión 4 (integración) | Cada `SESION-N.md` trae su entregable y su carpeta con los archivos Docker (`sesion-1/` … `sesion-4/`); la **pista de Packet Tracer** (`PACKET-TRACER.md`) es **opcional y autónoma** (no influye en la nota). El **Lab N.º 13 (VLSM/DHCP en PT)** se publica como **tarea autónoma en la semana 10** para reforzar el direccionamiento del Avance N.º 1 |
 
-Ambas combinaciones conservan sus **100 puntos** (entregable + rúbrica por
-sesión); se empaquetan como **una sola entrega por semana**.
+Cada caso del ECOSISTEMA conserva su **100 puntos** (documento + demo + prueba
+funcional, ver `Laboratorio-6-9-Casos-Ecosistema/EVALUACION.md`).
 
 ## 4. Feriados que ya quedan fuera de las clases formales
 

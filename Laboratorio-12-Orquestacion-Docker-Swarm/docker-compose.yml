@@ -1,0 +1,29 @@
+services:
+  web:
+    image: nginx:alpine
+    ports: ["8080:80"]
+    depends_on: [api]
+    networks: [front]
+
+  api:
+    image: python:3.11-slim
+    command: python -c "import time; print('API lista'); time.sleep(3600)"
+    networks: [front, back]
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: labpass123
+    networks: [back]
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  cache:
+    image: redis:7-alpine
+    networks: [back]
+
+networks:
+  front: {}
+  back: {}
+
+volumes:
+  pgdata: {}
