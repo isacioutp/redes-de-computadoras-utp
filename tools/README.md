@@ -18,7 +18,7 @@ documentación (versiones en texto). Todo se hace sin abrir PowerPoint.
 | `build_parte3.py` | Genera `Teoria/Teoria-U3-Parte3-Orquestacion.pptx` (**12**). | `python3 tools/build_parte3.py` |
 | `build_parte4.py` | Genera `Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx` (**15**). | `python3 tools/build_parte4.py` |
 | `build_devops.py` | Genera `DevOps/Teoria-DevOps-Despliegue.pptx` (**17**): sesión de cierre — qué es DevOps, el caso del viernes, el laboratorio, el pipeline y su tráfico, rollback y DORA. | `python3 tools/build_devops.py` |
-| `build_caso_invisible.py` | Genera `DevOps/Teoria-Despliegue-Invisible.pptx` (**12**): caso 2 — smoke verde y usuario en 502, DNS y TTL, resolución de nombres en Docker, proxy, flujos, porqués y DORA. | `python3 tools/build_caso_invisible.py` |
+| `build_caso_invisible.py` | Genera `DevOps/DOCENTE/Teoria-Despliegue-Invisible.pptx` (**12**): caso 2 — smoke verde y usuario en 502, DNS y TTL, resolución de nombres en Docker, proxy, flujos, porqués y DORA. Es material docente, no se publica. | `python3 tools/build_caso_invisible.py` |
 | `check_layout.py` | **Validador de layout**: estima si el texto o las tablas se desbordan y detecta cajas fuera del lienzo. | `python3 tools/check_layout.py Teoria/Teoria-U3-Parte*.pptx` |
 | `dump_ppt_md.py` | **Volcado a Markdown**: título + índice + cada diapositiva (tablas, código, negritas) + notas del orador en bloques plegables. | `python3 tools/dump_ppt_md.py <pptx> "<título>"` |
 
@@ -44,8 +44,7 @@ python3 tools/check_layout.py \
   Teoria/Teoria-U3-Parte2-SSH-Bastion.pptx \
   Teoria/Teoria-U3-Parte3-Orquestacion.pptx \
   Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.pptx \
-  DevOps/Teoria-DevOps-Despliegue.pptx \
-  DevOps/Teoria-Despliegue-Invisible.pptx
+  DevOps/Teoria-DevOps-Despliegue.pptx
 
 # 4 · Regenerar las versiones en texto (TEORIA-U3-*.md)
 python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte1-LAN-Monitoreo.pptx \
@@ -58,8 +57,6 @@ python3 tools/dump_ppt_md.py Teoria/Teoria-U3-Parte4-Almacenamiento-Compartido.p
   "Unidad III · Parte 4: Almacenamiento compartido para alta disponibilidad" > Teoria/TEORIA-U3-Parte4-Almacenamiento-Compartido.md
 python3 tools/dump_ppt_md.py DevOps/Teoria-DevOps-Despliegue.pptx \
   "Unidad III · Sesión de cierre: DevOps sobre la red" > DevOps/TEORIA-DEVOPS-DESPLIEGUE.md
-python3 tools/dump_ppt_md.py DevOps/Teoria-Despliegue-Invisible.pptx \
-  "Unidad III · Caso 2: el despliegue invisible" > DevOps/TEORIA-DESPLIEGUE-INVISIBLE.md
 ```
 
 > El volcado se escribe **junto al `.pptx`**: el enlace interno apunta al nombre

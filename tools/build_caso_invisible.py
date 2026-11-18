@@ -266,5 +266,5 @@ def build(out):
 
 
 if __name__ == "__main__":
-    p = build(sys.argv[1] if len(sys.argv) > 1 else "DevOps/Teoria-Despliegue-Invisible.pptx")
+    p = build(sys.argv[1] if len(sys.argv) > 1 else "DevOps/DOCENTE/Teoria-Despliegue-Invisible.pptx")
     print("OK ->", p)
