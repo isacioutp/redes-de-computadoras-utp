@@ -67,8 +67,8 @@ Los documentos están agrupados por tipo y los laboratorios quedan en la raíz:
 La teoría de la unidad son **3 presentaciones** (55 min cada una; 2 h 45 min en
 total) con **notas del orador**, más la guía de clase y los guiones docentes, y
 una **Parte 4 de extensión** (almacenamiento compartido y HA) y una **sesión de
-cierre de DevOps sobre la red** para las semanas de integración y el Proyecto
-Final.
+cierre de DevOps sobre la red** y un **caso adicional de 20 min** para las
+semanas de integración y el Proyecto Final.
 
 | Recurso | Contenido |
 |---------|-----------|
@@ -90,6 +90,7 @@ Todo el material de la sesión vive en `DevOps/`:
 | Recurso | Contenido |
 |---------|-----------|
 | `DevOps/Teoria-DevOps-Despliegue.pptx` · `DevOps/TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el laboratorio, el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (17) |
+| `DevOps/Teoria-Despliegue-Invisible.pptx` · `DevOps/TEORIA-DESPLIEGUE-INVISIBLE.md` | **Caso 2 (20 min)**: smoke verde y usuario en 502, DNS y TTL, resolución de nombres en Docker, nginx y su IP cacheada, los 5 flujos, los 5 porqués y DORA aplicado al MTTR (12) |
 | `DevOps/Laboratorio-15-DevOps-Despliegue/` | **Práctica del caso**: la API, el `Dockerfile`, el `compose.yml` y la guía paso a paso con los 10 comandos, más el cierre autónomo (repo propio, `deploy.sh`, despliegue desde un clon) y el reto de llevar ese pipeline a GitHub Actions |
 | `DevOps/Laboratorio-16-Despliegue-Invisible/` | **Práctica del segundo caso**: dos proxies, dos versiones de la API y una guía de 7 pasos para reproducir el 502 del upstream viejo y el cliente con DNS cacheado. Incluye la evidencia de la prueba ejecutada |
 
