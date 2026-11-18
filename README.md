@@ -12,7 +12,7 @@ Los documentos están agrupados por tipo y los laboratorios quedan en la raíz:
 | `Teoria/` | Presentaciones de las unidades y su volcado en texto |
 | `Guias/` | Guiones docentes, guías de clase y de estudio, demo y ejercicio de subneteo |
 | `Administrativo/` | Analítico, planificación oficial, cronograma y guía del Proyecto 1 |
-| `DevOps/` | Sesión de cierre: teoría, volcado y laboratorio del caso |
+| `DevOps/` | Sesión de cierre: teoría, volcado y laboratorios de los casos |
 | `Laboratorio-*` · `Proyecto-Semestral/` · `Parcial-1-Caso-Practico/` | Laboratorios, proyecto final y parcial |
 | `tools/` | Scripts que generan las presentaciones y sus volcados |
 
@@ -43,6 +43,7 @@ Los documentos están agrupados por tipo y los laboratorios quedan en la raíz:
 | `Laboratorio-14-Red-Completa-Compose-PT` | **N.º 14 — Integrador U3: red real → red virtual (4 sesiones)** | Fusiona los Labs 10-12 en una sola narrativa **sin Swarm** (Swarm solo como "qué sigue"), **arrancando con Docker Compose** y con el **hilo siempre de redes** (subredes, segmentación, DNS, puertos/NAT, monitoreo, seguridad): ① primer stack con Compose + segmentación/DNS · ② monitoreo + **el host como bastión** (SSH por llave) · ③ **orquestación con Compose** (escalado, healthchecks, secretos) · ④ integración, respaldo y demo. Incluye **archivos Docker listos por sesión** (`sesion-1/`…`sesion-4/`) y una **pista opcional de Packet Tracer** (`PACKET-TRACER.md`), autónoma y **sin efecto en la nota** | Docker (Docker Compose) · *opcional:* Packet Tracer | ✅ |
 | `laboratorio-enruntamiento-vlan` | N.º 13 — VLSM, DHCP y enrutamiento (**tarea autónoma, semana 10**) | **A:** topología 3 sedes + VLSM + DHCP + rutas estáticas · **B:** OSPF área 0 / RIPv2 + diagnóstico | Packet Tracer | ✅ |
 | `DevOps/Laboratorio-15-DevOps-Despliegue` | **N.º 15 — Caso: el despliegue del viernes (práctica de cierre, semana 14+)** | El caso de PagosYA reproducido **con Docker local**: tag explícito, build/push al registry, smoke test, `.last-good` y **rollback en dos comandos**. La red es el tema: **NAT 8080→8000**, loopback, `docker port` vs `ss`, y el `502` explicado como upstream sin listener | Docker · registry `:2` · `curl` | ✅ |
+| `DevOps/Laboratorio-16-Despliegue-Invisible` | **N.º 16 — Caso: el despliegue que nadie vio (semana 14+)** | El pipeline sale verde y el humo pasa, pero el usuario ve `v1` o un 502. Dos fallas de red: **nginx resuelve el nombre una sola vez** al arrancar y un **TTL largo** deja a los clientes en el host viejo. Se mide con `getent hosts`, `nginx -T`, `curl --resolve` y logs del proxy | Docker Compose · `nginx` · `curl` | ✅ |
 
 > **Repaso de subneteo:** `Guias/EJERCICIO-SUBNETEO.md` — un solo ejercicio de VLSM
 > (subred, broadcast y rango por segmento), a lápiz y con la solución plegable.
@@ -90,6 +91,7 @@ Todo el material de la sesión vive en `DevOps/`:
 |---------|-----------|
 | `DevOps/Teoria-DevOps-Despliegue.pptx` · `DevOps/TEORIA-DEVOPS-DESPLIEGUE.md` | **Sesión de cierre (55 min de teoría)**: qué es DevOps, el caso del viernes, el laboratorio, el pipeline y su tráfico (NAT, loopback, DNS), rollback y DORA (17) |
 | `DevOps/Laboratorio-15-DevOps-Despliegue/` | **Práctica del caso**: la API, el `Dockerfile`, el `compose.yml` y la guía paso a paso con los 10 comandos, más el cierre autónomo (repo propio, `deploy.sh`, despliegue desde un clon) y el reto de llevar ese pipeline a GitHub Actions |
+| `DevOps/Laboratorio-16-Despliegue-Invisible/` | **Práctica del segundo caso**: dos proxies, dos versiones de la API y una guía de 7 pasos para reproducir el 502 del upstream viejo y el cliente con DNS cacheado. Incluye la evidencia de la prueba ejecutada |
 
 > Los archivos `Teoria/TEORIA-U3-*.md` son el **volcado textual** de cada presentación
 > (contenido + notas del orador); se regeneran con

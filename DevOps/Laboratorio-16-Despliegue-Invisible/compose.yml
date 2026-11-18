@@ -1,0 +1,44 @@
+services:
+  api-viejo:
+    container_name: lab16-api-viejo
+    image: citas-api:v1
+    build:
+      context: app
+      args:
+        APP_VERSION: v1
+    networks: [lab]
+
+  proxy-viejo:
+    container_name: lab16-proxy-viejo
+    image: nginx:alpine
+    volumes: ["./proxy-viejo.conf:/etc/nginx/nginx.conf:ro"]
+    ports: ["127.0.0.2:18080:80"]
+    depends_on: [api-viejo]
+    networks: [lab]
+
+  api:
+    container_name: lab16-api
+    image: citas-api:${TAG:-v1}
+    build:
+      context: app
+      args:
+        APP_VERSION: ${TAG:-v1}
+    ports: ["127.0.0.1:18081:8000"]
+    networks:
+      lab:
+        ipv4_address: ${API_IP:-172.28.16.10}
+
+  proxy-nuevo:
+    container_name: lab16-proxy-nuevo
+    image: nginx:alpine
+    volumes: ["./proxy-nuevo.conf:/etc/nginx/nginx.conf:ro"]
+    ports: ["127.0.0.1:18080:80"]
+    depends_on: [api]
+    networks: [lab]
+
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.16.0/24
