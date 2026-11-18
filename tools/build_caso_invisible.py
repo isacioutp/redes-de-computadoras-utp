@@ -78,6 +78,8 @@ def build(out):
         "nginx guarda la IP de `api` cuando arranca.",
         "Recrear el contenedor no se lo avisa a nginx."], ORANGE, 11.5)
     notes(s, "⏱ 4-6 min · Topología.\n\n"
+             "Demo: levantar el lab y correr `docker compose ps`. Guion completo en\n"
+             "`DevOps/DOCENTE/GUIA-DEMO-CASO-INVISIBLE.md`.\n\n"
              "Señalar los dos caminos con el dedo: el de arriba decide a qué host llega\n"
              "el cliente; el de abajo decide a qué contenedor llega el proxy. Los dos\n"
              "pueden fallar al mismo tiempo y dar síntomas distintos.\n"
@@ -100,6 +102,8 @@ def build(out):
         "El arreglo tomó minutos; la espera del TTL tomó una hora.",
         "El MTTR mide tiempo de recuperación, no tiempo de escribir código."], RED, 12.5)
     notes(s, "⏱ 6-9 min · La historia.\n\n"
+             "Demo: `getent hosts api` da la IP inicial .10. Después de la historia,\n"
+             "recrear `api` con `TAG=v2 API_IP=172.28.16.11`.\n\n"
              "Leerla como una sucesión de decisiones razonables. El error no está en\n"
              "09:12. Está en 09:19 (TTL sin bajar) y en 09:20 (proxy sin recargar).\n"
              "Pausa en 09:40: apagar el host viejo convierte una versión antigua en un\n"
@@ -123,6 +127,8 @@ def build(out):
         "La prueba tiene que entrar por el mismo camino que el usuario: nombre público, proxy y puerto real.",
         "Si la sonda corre al lado del servidor, siempre va a decir que está todo bien."], NAVY, 12)
     notes(s, "⏱ 9-11 min · El centro del caso.\n\n"
+             "Demo: smoke directo en 18081 da `v2`; el proxy nuevo da 502 y el cliente\n"
+             "con `--resolve ...127.0.0.2` sigue viendo `v1`.\n\n"
              "No avanzar hasta que alguien diga en voz alta la diferencia: el smoke\n"
              "pegó al contenedor, el usuario pasa por el proxy y por el DNS.\n"
              "La frase en negrita es la que se pide en el entregable.")
@@ -147,6 +153,8 @@ def build(out):
         "Mantener el host viejo arriba durante toda la ventana de caché.",
         "En el laboratorio, `--resolve` cumple el papel de esa caché."], TEAL, 12)
     notes(s, "⏱ 11-13 min · DNS.\n\n"
+             "Demo: el laboratorio no tiene servidor DNS; `--resolve` simula la caché.\n"
+             "El `dig` de la diapositiva es ilustrativo y se explica como tal.\n\n"
              "Explicar el TTL como 'cuánto tiempo una copia ajena puede seguir diciendo\n"
              "la verdad de ayer'. El número 2340 es el tiempo que todavía falta.\n"
              "El error no fue cambiar el registro: fue cambiarlo con TTL largo y apagar\n"
@@ -171,6 +179,8 @@ def build(out):
         "`nginx -s reload` vuelve a resolver el nombre: el 502 desaparece sin tocar la configuración.",
         "Ese reload tiene que estar escrito en el pipeline, no en la memoria de quien está de guardia."], TEAL, 12.5)
     notes(s, "⏱ 13-15 min · Resolución interna.\n\n"
+             "Demo: `getent hosts api` da .11 y los logs de nginx muestran .10.\n"
+             "Después, `nginx -s reload` y el mismo `curl` da `v2`.\n\n"
              "La comparación clave: el DNS interno ya dice .11 y los logs de nginx\n"
              "muestran .10. Eso demuestra que el fallo está en el proceso, no en Docker.\n"
              "Si alguien pregunta por `resolver`, explicar que acá no hay una directiva\n"
@@ -257,6 +267,8 @@ def build(out):
         "Respuesta corta: porque midió el artefacto en su puerto, sin pasar por el DNS ni por el proxy que usa el usuario.",
         "Carpeta: `DevOps/Laboratorio-16-Despliegue-Invisible/`."], NAVY, 12.5)
     notes(s, "⏱ 19-20 min · Cierre.\n\n"
+             "Demo: apagar `proxy-viejo` y mostrar que el cliente cacheado se queda sin\n"
+             "servicio. Limpiar con `docker compose down`.\n\n"
              "Hacer la pregunta final al grupo y esperar la respuesta antes de leerla.\n"
              "El laboratorio ya trae los archivos, la evidencia de la prueba ejecutada\n"
              "y los comandos de limpieza. No depende de ningún otro laboratorio.")
